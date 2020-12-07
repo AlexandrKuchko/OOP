@@ -7,7 +7,7 @@ namespace Лаба1
         static void Main()
         {
             int a;
-            string b;
+            string b; //rjvferg
             while (true) //бесконечный цикл, для удобной проверки
             {
                 Console.WriteLine("Введите номер месяца");
