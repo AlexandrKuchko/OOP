@@ -6,7 +6,7 @@ namespace Лаба1
     {
         static void Main3()
         {
-            float a;
+            float a; // Комментарий 2
             float b;
             float c;
             while (true) //бесконечный цикл, для удобной проверки
