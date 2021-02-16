@@ -6,47 +6,40 @@ namespace LR2.OOP
 {
     class PersonList
     {
-        Person[] ListOfPerson;
+        Person[] _listOfPerson;
        
         public PersonList()
         {
-            ListOfPerson = new Person[0];
+            _listOfPerson = new Person[0];
         }
 
         public Person this[int index]
         {
            get
            {
-             return ListOfPerson[index];
+             return _listOfPerson[index];
            }
 
            set
            {
-                if (ListOfPerson.Length <= index)
+                if (_listOfPerson.Length <= index)
                 {
-                    Array.Resize(ref ListOfPerson, index + 1);
+                    Array.Resize(ref _listOfPerson, index + 1);
                 }
-                ListOfPerson[index] = value;
+                _listOfPerson[index] = value;
            }
         }
 
-        /*
-        public Person this[string Surname]
+        /// <summary>
+        /// Добавление элемента в список
+        /// </summary>
+        /// <param name="newperson">Добавляемый элемент</param>
+        /// <returns></returns>
+        public void Add(Person newperson)
         {
-            get
-            {
-                Person person = null;
-                foreach (var p in ListOfPerson)
-                {
-                    if (p.Surname == Surname)
-                    {
-                        person = p;
-                        //break;
-                    }
-                }
-                return person;
-            }
-        }  */
+            Array.Resize(ref _listOfPerson, _listOfPerson.Length + 1);
+            _listOfPerson[_listOfPerson.Length-1] = newperson;
+        }
 
         /// <summary>
         /// Удаление элемента из списка
@@ -55,7 +48,7 @@ namespace LR2.OOP
         /// <returns></returns>
         public void Delete(int Index)
         {
-            Array.Clear(ListOfPerson,Index,1);
+            Array.Clear(_listOfPerson,Index,1);
         }
 
         /// <summary>
@@ -65,12 +58,12 @@ namespace LR2.OOP
         /// <returns></returns>
         public void Delete(string Surname)
         {
-            foreach (var p in ListOfPerson)
+            foreach (var p in _listOfPerson)
             {
                 if (p.Surname == Surname)
                 {
-                    int a = Array.IndexOf(ListOfPerson, p);
-                    Array.Clear(ListOfPerson, a, 1);
+                    int _a = Array.IndexOf(_listOfPerson, p);
+                    Array.Clear(_listOfPerson, _a, 1);
                     //break;
                 }
             }
@@ -83,16 +76,16 @@ namespace LR2.OOP
         /// <returns>Индекс элемента, если элемента нет индекс=-1</returns>
         public int SearchIndex(string Surname)
         {
-            int a=-1;
-           foreach (var p in ListOfPerson)
+            int _a=-1;
+           foreach (var p in _listOfPerson)
            {
                if (p.Surname == Surname)
                {
-                    a = Array.IndexOf(ListOfPerson, p);
+                    _a = Array.IndexOf(_listOfPerson, p);
                     break;
                }
            }
-           return a;
+           return _a;
         }
 
         /// <summary>
@@ -100,16 +93,16 @@ namespace LR2.OOP
         /// </summary>
         public void AllDelete()
         {
-            Array.Clear(ListOfPerson, 0, ListOfPerson.Length);
+            Array.Clear(_listOfPerson, 0, _listOfPerson.Length);
         }
 
         /// <summary>
         /// Получить количество элементов списка
         /// </summary>
         /// <returns>Индекс элемента, если элемента нет индекс=-1</returns>
-        public int CountOfPerson()
+        public int Count()
         {
-            int a = ListOfPerson.Length;
+            int a = _listOfPerson.Length;
             return a;
         }
 

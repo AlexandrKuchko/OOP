@@ -25,5 +25,17 @@ namespace LR2.OOP
             Age = a3;
             this.sex = sex;
         }
+
+        public Person()
+        {
+
+        }
+
+        public void Print()
+        {
+            Console.WriteLine("Имя: {0}  Фамилия: {1}  Возраст: {2}  Пол: {3}", 
+                Name, Surname, Age, sex);
+        }
+
     }
 }
