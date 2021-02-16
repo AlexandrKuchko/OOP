@@ -13,12 +13,10 @@ namespace LR2.OOP
             Woman
         }
 
-        public string Name;
-        public string Surname;
-        public int Age;
-        public Gender sex;
-       
-    
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public int Age { get; set; }
+        public Gender sex { get; set; }
 
         public Person (string a1, string a2, int a3, Gender sex)
         {
@@ -27,17 +25,5 @@ namespace LR2.OOP
             Age = a3;
             this.sex = sex;
         }
-
-
-
     }
-
-
-
-
-
-
-
-
-
 }
