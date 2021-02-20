@@ -1,6 +1,7 @@
 ﻿using System;
+using LR2Library;
 
-namespace LR2.OOP
+namespace LR2.OOP.The_Final
 {
     class Program
     {

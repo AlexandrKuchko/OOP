@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace LR2.OOP
+namespace LR2Library
 {
-    class PersonList
+    public class PersonList
     {
         Person[] _listOfPerson;
        
