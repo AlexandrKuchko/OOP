@@ -9,30 +9,32 @@ namespace LR2.OOP.The_Final
         {
            // Создание двух списков
             PersonList List1 = new PersonList();
-            List1[0] = new Person("Елена", "Парфёнова", 23, Person.Gender.Woman);
-            List1[1] = new Person("Елизавета", "Лобач", 22, Person.Gender.Woman);
-            List1[2] = new Person("Дарья", "Сенда", 21, Person.Gender.Woman);
+            List1[0] = GetRandomPerson.GetRndPerson();
+            List1[1] = GetRandomPerson.GetRndPerson();
+            List1[2] = GetRandomPerson.GetRndPerson();
 
             PersonList List2 = new PersonList();
-            List2[0] = new Person("Александр", "Кучко", 23, Person.Gender.Men);
-            List2[1] = new Person("Дмитрий", "Косовский", 22, Person.Gender.Men);
-            List2[2] = new Person("Иван", "Жданов", 50, Person.Gender.Men);
-
+            List2[0] = new Person("Александр", "Кучко", 23, Gender.Male);
+            List2[1] = new Person("Дмитрий", "Косовский", 22, Gender.Male);
+            List2[2] = new Person("Иван", "Жданов", 50, Gender.Male);
+            
             //Вывод списков на экран
             Console.WriteLine("Список 1");
-            for (int i = 0; i < List1.Count(); i++)
+            for (int i = 0; i < List1.Count; i++)
             {
-                List1[i].Print();
+                Console.WriteLine(List1.Info[i]);
             }
             Console.WriteLine();
 
             Console.WriteLine("Список 2");
-            for (int i = 0; i < List2.Count(); i++)
-                List2[i].Print();
+            for (int i = 0; i < List2.Count; i++)
+            {
+                Console.WriteLine(List2.Info[i]);
+            }
             Console.WriteLine();
 
             // Добавление нового человека в первый список
-            Person personAdd = new Person("Евгения", "Белей", 25, Person.Gender.Woman);
+            Person personAdd = new Person("Евгения", "Белей", 25, Gender.Female);
             List1.Add(personAdd);
 
             // Внесение человека в 2 список
@@ -40,28 +42,36 @@ namespace LR2.OOP.The_Final
 
             //Вывод списков на экран
             Console.WriteLine("Список 1");
-            for (int i = 0; i < List1.Count(); i++)
-                List1[i].Print();
+            for (int i = 0; i < List1.Count; i++)
+            {
+                Console.WriteLine(List1.Info[i]);
+            }
             Console.WriteLine();
 
             Console.WriteLine("Список 2");
-            for (int i = 0; i < List2.Count(); i++)
-                List2[i].Print();
+            for (int i = 0; i < List2.Count; i++)
+            {
+                Console.WriteLine(List2.Info[i]);
+            }
             Console.WriteLine();
 
             List1.Delete(1);
 
             //Вывод списков на экран
             Console.WriteLine("Список 1");
-            for (int i = 0; i < List1.Count(); i++)
-                List1[i].Print();
+            for (int i = 0; i < List1.Count; i++)
+            {
+                Console.WriteLine(List1.Info[i]);
+            }
             Console.WriteLine();
 
             Console.WriteLine("Список 2");
-            for (int i = 0; i < List2.Count(); i++)
-                List2[i].Print();
-            Console.WriteLine();
-
+            for (int i = 0; i < List2.Count; i++)
+            {
+                Console.WriteLine(List2.Info[i]);
+            }
+            Console.ReadLine();
         }
     }
+    
 }

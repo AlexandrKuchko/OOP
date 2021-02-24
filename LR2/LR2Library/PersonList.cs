@@ -5,13 +5,59 @@ using System.Text;
 namespace LR2Library
 {
     public class PersonList
-    {
-        Person[] _listOfPerson;
-       
+    { 
+        private Person[] _listOfPerson;
+
+        /// <summary>
+        /// Возврат списка персон
+        /// </summary>
+        /// <returns>Список персон в виде массива элементов Person</returns>
+        public Person[] Persons
+        {
+            get 
+            { 
+               return _listOfPerson; 
+            }
+        }
+
+        /// <summary>
+        /// Количество элементов списка
+        /// </summary>
+        /// <returns>Количество элементов списка</returns>
+        public int Count
+        {
+            get
+            {
+                int _count = _listOfPerson.Length;
+                return _count;
+            }
+        }
+
+        /// <summary>
+        /// Инициализация списка персон
+        /// </summary>
         public PersonList()
         {
             _listOfPerson = new Person[0];
         }
+
+        /// <summary>
+        /// Вывод списка персон
+        /// </summary>
+        /// <returns>Массив строк состоящий из персон</returns>
+        public string[] Info
+        {
+            get
+            {
+                string[] _info = new string[Count];
+                for (int i = 0; i < Count; i++)
+                {
+                    _info[i] = _listOfPerson[i].Info;
+                }
+                return _info;
+            }
+        }
+
 
         public Person this[int index]
         {
@@ -22,7 +68,7 @@ namespace LR2Library
 
            set
            {
-                if (_listOfPerson.Length <= index)
+                if (Count <= index)
                 {
                     Array.Resize(ref _listOfPerson, index + 1);
                 }
@@ -36,53 +82,35 @@ namespace LR2Library
         /// <param name="newperson">Добавляемый элемент</param>
         public void Add(Person newperson)
         {
-            Array.Resize(ref _listOfPerson, _listOfPerson.Length + 1);
-            _listOfPerson[_listOfPerson.Length-1] = newperson;
+            Array.Resize(ref _listOfPerson, Count + 1);
+            _listOfPerson[Count-1] = newperson;
         }
 
         /// <summary>
         /// Удаление элемента из списка
         /// </summary>
-        /// <param name="Index">Индекс элемента</param>
-        public void Delete(int Index)
+        /// <param name="index">Индекс элемента</param>
+        public void Delete(int index)
         {
-            Array.Clear(_listOfPerson,Index,1);
-        }
-
-        /// <summary>
-        /// Удаление элемента из списка
-        /// </summary>
-        /// <param name="Surname">Фамилия</param>
-        public void Delete(string Surname)
-        {
-            foreach (var p in _listOfPerson)
-            {
-                if (p.Surname == Surname)
-                {
-                    int a = Array.IndexOf(_listOfPerson, p);
-                    Array.Clear(_listOfPerson, a, 1);
-                    //break;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Поиск индекса элемента по фамилии
-        /// </summary>
-        /// <param name="Surname">Фамилия</param>
-        /// <returns>Индекс элемента, если элемента нет индекс=-1</returns>
-        public int SearchIndex(string Surname)
-        {
-            int a=-1;
-           foreach (var p in _listOfPerson)
+           for (int i=index; i<Count-2; i++)
            {
-               if (p.Surname == Surname)
-               {
-                    a = Array.IndexOf(_listOfPerson, p);
-                    break;
-               }
+                _listOfPerson[i] = _listOfPerson[i + 1];
            }
-           return a;
+            Array.Resize(ref _listOfPerson, Count - 1);
+        }
+
+        /// <summary>
+        /// Удаление элемента из списка
+        /// </summary>
+        /// <param name="surname">Фамилия</param>
+        /// <param name="name">Имя</param>
+        public void Delete(string surname, string name)
+        {
+             int _index = IndexOf(surname, name);
+             if (_index > -1)
+             {
+               Delete(_index);
+             }
         }
 
         /// <summary>
@@ -90,18 +118,46 @@ namespace LR2Library
         /// </summary>
         public void AllDelete()
         {
-            Array.Clear(_listOfPerson, 0, _listOfPerson.Length);
+            Array.Resize(ref _listOfPerson, 0);
         }
 
-        //TODO: сделать свойством
         /// <summary>
-        /// Получить количество элементов списка
+        /// Поиск индекса первого вхождения элемента
         /// </summary>
-        /// <returns>Индекс элемента, если элемента нет индекс=-1</returns>
-        public int Count()
+        /// <param name="surname">Фамилия</param>
+        /// <returns>Индекс элемента, если элемента нет то возвращает -1</returns>
+        public int IndexOf(string surname)
         {
-            int a = _listOfPerson.Length;
-            return a;
+            int _index =-1;
+           foreach (var p in _listOfPerson)
+           {
+               if (p.Surname == surname)
+               {
+                    _index = Array.IndexOf(_listOfPerson, p);
+                    break;
+               }
+           }
+           return _index;
+        }
+
+        /// <summary>
+        /// Поиск индекса первого вхождения элемента
+        /// </summary>
+        /// <param name="Surname">Фамилия</param>
+        /// <param name="name">Имя</param>
+        /// <returns>Индекс элемента, если элемента нет то возвращает -1</returns>
+        public int IndexOf(string surname, string name)
+        {
+            int _index = -1;
+            foreach (var p in _listOfPerson)
+            {
+                if (p.Surname == surname & p.Name == name)
+                {
+                    _index = Array.IndexOf(_listOfPerson, p);
+                    break;
+                }
+            }
+            return _index;
         }
 
     }

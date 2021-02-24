@@ -6,24 +6,22 @@ namespace LR2Library
 {
     public class Person
     {
+               
+        public string Name { get; }
 
-        public enum Gender
+        public string Surname { get; }
+
+        public int Age { get; }
+
+        public Gender Gender { get; }
+
+        public Person (string name, string surname, int age, Gender gender)
         {
-            Men,
-            Woman
-        }
-
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public int Age { get; set; }
-        public Gender sex { get; set; }
-
-        public Person (string a1, string a2, int a3, Gender sex)
-        {
-            Name = a1;
-            Surname = a2;
-            Age = a3;
-            this.sex = sex;
+                  
+            Name = name;
+            Surname = surname;
+            Age = age;
+            Gender = gender;
         }
 
         public Person()
@@ -31,10 +29,15 @@ namespace LR2Library
 
         }
 
-        public void Print()
+        public string Info 
         {
-            Console.WriteLine("Имя: {0}  Фамилия: {1}  Возраст: {2}  Пол: {3}", 
-                Name, Surname, Age, sex);
+            get
+            {
+                return $"Name: {Name}, " +
+                    $"Surname:{Surname}, " +
+                    $"Age: {Age}, " +
+                    $"Gender: {Gender}";
+            }
         }
 
     }
