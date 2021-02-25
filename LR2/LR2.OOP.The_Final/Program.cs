@@ -7,71 +7,80 @@ namespace LR2.OOP.The_Final
     {
         static void Main(string[] args)
         {
-           // Создание двух списков
-            PersonList List1 = new PersonList();
-            List1[0] = GetRandomPerson.GetRndPerson();
-            List1[1] = GetRandomPerson.GetRndPerson();
-            List1[2] = GetRandomPerson.GetRndPerson();
+            // Создание двух списков
 
-            PersonList List2 = new PersonList();
-            List2[0] = new Person("Александр", "Кучко", 23, Gender.Male);
-            List2[1] = new Person("Дмитрий", "Косовский", 22, Gender.Male);
-            List2[2] = new Person("Иван", "Жданов", 50, Gender.Male);
-            
+            PersonList list1 = RandomPerson.GetRandomPersonList(3);
+
+            PersonList list2 = RandomPerson.GetRandomPersonList(3);
+
             //Вывод списков на экран
-            Console.WriteLine("Список 1");
-            for (int i = 0; i < List1.Count; i++)
-            {
-                Console.WriteLine(List1.Info[i]);
-            }
-            Console.WriteLine();
+            Print("Список 1", list1);
 
-            Console.WriteLine("Список 2");
-            for (int i = 0; i < List2.Count; i++)
-            {
-                Console.WriteLine(List2.Info[i]);
-            }
-            Console.WriteLine();
+            Print("Список 2", list2);
 
+            PressAnyKey();
+                       
             // Добавление нового человека в первый список
-            Person personAdd = new Person("Евгения", "Белей", 25, Gender.Female);
-            List1.Add(personAdd);
 
-            // Внесение человека в 2 список
-            List2.Add(List1[1]);
+            list1.Add(RandomPerson.GetRandomPerson());
 
-            //Вывод списков на экран
-            Console.WriteLine("Список 1");
-            for (int i = 0; i < List1.Count; i++)
-            {
-                Console.WriteLine(List1.Info[i]);
-            }
-            Console.WriteLine();
-
-            Console.WriteLine("Список 2");
-            for (int i = 0; i < List2.Count; i++)
-            {
-                Console.WriteLine(List2.Info[i]);
-            }
-            Console.WriteLine();
-
-            List1.Delete(1);
+            // Копирование второго человека из первого 
+            // списка в конец второго списка
+            list2.Add(list1[1]);
 
             //Вывод списков на экран
-            Console.WriteLine("Список 1");
-            for (int i = 0; i < List1.Count; i++)
-            {
-                Console.WriteLine(List1.Info[i]);
-            }
-            Console.WriteLine();
+            Print("Список 1", list1);
 
-            Console.WriteLine("Список 2");
-            for (int i = 0; i < List2.Count; i++)
-            {
-                Console.WriteLine(List2.Info[i]);
-            }
-            Console.ReadLine();
+            Print("Список 2", list2);
+
+            PressAnyKey();
+
+            list1.Delete(1);
+
+            //Вывод списков на экран
+            Print("Список 1", list1);
+
+            Print("Список 2", list2);
+
+            PressAnyKey();
+
+            //Удаление второго списка
+            list2.AllDelete();
+
+            //Вывод списков на экран
+            Print("Список 1", list1);
+
+            Print("Список 2", list2);
+
+            PressAnyKey();
         }
+
+        /// <summary>
+        /// Вывод списка PersonList в консоль
+        /// </summary>
+        /// <param name="name">Название списка</param>
+        /// <param name="personlist">Выводимый элемент PersonList</param>
+        static private void Print(string name, PersonList personlist)
+        {
+            Console.WriteLine(name);
+            for (int i = 0; i < personlist.Count; i++)
+            {
+                Console.WriteLine(personlist.Info[i]);
+            }
+            Console.WriteLine();
+        }
+
+        /// <summary>
+        /// Нажмите клавишу чтобы продолжить
+        /// </summary>
+        static private void PressAnyKey()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadLine();
+            Console.ResetColor();
+        }
+
     }
     
 }

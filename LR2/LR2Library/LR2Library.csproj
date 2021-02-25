@@ -41,7 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GetRandomPerson.cs" />
+    <Compile Include="RandomPerson.cs" />
     <Compile Include="Gender.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="PersonList.cs" />
