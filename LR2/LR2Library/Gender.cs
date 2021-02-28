@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace LR2Library
 {
+    /// <summary>
+    /// Пол человека
+    /// </summary>
     public enum Gender
     {
         Male,

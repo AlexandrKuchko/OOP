@@ -3,56 +3,72 @@ using LR2Library;
 
 namespace LR2.OOP.The_Final
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            // Создание двух списков
 
-            PersonList list1 = RandomPerson.GetRandomPersonList(3);
+            while (true)
+            {
+                Console.WriteLine("Creating two lists:");
+                Console.WriteLine();
 
-            PersonList list2 = RandomPerson.GetRandomPersonList(3);
+                PersonList list1 = RandomPerson.GetRandomPersonList(3);
 
-            //Вывод списков на экран
-            Print("Список 1", list1);
+                PersonList list2 = RandomPerson.GetRandomPersonList(3);
 
-            Print("Список 2", list2);
+                Print("list1", list1);
 
-            PressAnyKey();
-                       
-            // Добавление нового человека в первый список
+                Print("list2", list2);
 
-            list1.Add(RandomPerson.GetRandomPerson());
+                PressAnyKey();
 
-            // Копирование второго человека из первого 
-            // списка в конец второго списка
-            list2.Add(list1[1]);
+                Console.WriteLine("Add a new person to the first list.");
+                Console.WriteLine();
 
-            //Вывод списков на экран
-            Print("Список 1", list1);
+                Person inputperson = new Person(InputName("Name: "),
+                    InputName("Surname: "), InputAge(), InputGender());
+                Console.WriteLine();
 
-            Print("Список 2", list2);
+                list1.Add(inputperson);
 
-            PressAnyKey();
+                Console.WriteLine("Copy the second person from the " +
+                    "first list to the end of the second list.");
+                Console.WriteLine();
 
-            list1.Delete(1);
+                list2.Add(list1[1]);
 
-            //Вывод списков на экран
-            Print("Список 1", list1);
+                Print("list1", list1);
 
-            Print("Список 2", list2);
+                Print("list2", list2);
 
-            PressAnyKey();
+                PressAnyKey();
 
-            //Удаление второго списка
-            list2.AllDelete();
+                Console.WriteLine("Removing the second person from the first list.");
+                Console.WriteLine();
 
-            //Вывод списков на экран
-            Print("Список 1", list1);
+                list1.Delete(1);
 
-            Print("Список 2", list2);
+                Print("list1", list1);
 
-            PressAnyKey();
+                Print("list2", list2);
+
+                PressAnyKey();
+
+                Console.WriteLine("Removing the second list.");
+                Console.WriteLine();
+
+                list2.AllDelete();
+
+                Print("list1", list1);
+
+                Print("list2", list2);
+
+                if (QuitOfProgram())
+                {
+                    return;
+                }
+            }
         }
 
         /// <summary>
@@ -60,7 +76,7 @@ namespace LR2.OOP.The_Final
         /// </summary>
         /// <param name="name">Название списка</param>
         /// <param name="personlist">Выводимый элемент PersonList</param>
-        static private void Print(string name, PersonList personlist)
+        private static void Print(string name, PersonList personlist)
         {
             Console.WriteLine(name);
             for (int i = 0; i < personlist.Count; i++)
@@ -73,14 +89,113 @@ namespace LR2.OOP.The_Final
         /// <summary>
         /// Нажмите клавишу чтобы продолжить
         /// </summary>
-        static private void PressAnyKey()
+        private static void PressAnyKey()
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Press any key to continue...");
-            Console.ReadLine();
             Console.ResetColor();
+            Console.ReadKey();
+            Console.WriteLine();
         }
 
+        /// <summary>
+        /// Выход из программы или продолжение выполнения
+        /// </summary>
+        private static bool QuitOfProgram()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Press any key to continue or Esc to exit...");
+            Console.ResetColor();
+            var key = Console.ReadKey();
+            Console.WriteLine();
+            if (key.Key == ConsoleKey.Escape)
+            {
+                return true; 
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Ввод фамилии или имени с проверкой
+        /// </summary>
+        /// <param name="message">Название вводимых данных</param>
+        /// <returns>Проверенное и приведенное к нужному виду значение</returns>
+        private static string InputName(string message)
+        {
+            try 
+            {
+                Console.Write(message);
+                return Person.CheckName(Console.ReadLine());
+            }
+            catch(Exception exception)
+            {
+                Console.WriteLine(exception.Message + " Please enter again.");
+                return InputName(message);
+            }
+        }
+
+        /// <summary>
+        /// Ввод возраста с проверкой
+        /// </summary>
+        /// <param name="message">Название вводимых данных</param>
+        /// <returns>Проверенное и приведенное к нужному виду значение</returns>
+        private static int InputAge()
+        {
+            try
+            {
+                int value;
+                Console.Write("Age: ");
+                if (!int.TryParse(Console.ReadLine(), out value))
+                {
+                    throw new ArgumentException($"{nameof(Person.Age)} should not contain symbols!");
+                }
+                return Person.CheckAge(value);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message + " Please enter again.");
+                return InputAge();
+            }
+        }
+
+        /// <summary>
+        /// Ввод пола человека
+        /// </summary>
+        /// <returns>Приведенное к нужному виду значение</returns>
+        private static Gender InputGender()
+        {
+            try
+            {
+                Console.Write("Gender (enter M/F): ");
+
+                switch (Console.ReadLine())
+                {
+                    case ("m"):
+                    case ("M"):
+                    case ("ь"):
+                    case ("Ь"):
+                    {
+                       return Gender.Male; 
+                    }
+                    case ("F"):
+                    case ("f"):
+                    case ("а"):
+                    case ("А"):
+                    {
+                       return Gender.Female;
+                    }
+                    default:
+                    {
+                        throw new ArgumentException($"Incorrect input!");
+                    }
+                }
+
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message + " Please enter again.");
+                return InputGender();
+            }
+        }
     }
-    
 }

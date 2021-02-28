@@ -5,20 +5,12 @@ using System.Text;
 namespace LR2Library
 {
     public class PersonList
-    { 
-        private Person[] _listOfPerson;
+    {
 
         /// <summary>
-        /// Возврат списка персон
+        /// Массив персон
         /// </summary>
-        /// <returns>Список персон в виде массива элементов Person</returns>
-        public Person[] Persons
-        {
-            get 
-            { 
-               return _listOfPerson; 
-            }
-        }
+        private Person[] _listOfPerson;
 
         /// <summary>
         /// Количество элементов списка
@@ -59,7 +51,10 @@ namespace LR2Library
             }
         }
 
-
+        /// <summary>
+        /// Индексатор
+        /// </summary>
+        /// <param name="index">Индекс</param>
         public Person this[int index]
         {
            get
@@ -98,12 +93,12 @@ namespace LR2Library
         /// <param name="index">Индекс удаляемого элемента</param>
         public void Delete(int index)
         {
-           int elementCount = Count;
-           for (int i=index; i< elementCount - 1; i++)
+           int сount = Count;
+           for (int i=index; i< сount - 1; i++)
            {
                 _listOfPerson[i] = _listOfPerson[i + 1];
            }
-            Array.Resize(ref _listOfPerson, elementCount - 1);
+           Array.Resize(ref _listOfPerson, сount - 1);
         }
 
         /// <summary>

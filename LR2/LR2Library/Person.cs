@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -17,6 +18,9 @@ namespace LR2Library
         /// </summary>
         public const int minimumAge = 0;
 
+        /// <summary>
+        /// Имя
+        /// </summary>
         private string _name;
 
         /// <summary>
@@ -27,12 +31,14 @@ namespace LR2Library
            get => _name;
            private set
            {
-              CheckName(value, nameof(Name));
-              _name = value;
+                _name = CheckName(value);
            }
 
         }
 
+        /// <summary>
+        /// Фамилия
+        /// </summary>
         private string _surname;
 
         /// <summary>
@@ -43,11 +49,13 @@ namespace LR2Library
            get => _surname;
            private set
            {
-              CheckName(value, nameof(Surname));
-              _surname = value;
+                _surname = CheckName(value);
            }
         }
 
+        /// <summary>
+        /// Возраст
+        /// </summary>
         private int _age;
 
         /// <summary>
@@ -58,15 +66,14 @@ namespace LR2Library
            get => _age;
            private set
            {
-              CheckAge(value);              
-              _age = value;
+                _age = CheckAge(value);              
            }
         }
 
         /// <summary>
         /// Пол
         /// </summary>
-        public Gender Gender { get; }
+        public Gender Gender { get; private set; }
 
         /// <summary>
         /// Конструктор класса
@@ -92,17 +99,17 @@ namespace LR2Library
             get
             {
                 return $"Name: {this.Name}, " +
-                    $"Surname:{this.Surname}, " +
+                    $"Surname: {this.Surname}, " +
                     $"Age: {this.Age}, " +
                     $"Gender: {this.Gender}";
             }
         }
-
+         
         /// <summary>
         /// Проверка возраста
         /// </summary>
         /// <param name="value">Возраст</param>
-        private void CheckAge(int value)
+        public static int CheckAge(int value)
         {
             if (value >= maximumAge || value <= minimumAge)
             {
@@ -111,28 +118,34 @@ namespace LR2Library
 
             string pattern = @"^[0-9]+$";
 
-            if (Regex.IsMatch(value.ToString(), pattern, RegexOptions.IgnoreCase)==false)
+            if (!Regex.IsMatch(value.ToString(), pattern, RegexOptions.IgnoreCase))
             {
                 throw new ArgumentException($"{nameof(Age)} should not contain symbols!");
             }
+            return value;
         }
 
         /// <summary>
-        /// Проверка имени или фамилии
+        /// Проверка имени или фамилии и перевод в нужный формат
         /// </summary>
         /// <param name="value">Имя или фамилия</param>
-        /// <param name="name">Название параметра</param>
-        private void CheckName(string value, string name)
+        public static string CheckName(string value)
         {
-            string pattern1 = @"^[a-zа-я]+$";
+            const string pattern1 = @"^[a-zа-яё]+$";
 
-            string pattern2 = @"^[a-zа-я]+-[a-zа-я]+$";
+            const string pattern2 = @"^[a-zа-я]+-[a-zа-я]+$";
 
-            if (Regex.IsMatch(value, pattern1, RegexOptions.IgnoreCase) == false
-                && Regex.IsMatch(value, pattern2, RegexOptions.IgnoreCase) == false)
+            if (value == "" || value == null)
             {
-                throw new ArgumentException($"{name} should contain only Latin or Cyrillic!");
+                throw new ArgumentException($"Value should not be empty!");
             }
+
+            if (!Regex.IsMatch(value, pattern1, RegexOptions.IgnoreCase)
+                && !Regex.IsMatch(value, pattern2, RegexOptions.IgnoreCase))
+            {
+                throw new ArgumentException($"Value should contain only Latin or Cyrillic and one hyphen!");
+            }
+            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(value.ToLower());
         }
     }
 }

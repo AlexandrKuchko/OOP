@@ -6,26 +6,72 @@ using System.Threading.Tasks;
 
 namespace LR2Library
 {
-    public class RandomPerson
+    public static class RandomPerson
     {
-        static private string[] _name = { "Александр", "Владимир", "Олег", 
-            "Руслан","Дарья","Мария","Марина", "Елизавета", "Леонид", "Сергей"};
-       
-        static private string[] _surname = { "Климонов", "Андреев", "Цискаридзе",
-            "Сенда","Петров","Кучко","Агеев", "Бродский", "Сахаров", "Гагарин"};
-        
-        static private Random _rnd = new Random();
+        /// <summary>
+        /// Список мужских имён
+        /// </summary>
+        private static List<string> _maleNames = new List<string>()
+        {
+            "Alexander", "Vladimir", "Oleg",
+           "Ruslan", "Eugene", "Artyom", "Vladimir",
+           "Michael", "Leonid", "Sergey"
+        };
+
+        /// <summary>
+        /// Список женских имён
+        /// </summary>
+        private static List<string> _femaleNames = new List<string>()
+        {
+            "Valentina", "Eugene", "Alexandra",
+           "Irina", "Daria", "Maria", "Marina",
+           "Elizabeth", "Lily", "Anna"
+        };
+
+        /// <summary>
+        /// Список фамилий
+        /// </summary>
+        private static List<string> _surnames = new List<string>() 
+        {
+            "Blok", "Bach", "Tsiskaridze",
+             "Senda", "Hemingway", "Kuchko",
+             "Gaidai", "Picasso", "Hugo", "Dumas"
+        };
+
+        /// <summary>
+        /// Рандомное число
+        /// </summary>
+        private static Random _rnd = new Random();
 
         /// <summary>
         /// Возвращает случайно сгенерированную персону
         /// </summary>
         /// <returns>Случайно сгенерированный объект типа Person</returns>
-        static public Person GetRandomPerson()
+        public static Person GetRandomPerson()
         {
-            Person person = new Person(_name[_rnd.Next(0, 10)],
-                _surname[_rnd.Next(0, 10)], _rnd.Next(0, 100), (Gender)_rnd.Next(0, 2));
-            return person;
-        }
+            string name;
+            Gender gender = (Gender)_rnd.Next(0, 2);
+            switch (gender)
+            {
+                case Gender.Female:
+               {
+                   name = _femaleNames[_rnd.Next(0, _femaleNames.Count)];
+                   break;
+               }
+               case Gender.Male:
+               {
+                   name = _maleNames[_rnd.Next(0, _maleNames.Count)];
+                   break;
+               }
+               default:
+               {
+                   return new Person("default","default",1,Gender.Male);
+               }
+            }
+
+            return new Person(name, _surnames[_rnd.Next(0, _surnames.Count)], 
+                _rnd.Next(Person.minimumAge+1, Person.maximumAge), gender);
+        } 
 
         /// <summary>
         /// Возвращает случайно сгенерированный PersonList
