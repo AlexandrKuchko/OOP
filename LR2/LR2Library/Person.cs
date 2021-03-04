@@ -29,11 +29,10 @@ namespace LR2Library
         public string Name 
         {
            get => _name;
-           private set
+           set
            {
                 _name = CheckName(value);
            }
-
         }
 
         /// <summary>
@@ -47,7 +46,7 @@ namespace LR2Library
         public string Surname 
         {
            get => _surname;
-           private set
+           set
            {
                 _surname = CheckName(value);
            }
@@ -64,7 +63,7 @@ namespace LR2Library
         public int Age
         {
            get => _age;
-           private set
+           set
            {
                 _age = CheckAge(value);              
            }
@@ -73,7 +72,7 @@ namespace LR2Library
         /// <summary>
         /// Пол
         /// </summary>
-        public Gender Gender { get; private set; }
+        public Gender Gender { get; set; }
 
         /// <summary>
         /// Конструктор класса
@@ -109,7 +108,7 @@ namespace LR2Library
         /// Проверка возраста
         /// </summary>
         /// <param name="value">Возраст</param>
-        public static int CheckAge(int value)
+        private static int CheckAge(int value)
         {
             if (value >= maximumAge || value <= minimumAge)
             {
@@ -129,7 +128,7 @@ namespace LR2Library
         /// Проверка имени или фамилии и перевод в нужный формат
         /// </summary>
         /// <param name="value">Имя или фамилия</param>
-        public static string CheckName(string value)
+        private static string CheckName(string value)
         {
             const string pattern1 = @"^[a-zа-яё]+$";
 

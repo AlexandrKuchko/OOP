@@ -26,11 +26,7 @@ namespace LR2.OOP.The_Final
                 Console.WriteLine("Add a new person to the first list.");
                 Console.WriteLine();
 
-                Person inputperson = new Person(InputName("Name: "),
-                    InputName("Surname: "), InputAge(), InputGender());
-                Console.WriteLine();
-
-                list1.Add(inputperson);
+                list1.Add(InputPerson());
 
                 Console.WriteLine("Copy the second person from the " +
                     "first list to the end of the second list.");
@@ -79,9 +75,9 @@ namespace LR2.OOP.The_Final
         private static void Print(string name, PersonList personlist)
         {
             Console.WriteLine(name);
-            for (int i = 0; i < personlist.Count; i++)
+            foreach (string info in personlist.Info)
             {
-                Console.WriteLine(personlist.Info[i]);
+                Console.WriteLine(info);
             }
             Console.WriteLine();
         }
@@ -116,86 +112,114 @@ namespace LR2.OOP.The_Final
         }
 
         /// <summary>
-        /// Ввод фамилии или имени с проверкой
+        /// Ввод возраста персоны с проверкой
         /// </summary>
-        /// <param name="message">Название вводимых данных</param>
-        /// <returns>Проверенное и приведенное к нужному виду значение</returns>
-        private static string InputName(string message)
-        {
-            try 
-            {
-                Console.Write(message);
-                return Person.CheckName(Console.ReadLine());
-            }
-            catch(Exception exception)
-            {
-                Console.WriteLine(exception.Message + " Please enter again.");
-                return InputName(message);
-            }
-        }
-
-        /// <summary>
-        /// Ввод возраста с проверкой
-        /// </summary>
-        /// <param name="message">Название вводимых данных</param>
-        /// <returns>Проверенное и приведенное к нужному виду значение</returns>
+        /// <returns>Возраст персоны</returns>
         private static int InputAge()
         {
-            try
-            {
-                int value;
+                int inputValue;
                 Console.Write("Age: ");
-                if (!int.TryParse(Console.ReadLine(), out value))
+                if (!int.TryParse(Console.ReadLine(), out inputValue))
                 {
                     throw new ArgumentException($"{nameof(Person.Age)} should not contain symbols!");
                 }
-                return Person.CheckAge(value);
-            }
-            catch (Exception exception)
+                return inputValue;
+        }
+
+        /// <summary>
+        /// Ввод пола человека с клавиатуры
+        /// </summary>
+        /// <returns>Гендер персоны</returns>
+        private static Gender InputGender()
+        {
+            Console.Write("Gender (enter M/F): ");
+            switch (Console.ReadLine())
             {
-                Console.WriteLine(exception.Message + " Please enter again.");
-                return InputAge();
+                  case ("m"):
+                  case ("M"):
+                  case ("ь"):
+                  case ("Ь"):
+                  {
+                     return Gender.Male;
+                  }
+
+                  case ("F"):
+                  case ("f"):
+                  case ("а"):
+                  case ("А"):
+                  {
+                     return Gender.Female;
+                  }
+
+                  default:
+                  {
+                     throw new ArgumentException($"Incorrect input!");
+                  }
             }
         }
 
         /// <summary>
-        /// Ввод пола человека
+        /// Ввод персоны с клавиатуры
         /// </summary>
-        /// <returns>Приведенное к нужному виду значение</returns>
-        private static Gender InputGender()
+        /// <returns>Введённая персона</returns>
+        private static Person InputPerson()
         {
-            try
+            Person inputperson = new Person("default", "default", 1, Gender.Male);
+            
+            while (true)
             {
-                Console.Write("Gender (enter M/F): ");
-
-                switch (Console.ReadLine())
+                try
                 {
-                    case ("m"):
-                    case ("M"):
-                    case ("ь"):
-                    case ("Ь"):
-                    {
-                       return Gender.Male; 
-                    }
-                    case ("F"):
-                    case ("f"):
-                    case ("а"):
-                    case ("А"):
-                    {
-                       return Gender.Female;
-                    }
-                    default:
-                    {
-                        throw new ArgumentException($"Incorrect input!");
-                    }
+                    Console.WriteLine("Name: ");
+                    inputperson.Name = Console.ReadLine();
+                    break;
                 }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception.Message + " Please enter again.");
+                }
+            }
 
-            }
-            catch (Exception exception)
+            while (true)
             {
-                Console.WriteLine(exception.Message + " Please enter again.");
-                return InputGender();
+                try
+                {
+                    Console.WriteLine("Surname: ");
+                    inputperson.Surname = Console.ReadLine();
+                    break;
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception.Message + " Please enter again.");
+                }
             }
+
+            while (true)
+            {
+                try
+                {
+                    inputperson.Age = InputAge();
+                    break;
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception.Message + " Please enter again.");
+                }
+            }
+
+            while (true)
+            {
+                try
+                {
+                    inputperson.Gender = InputGender();
+                    break;
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception.Message + " Please enter again.");
+                }
+            }
+            return inputperson;
         }
     }
 }
