@@ -70,7 +70,7 @@ namespace LR2Library
             }
 
             return new Person(name, _surnames[_rnd.Next(0, _surnames.Count)], 
-                _rnd.Next(Person.minimumAge+1, Person.maximumAge), gender);
+                _rnd.Next(Person.minimumAge, Person.maximumAge), gender);
         } 
 
         /// <summary>

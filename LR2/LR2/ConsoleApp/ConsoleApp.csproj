@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C09C2146-FBE4-42CF-A9CB-D7E31C773EE7}</ProjectGuid>
+    <ProjectGuid>{6E615950-8E98-4B18-96BE-6F13E46CC199}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>LR2.OOP.The_Final</RootNamespace>
-    <AssemblyName>LR2.OOP.The_Final</AssemblyName>
+    <RootNamespace>ConsoleApp</RootNamespace>
+    <AssemblyName>ConsoleApp</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LR2Library\LR2Library.csproj">
-      <Project>{fb156b75-60ca-43d9-be4d-c61d0706d97b}</Project>
+      <Project>{0a6dff6a-c6e8-4fcb-a678-4611b1d063be}</Project>
       <Name>LR2Library</Name>
     </ProjectReference>
   </ItemGroup>

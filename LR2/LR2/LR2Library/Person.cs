@@ -16,7 +16,7 @@ namespace LR2Library
         /// <summary>
         /// Минимальный возраст
         /// </summary>
-        public const int minimumAge = 0;
+        public const int minimumAge = 1;
 
         /// <summary>
         /// Имя
@@ -110,7 +110,7 @@ namespace LR2Library
         /// <param name="value">Возраст</param>
         private static int CheckAge(int value)
         {
-            if (value >= maximumAge || value <= minimumAge)
+            if (value > maximumAge || value < minimumAge)
             {
                 throw new ArgumentException($"{nameof(Age)} should be between {maximumAge} and {minimumAge} !");
             }
