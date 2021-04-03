@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace LR2Library
 {
+
+    /// <summary>
+    /// Рандомный человек
+    /// </summary>
     public static class RandomPerson
     {
         /// <summary>
@@ -54,31 +58,32 @@ namespace LR2Library
             switch (gender)
             {
                 case Gender.Female:
-               {
-                   name = _femaleNames[_rnd.Next(0, _femaleNames.Count)];
-                   break;
-               }
-               case Gender.Male:
-               {
-                   name = _maleNames[_rnd.Next(0, _maleNames.Count)];
-                   break;
-               }
-               default:
-               {
-                   return new Person("default","default",1,Gender.Male);
-               }
+                {
+                    name = _femaleNames[_rnd.Next(0, _femaleNames.Count)];
+                    break;
+                }
+                case Gender.Male:
+                {
+                    name = _maleNames[_rnd.Next(0, _maleNames.Count)];
+                    break;
+                }
+                default:
+                {
+                        //TODO: exception
+                    throw new ArgumentException($"Unknown gender!");
+                }
             }
 
             return new Person(name, _surnames[_rnd.Next(0, _surnames.Count)], 
-                _rnd.Next(Person.minimumAge, Person.maximumAge), gender);
-        } 
+                _rnd.Next(Person.minimumAge, Person.maximumAge + 1), gender);
+        }
 
         /// <summary>
         /// Возвращает случайно сгенерированный PersonList
         /// </summary>
-        /// <param name="count">Количесвто записей в PersonList</param>
+        /// <param name="count">Количество записей в PersonList</param>
         /// <returns>Случайно сгенерированный объект типа PersonList</returns>
-        static public PersonList GetRandomPersonList(int count)
+        public static PersonList GetRandomPersonList(int count)
         {
             PersonList personlist = new PersonList();
             for(int i = 0; i<count;i++)

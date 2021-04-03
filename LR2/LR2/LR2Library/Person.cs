@@ -6,12 +6,15 @@ using System.Text.RegularExpressions;
 
 namespace LR2Library
 {
+    /// <summary>
+    /// Человек
+    /// </summary>
     public class Person
     {
         /// <summary>
         /// Максимальный возраст
         /// </summary>
-        public const int maximumAge = 150;
+        public const int maximumAge = 100;
 
         /// <summary>
         /// Минимальный возраст
@@ -103,24 +106,18 @@ namespace LR2Library
                     $"Gender: {this.Gender}";
             }
         }
-         
+
         /// <summary>
         /// Проверка возраста
         /// </summary>
         /// <param name="value">Возраст</param>
+        /// <returns>Возраст</returns>
         private static int CheckAge(int value)
         {
             if (value > maximumAge || value < minimumAge)
             {
                 throw new ArgumentException($"{nameof(Age)} should be between {maximumAge} and {minimumAge} !");
-            }
-
-            string pattern = @"^[0-9]+$";
-
-            if (!Regex.IsMatch(value.ToString(), pattern, RegexOptions.IgnoreCase))
-            {
-                throw new ArgumentException($"{nameof(Age)} should not contain symbols!");
-            }
+            }            
             return value;
         }
 
@@ -128,21 +125,21 @@ namespace LR2Library
         /// Проверка имени или фамилии и перевод в нужный формат
         /// </summary>
         /// <param name="value">Имя или фамилия</param>
+        /// /// <returns>Строка (имя или фамилия) приведенная к нужномк виду</returns>
         private static string CheckName(string value)
         {
-            const string pattern1 = @"^[a-zа-яё]+$";
-
-            const string pattern2 = @"^[a-zа-я]+-[a-zа-я]+$";
-
             if (value == "" || value == null)
             {
                 throw new ArgumentException($"Value should not be empty!");
             }
 
+            const string pattern1 = @"^[a-z]+$";
+            const string pattern2 = @"^[a-z]+-[a-z]+$";
+
             if (!Regex.IsMatch(value, pattern1, RegexOptions.IgnoreCase)
                 && !Regex.IsMatch(value, pattern2, RegexOptions.IgnoreCase))
             {
-                throw new ArgumentException($"Value should contain only Latin or Cyrillic and one hyphen!");
+                throw new ArgumentException($"Value should contain only Latin and one hyphen!");
             }
             return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(value.ToLower());
         }

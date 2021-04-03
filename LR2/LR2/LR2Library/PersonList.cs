@@ -4,6 +4,9 @@ using System.Text;
 
 namespace LR2Library
 {
+    /// <summary>
+    /// Список персон
+    /// </summary>
     public class PersonList
     {
 
@@ -149,22 +152,21 @@ namespace LR2Library
         /// <returns>Лист с индексами элементов, если элементов нет то возвращает -1</returns>
         public List<int> IndexOf(string surname)
         {
-           List<int> indexList = new List<int>();
-            int check = 0;
-           foreach (var p in _listOfPerson)
-           {
-               if (p.Surname == surname)
-               {
-                    indexList.Add(Array.IndexOf(_listOfPerson, p));
-                    check++;
-               }
-               
-               if (check == 0)
-               {
-                    indexList.Add(-1);
-               }
-           }
-           return indexList;
+            List<int> indexList = new List<int>();
+            foreach (var p in _listOfPerson)
+            {
+                if (p.Surname == surname)
+                {
+                     indexList.Add(Array.IndexOf(_listOfPerson, p));
+                }
+            }
+
+            if (indexList.Count == 0)
+            {
+                 indexList.Add(-1);
+            }
+
+            return indexList;
         }
 
         /// <summary>
@@ -176,16 +178,15 @@ namespace LR2Library
         public List<int> IndexOf(string surname, string name)
         {
             List<int> indexList = new List<int>();
-            int check = 0;
+            //TODO:
             foreach (var p in _listOfPerson)
             {
                 if (p.Surname == surname && p.Name == name)
                 {
                     indexList.Add(Array.IndexOf(_listOfPerson, p));
-                    check++;
                 }
 
-                if (check == 0)
+                if (indexList.Count == 0)
                 {
                     indexList.Add(-1);
                 }

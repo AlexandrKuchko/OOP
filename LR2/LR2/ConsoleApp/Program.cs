@@ -1,10 +1,18 @@
 ﻿using System;
 using LR2Library;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace LR2.OOP.The_Final
 {
+    /// <summary>
+    /// Работа с консолью
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// Вход в программу
+        /// </summary>
         public static void Main(string[] args)
         {
 
@@ -26,7 +34,7 @@ namespace LR2.OOP.The_Final
                 Console.WriteLine("Add a new person to the first list.");
                 Console.WriteLine();
 
-                list1.Add(InputPerson1());
+                list1.Add(InputPerson());
 
                 Console.WriteLine("Copy the second person from the " +
                     "first list to the end of the second list.");
@@ -97,6 +105,7 @@ namespace LR2.OOP.The_Final
         /// <summary>
         /// Выход из программы или продолжение выполнения
         /// </summary>
+        /// <returns>true если нажат Esc, false если любая другая клавиша</returns>
         private static bool QuitOfProgram()
         {
             Console.ForegroundColor = ConsoleColor.Red;
@@ -104,11 +113,8 @@ namespace LR2.OOP.The_Final
             Console.ResetColor();
             var key = Console.ReadKey();
             Console.WriteLine();
-            if (key.Key == ConsoleKey.Escape)
-            {
-                return true;
-            }
-            return false;
+
+            return key.Key == ConsoleKey.Escape;
         }
 
         /// <summary>
@@ -118,7 +124,6 @@ namespace LR2.OOP.The_Final
         private static int InputAge()
         {
             int inputValue;
-            //Console.Write("Age: ");
             if (!int.TryParse(Console.ReadLine(), out inputValue))
             {
                 throw new ArgumentException($"{nameof(Person.Age)} should not contain symbols!");
@@ -132,29 +137,28 @@ namespace LR2.OOP.The_Final
         /// <returns>Гендер персоны</returns>
         private static Gender InputGender()
         {
-            //Console.Write("Gender (enter M/F): ");
             switch (Console.ReadLine())
             {
                 case ("m"):
                 case ("M"):
                 case ("ь"):
                 case ("Ь"):
-                    {
-                        return Gender.Male;
-                    }
+                {
+                    return Gender.Male;
+                }
 
                 case ("F"):
                 case ("f"):
                 case ("а"):
                 case ("А"):
-                    {
-                        return Gender.Female;
-                    }
+                {
+                    return Gender.Female;
+                }
 
                 default:
-                    {
-                        throw new ArgumentException($"Incorrect input!");
-                    }
+                {
+                    throw new ArgumentException($"Incorrect input!");
+                }
             }
         }
 
@@ -166,116 +170,71 @@ namespace LR2.OOP.The_Final
         {
             Person inputperson = new Person("default", "default", 1, Gender.Male);
 
-            while (true)
+            var validationAction = new List<Tuple<string, Action>>()
             {
-                try
-                {
-                    Console.WriteLine("Name: ");
-                    inputperson.Name = Console.ReadLine();
-                    break;
-                }
-                catch (Exception exception)
-                {
-                    Console.WriteLine(exception.Message + " Please enter again.");
-                }
+                new Tuple<string, Action>
+               (
+               "Name: ",
+               () =>
+               {
+                   inputperson.Name = Console.ReadLine();
+               }
+               ),
+
+               new Tuple<string, Action>
+               (
+               "Surname: ",
+               () =>
+               {
+                   inputperson.Surname = Console.ReadLine();
+               }
+               ),
+
+               new Tuple<string, Action>
+               (
+               "Age: ",
+               () =>
+               {
+                   inputperson.Age = InputAge();
+               }
+               ),
+
+               new Tuple<string, Action>
+               (
+               "Gender (enter M/F): ",
+               () =>
+               {
+                   inputperson.Gender = InputGender();
+               }
+               )
+            };
+                        
+            foreach(var action in validationAction)
+            {
+                ValidateInput(action.Item1, action.Item2);
             }
 
-            while (true)
-            {
-                try
-                {
-                    Console.WriteLine("Surname: ");
-                    inputperson.Surname = Console.ReadLine();
-                    break;
-                }
-                catch (Exception exception)
-                {
-                    Console.WriteLine(exception.Message + " Please enter again.");
-                }
-            }
-
-            while (true)
-            {
-                try
-                {
-                    inputperson.Age = InputAge();
-                    break;
-                }
-                catch (Exception exception)
-                {
-                    Console.WriteLine(exception.Message + " Please enter again.");
-                }
-            }
-
-            while (true)
-            {
-                try
-                {
-                    inputperson.Gender = InputGender();
-                    break;
-                }
-                catch (Exception exception)
-                {
-                    Console.WriteLine(exception.Message + " Please enter again.");
-                }
-            }
-            return inputperson;
-        }
-
-        /// <summary>
-        /// Ввод персоны с клавиатуры
-        /// </summary>
-        /// <returns>Введённая персона</returns>
-        private static Person InputPerson1()
-        {
-
-            Person inputperson = new Person("default", "default", 1, Gender.Male);
-            
-            void AgeАssignment()
-            {
-                inputperson.Age = InputAge();
-            }
-
-            void GenderAssignment()
-            {
-                inputperson.Gender = InputGender();
-            }
-
-            void NameAssignment()
-            {
-                inputperson.Name = Console.ReadLine();
-            }
-
-            void SurnameAssignment()
-            {
-                inputperson.Surname = Console.ReadLine();
-            }
-
-            ReadFromConsole("Name: ", NameAssignment);
-            ReadFromConsole("Surname: ", SurnameAssignment);
-            ReadFromConsole("Age: ", AgeАssignment);
-            ReadFromConsole("Gender (enter M/F): ", GenderAssignment);
-
-            return inputperson;
+          return inputperson;
         }
 
         /// <summary>
         /// Проверка ввода на всплывающие ошибки
         /// </summary>
-        private static void ReadFromConsole(string message, Action onRead)
-        {
-                
+        private static void ValidateInput(string message, Action input)
+        {                
             while (true)
+            {    
                 try
                 {
                     Console.Write(message);
-                    onRead();
+                    input.Invoke();
                     return;
                 }
                 catch (Exception exception)
                 {
                     Console.WriteLine(exception.Message + " Please enter again.");
                 }
+            }
         }
     }
 }
