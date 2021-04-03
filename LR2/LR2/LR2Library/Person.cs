@@ -63,7 +63,7 @@ namespace LR2Library
         /// <summary>
         /// Возраст
         /// </summary>
-        public int Age
+        public virtual int Age
         {
            get => _age;
            set
