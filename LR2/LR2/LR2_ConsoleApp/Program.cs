@@ -16,62 +16,59 @@ namespace LR2.OOP.The_Final
 		public static void Main(string[] args)
 		{
 
-				Console.WriteLine("Creating two lists:");
+			while (true)
+			{
+
+				Console.WriteLine("Add a new list.");
 				Console.WriteLine();
 
-				PersonList list1 = RandomPerson.GetRandomPersonList(3);
+				PersonList personList = new PersonList();
+				PersonListAdd(personList, RandomPerson.GetRandomAdult());
+				PersonListAdd(personList, RandomPerson.GetRandomChild());
+				PersonListAdd(personList, RandomPerson.GetRandomAdult());
+				PersonListAdd(personList, RandomPerson.GetRandomChild());
 
-				PersonList list2 = RandomPerson.GetRandomPersonList(3);
+				Print("List 1", personList);
 
-				Print("list1", list1);
+				switch (personList[3])
+				{
+					case Adult adult:
+						{
+							Console.WriteLine("Foutrth person is adult");
+							adult.GoToWork("NewWork");
+							break;
+						}
+					case Child child:
+						{
+							Console.WriteLine("Foutrth person is adult");
+							child.GoToStudy("NewSchool");
+							break;
+						}
+				}
 
-				Print("list2", list2);
+				personList.Add(InputPerson());
 
-				PressAnyKey();
-
-				Console.WriteLine("Add a new person to the first list.");
-				Console.WriteLine();
-
-				list1.Add(InputPerson());
-
-				Console.WriteLine("Copy the second person from the " +
-					"first list to the end of the second list.");
-				Console.WriteLine();
-
-				list2.Add(list1[1]);
-
-				Print("list1", list1);
-
-				Print("list2", list2);
-
-				PressAnyKey();
-
-				Console.WriteLine("Removing the second person from the first list.");
-				Console.WriteLine();
-
-				list1.Delete(1);
-
-				Print("list1", list1);
-
-				Print("list2", list2);
-
-				PressAnyKey();
-
-				Console.WriteLine("Removing the second list.");
-				Console.WriteLine();
-
-				list2.AllDelete();
-
-				Print("list1", list1);
-
-				Print("list2", list2);
+				Print("List 1", personList);
 
 				if (QuitOfProgram())
 				{
 					return;
 				}
-				
-			
+
+			}
+		}
+
+		/// <summary>
+		/// Перетаскивание из одного листа в другой
+		/// </summary>
+		/// <param name="listOfPerson">Список персон</param>
+		/// <param name="personlist">Список персон</param>
+		private static void PersonListAdd(PersonList personlist, List<PersonBase> listOfPerson)
+		{
+			foreach (PersonBase person in listOfPerson)
+			{
+				personlist.Add(person);
+			}
 		}
 
 		/// <summary>
@@ -85,7 +82,7 @@ namespace LR2.OOP.The_Final
 			Console.WriteLine();
 			foreach (string info in personlist.Info)
 			{
-				Console.WriteLine($"Person № {Array.IndexOf(personlist.Info, info)}");
+				Console.WriteLine($"Person № {Array.IndexOf(personlist.Info, info) + 1}");
 				Console.WriteLine(info);
 				Console.WriteLine();
 			}
@@ -145,35 +142,76 @@ namespace LR2.OOP.The_Final
 				case ("M"):
 				case ("ь"):
 				case ("Ь"):
-				{
-					return Gender.Male;
-				}
+					{
+						return Gender.Male;
+					}
 
 				case ("F"):
 				case ("f"):
 				case ("а"):
 				case ("А"):
-				{
-					return Gender.Female;
-				}
+					{
+						return Gender.Female;
+					}
 
 				default:
-				{
-					throw new ArgumentException($"Incorrect input!");
-				}
+					{
+						throw new ArgumentException($"Incorrect input!");
+					}
 			}
 		}
-		
+
 		/// <summary>
 		/// Ввод персоны с клавиатуры
 		/// </summary>
 		/// <returns>Введённая персона</returns>
 		private static PersonBase InputPerson()
 		{
+			Console.WriteLine("Do you want to add a child or an adult? (enter С/A)");
 
-			PersonBase inputperson = new PersonBase("default", "default", 1, Gender.Male);
+			bool personIsAdultFlag;
+			while (true)
+			{
+				try
+				{
+					switch (Console.ReadLine())
+					{
+						case ("a"):
+						case ("A"):
+						case ("ф"):
+						case ("Ф"):
+							{
+								personIsAdultFlag = true;
+								break;
+							}
 
-			var validationAction = new List<Tuple<string, Action>>()
+						case ("c"):
+						case ("C"):
+						case ("с"):
+						case ("С"):
+							{
+								personIsAdultFlag = false;
+								break;
+							}
+
+						default:
+							{
+								throw new ArgumentException($"Incorrect input!");
+							}
+					}
+						break;
+				}
+				catch (Exception exception)
+				{
+					Console.WriteLine(exception.Message + " Please enter again.");
+				}
+			}
+	
+			PersonBase inputperson = personIsAdultFlag
+				? new Adult("default", "default", 18, Gender.Male, "0000000000", FamilyStatus.Single, null, null)
+				: new Child("default", "default", 1, Gender.Male, null, null, null);
+
+			var validationActionPerson = new List<Tuple<string, Action>>()
 			{
 				new Tuple<string, Action>
 			   (
@@ -211,22 +249,68 @@ namespace LR2.OOP.The_Final
 			   }
 			   )
 			};
-						
-			foreach(var action in validationAction)
+
+			ForEacher(validationActionPerson);
+
+			switch (inputperson)
 			{
-				ValidateInput(action.Item1, action.Item2);
+				case Adult adult:
+				{
+					var validationActionAdult = new List<Tuple<string, Action>>()
+					{
+						new Tuple<string, Action>
+						(
+						"Passport data: ",
+						() =>
+						{
+							adult.PassportData = Console.ReadLine();
+						}
+						),
+
+						new Tuple<string, Action>
+						(
+						"Place of work: ",
+						() =>
+						{
+							adult.PlaceOfWork = Console.ReadLine();
+						}
+						)
+					};
+
+					ForEacher(validationActionAdult);
+
+					break;
+				}
+				case Child child:
+				{
+					var validationActionAdult = new List<Tuple<string, Action>>()
+					{
+						new Tuple<string, Action>
+						(
+						"Place of study: ",
+						() =>
+						{
+							child.EducationalInstitutionName = Console.ReadLine();
+						}
+						)
+					};
+
+					ForEacher(validationActionAdult);
+
+					break;
+				}
 			}
 
-		  return inputperson;
+			return inputperson;
 		}
-		
+
 		/// <summary>
 		/// Проверка ввода на всплывающие ошибки
 		/// </summary>
 		private static void ValidateInput(string message, Action input)
-		{                
+		{
 			while (true)
-			{    
+			{
 				try
 				{
 					Console.Write(message);
@@ -237,6 +321,17 @@ namespace LR2.OOP.The_Final
 				{
 					Console.WriteLine(exception.Message + " Please enter again.");
 				}
+			}
+		}
+
+		/// <summary>
+		/// Передача делегатов
+		/// </summary>
+		private static void ForEacher(List<Tuple<string, Action>> validationAction)
+		{
+			foreach (var action in validationAction)
+			{
+				ValidateInput(action.Item1, action.Item2);
 			}
 		}
 	}

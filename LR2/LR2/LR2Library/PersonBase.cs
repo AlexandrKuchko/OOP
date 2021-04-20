@@ -6,20 +6,12 @@ using System.Text.RegularExpressions;
 
 namespace LR2Library
 {
+    //TODO: RSDN
     /// <summary>
     /// Человек
     /// </summary>
-    public class Person
+    public abstract class PersonBase
     {
-        /// <summary>
-        /// Максимальный возраст
-        /// </summary>
-        public const int maximumAge = 100;
-
-        /// <summary>
-        /// Минимальный возраст
-        /// </summary>
-        public const int minimumAge = 1;
 
         /// <summary>
         /// Имя
@@ -29,13 +21,13 @@ namespace LR2Library
         /// <summary>
         /// Имя
         /// </summary>
-        public string Name 
+        public string Name
         {
-           get => _name;
-           set
-           {
+            get => _name;
+            set
+            {
                 _name = CheckName(value);
-           }
+            }
         }
 
         /// <summary>
@@ -46,13 +38,13 @@ namespace LR2Library
         /// <summary>
         /// Фамилия
         /// </summary>
-        public string Surname 
+        public string Surname
         {
-           get => _surname;
-           set
-           {
+            get => _surname;
+            set
+            {
                 _surname = CheckName(value);
-           }
+            }
         }
 
         /// <summary>
@@ -63,13 +55,13 @@ namespace LR2Library
         /// <summary>
         /// Возраст
         /// </summary>
-        public virtual int Age
+        public int Age
         {
-           get => _age;
-           set
-           {
-                _age = CheckAge(value);              
-           }
+            get => _age;
+            set
+            {
+                _age = CheckAge(value);
+            }
         }
 
         /// <summary>
@@ -77,56 +69,24 @@ namespace LR2Library
         /// </summary>
         public Gender Gender { get; set; }
 
-        /// <summary>
-        /// Конструктор класса
-        /// </summary>
-        /// <param name="name">Имя</param>
-        /// <param name="surname">Фамилия</param>
-        /// <param name="age">Возраст</param>
-        /// <param name="gender">Пол</param>
-        public Person (string name, string surname, int age, Gender gender)
-        {
-                  
-            Name = name;
-            Surname = surname;
-            Age = age;
-            Gender = gender;
-        }
-
+      
         /// <summary>
         /// Иноформация о персоне
         /// </summary>
-        public string Info 
-        {
-            get
-            {
-                return $"Name: {this.Name}, " +
-                    $"Surname: {this.Surname}, " +
-                    $"Age: {this.Age}, " +
-                    $"Gender: {this.Gender}";
-            }
-        }
+        public abstract string Info();
 
         /// <summary>
         /// Проверка возраста
         /// </summary>
         /// <param name="value">Возраст</param>
-        /// <returns>Возраст</returns>
-        private static int CheckAge(int value)
-        {
-            if (value > maximumAge || value < minimumAge)
-            {
-                throw new ArgumentException($"{nameof(Age)} should be between {maximumAge} and {minimumAge} !");
-            }            
-            return value;
-        }
-
+        protected abstract int CheckAge(int value);
+       
         /// <summary>
         /// Проверка имени или фамилии и перевод в нужный формат
         /// </summary>
         /// <param name="value">Имя или фамилия</param>
         /// /// <returns>Строка (имя или фамилия) приведенная к нужномк виду</returns>
-        private static string CheckName(string value)
+        private string CheckName(string value)
         {
             if (value == "" || value == null)
             {

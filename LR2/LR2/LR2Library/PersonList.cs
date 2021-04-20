@@ -13,7 +13,7 @@ namespace LR2Library
         /// <summary>
         /// Массив персон
         /// </summary>
-        private Person[] _listOfPerson;
+        private PersonBase[] _listOfPerson;
 
         /// <summary>
         /// Количество элементов списка
@@ -33,7 +33,7 @@ namespace LR2Library
         /// </summary>
         public PersonList()
         {
-            _listOfPerson = new Person[0];
+            _listOfPerson = new PersonBase[0];
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace LR2Library
                 string[] info = new string[count];
                 for (int i = 0; i < count; i++)
                 {
-                    info[i] = _listOfPerson[i].Info;
+                    info[i] = _listOfPerson[i].Info();
                 }
                 return info;
             }
@@ -58,7 +58,7 @@ namespace LR2Library
         /// Индексатор
         /// </summary>
         /// <param name="index">Индекс</param>
-        public Person this[int index]
+        public PersonBase this[int index]
         {
            get
            {
@@ -83,7 +83,7 @@ namespace LR2Library
         /// Добавление элемента в список
         /// </summary>
         /// <param name="newperson">Добавляемый элемент</param>
-        public void Add(Person newperson)
+        public void Add(PersonBase newperson)
         {
             int count = Count;
             Array.Resize(ref _listOfPerson, count + 1);
@@ -178,7 +178,6 @@ namespace LR2Library
         public List<int> IndexOf(string surname, string name)
         {
             List<int> indexList = new List<int>();
-            //TODO:
             foreach (var p in _listOfPerson)
             {
                 if (p.Surname == surname && p.Name == name)
