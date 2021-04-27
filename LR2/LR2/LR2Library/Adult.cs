@@ -196,8 +196,5 @@ namespace LR2Library
         {
             PlaceOfWork = name;
         }
-
-
-
     }
 }

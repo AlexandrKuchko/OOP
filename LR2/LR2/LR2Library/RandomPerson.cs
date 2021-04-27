@@ -83,6 +83,7 @@ namespace LR2Library
 			string name = GetRandomName(gender);
 
 			string passportData = "";
+
 			for (int i = 0; i < 10; i++)
 			{
 				passportData = passportData + _rnd.Next(0, 10).ToString();
@@ -140,6 +141,7 @@ namespace LR2Library
 
 			string edutionInstitutionName = "Education institution №" + _rnd.Next(0, 10).ToString();
 			 
+			//TODO: 7 -> const 
 			Adult parentOne = GetRandomBool(7)
 				? GetRandomSingleAdult()
 				: null;

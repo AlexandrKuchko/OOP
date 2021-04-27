@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 
 namespace LR2Library
 {
-    //TODO: RSDN
     /// <summary>
     /// Человек
     /// </summary>

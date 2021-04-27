@@ -50,8 +50,6 @@ namespace LR2Library
             }
         }
 
-        //TODO: XML
-        
         /// <summary>
         /// Конструктор класса
         /// </summary>
@@ -149,7 +147,5 @@ namespace LR2Library
             }
             return value;
         }
-
-
     }
 }

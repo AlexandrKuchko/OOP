@@ -82,7 +82,7 @@ namespace LR2.OOP.The_Final
 			Console.WriteLine();
 			foreach (string info in personlist.Info)
 			{
-				Console.WriteLine($"Person № {Array.IndexOf(personlist.Info, info) + 1}");
+				Console.WriteLine($"Person № {Array.IndexOf(personlist.Info, info)+1}");
 				Console.WriteLine(info);
 				Console.WriteLine();
 			}
@@ -199,14 +199,14 @@ namespace LR2.OOP.The_Final
 								throw new ArgumentException($"Incorrect input!");
 							}
 					}
-						break;
+					break;
 				}
 				catch (Exception exception)
 				{
 					Console.WriteLine(exception.Message + " Please enter again.");
 				}
 			}
-	
+
 			PersonBase inputperson = personIsAdultFlag
 				? new Adult("default", "default", 18, Gender.Male, "0000000000", FamilyStatus.Single, null, null)
 				: new Child("default", "default", 1, Gender.Male, null, null, null);
