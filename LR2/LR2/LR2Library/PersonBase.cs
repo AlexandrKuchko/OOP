@@ -84,7 +84,7 @@ namespace LR2Library
         /// Проверка имени или фамилии и перевод в нужный формат
         /// </summary>
         /// <param name="value">Имя или фамилия</param>
-        /// /// <returns>Строка (имя или фамилия) приведенная к нужномк виду</returns>
+        /// <returns>Строка (имя или фамилия) приведенная к нужномк виду</returns>
         private string CheckName(string value)
         {
             if (value == "" || value == null)

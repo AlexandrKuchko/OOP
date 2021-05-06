@@ -141,7 +141,6 @@ namespace LR2Library
 
 			string edutionInstitutionName = "Education institution №" + _rnd.Next(0, 10).ToString();
 			 
-			//TODO: 7 -> const 
 			Adult parentOne = GetRandomBool(7)
 				? GetRandomSingleAdult()
 				: null;
