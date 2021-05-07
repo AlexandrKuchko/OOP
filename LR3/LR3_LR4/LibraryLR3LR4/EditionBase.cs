@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace LibraryLR3LR4
 {
@@ -15,7 +16,19 @@ namespace LibraryLR3LR4
 		/// <summary>
 		/// Название издания
 		/// </summary>
-		public string Name { get; }
+		public string _name;
+
+		/// <summary>
+		/// Место издания
+		/// </summary>
+		public string Name
+		{
+			get => _name;
+			set
+			{
+				_name = ValidateEmptyOrNull(value);
+			}
+		}
 
 		/// <summary>
 		/// Место издания
@@ -52,7 +65,7 @@ namespace LibraryLR3LR4
 		}
 
 		/// <summary>
-		/// Год издания
+		/// Количество страниц издания
 		/// </summary>
 		private string _pageLimits;
 
@@ -93,7 +106,7 @@ namespace LibraryLR3LR4
 			{
 				throw new ArgumentException($"Value should contain only Latin and one hyphen!");
 			}
-			return value;
+			return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(value.ToLower());
 		}
 
 		/// <summary>
@@ -117,6 +130,18 @@ namespace LibraryLR3LR4
 			return value;
 		}
 
-
+		/// <summary>
+		/// Проверка на пустую строку и null
+		/// </summary>
+		/// <param name="value">Входная величина</param>
+		/// <returns>Выходная величина</returns>
+		protected string ValidateEmptyOrNull(string value)
+		{
+			if (value == "" || value == null)
+			{
+				throw new ArgumentException($"Value should not be empty!");
+			}
+			return value;
+		}
 	}
 }
