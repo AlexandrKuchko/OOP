@@ -11,12 +11,13 @@ namespace LibraryLR3LR4
 	/// <summary>
 	/// Издание (книга, сборник, журнал, статья)
 	/// </summary>
+	[Serializable]
 	public abstract class EditionBase
 	{
 		/// <summary>
 		/// Название издания
 		/// </summary>
-		public string _name;
+		private string _name;
 
 		/// <summary>
 		/// Место издания

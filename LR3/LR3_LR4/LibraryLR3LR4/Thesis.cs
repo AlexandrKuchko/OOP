@@ -11,6 +11,7 @@ namespace LibraryLR3LR4
 	/// <summary>
 	/// Диссертация
 	/// </summary>
+	[Serializable]
 	public class Thesis: EditionBase
     {
 		/// <summary>
@@ -145,6 +146,14 @@ namespace LibraryLR3LR4
 			University = university;
 			Year = year;
 			PageLimits = pageLimits;
+		}
+
+		/// <summary>
+		/// Конструктор класса пустой
+		/// </summary>
+		public Thesis()
+		{
+
 		}
 
 		/// <summary>

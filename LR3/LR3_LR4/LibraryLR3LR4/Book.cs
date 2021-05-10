@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 
 namespace LibraryLR3LR4
-{   
+{
 	/// <summary>
 	/// Книга
 	/// </summary>
-	class Book : EditionBase
+	[Serializable]
+	public class Book : EditionBase
 	{
 
 		/// <summary>
@@ -84,7 +85,7 @@ namespace LibraryLR3LR4
 		/// <summary>
 		/// Дополнительные сведения
 		/// </summary>
-		public string AdditionalInformation { get; }
+		public string AdditionalInformation { get; set; }
 
 		/// <summary>
 		/// Проверка автора
@@ -152,6 +153,14 @@ namespace LibraryLR3LR4
 			Year = year;
 			PageLimits = pageLimits;
 			AdditionalInformation = additionalInformation;
+		}
+
+		/// <summary>
+		/// Конструктор класса для сериализации
+		/// </summary>
+		public Book()
+		{
+
 		}
 
 		/// <summary>

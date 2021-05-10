@@ -10,7 +10,8 @@ namespace LibraryLR3LR4
 	/// <summary>
 	/// Сборник
 	/// </summary>
-	class Collection : EditionBase
+	[Serializable]
+	public class Collection : EditionBase
 	{
 
 		/// <summary>
@@ -33,7 +34,7 @@ namespace LibraryLR3LR4
 		/// <summary>
 		/// Название конференции
 		/// </summary>
-		public string _nameOfConference;
+		private string _nameOfConference;
 
 		/// <summary>
 		/// Название конференции
@@ -65,6 +66,14 @@ namespace LibraryLR3LR4
 			Publisher = publisher;
 			Year = year;
 			PageLimits = pageLimits;
+		}
+
+		/// <summary>
+		/// Конструктор класса пустой
+		/// </summary>
+		public Collection()
+		{
+
 		}
 
 		/// <summary>

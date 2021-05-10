@@ -10,7 +10,8 @@ namespace LibraryLR3LR4
 	/// <summary>
 	/// Журнал
 	/// </summary>
-	class Magazine : EditionBase
+	[Serializable]
+	public class Magazine : EditionBase
 	{
 
 		/// <summary>
@@ -126,6 +127,14 @@ namespace LibraryLR3LR4
 			MainEditor = mainEditor;
 			Year = year;
 			PageLimits = pageLimits;
+		}
+
+		/// <summary>
+		/// Конструктор класса пустой
+		/// </summary>
+		public Magazine()
+		{
+
 		}
 
 		/// <summary>
