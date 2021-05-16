@@ -55,6 +55,10 @@ namespace View
 		public AddObjectForm()
 		{
 			InitializeComponent();
+
+			#if !DEBUG
+			CreateRandomDataButton.Visible = false;
+			#endif
 		}
 
 		/// <summary>
@@ -67,6 +71,54 @@ namespace View
 				_properties[i].Text = "";
 				_properties[i].Visible = false;
 				_propertiesLabel[i].Visible = false;
+			}
+		}
+
+		/// <summary>
+		/// Получение листа с информацией о свойствах класса без Info
+		/// </summary>
+		private List<PropertyInfo> PropertyInfo(EditionBase editionBase)
+		{
+			List<PropertyInfo> propertyInfo = new List<PropertyInfo>();
+			foreach (PropertyInfo info in editionBase.GetType().GetProperties())
+			{
+				if (info.Name == "Info" || info.Name == "Item")
+				{
+					continue;
+				}
+				propertyInfo.Add(info);
+			}
+			return propertyInfo;
+		}
+
+		/// <summary>
+		/// Перезаполнение полей для атрибутов
+		/// </summary>
+		private void PropetiesRename(EditionBase editionBase)
+		{
+			Clear_Propeties();
+			var propertyInfo = PropertyInfo(editionBase);
+			for (int i = 0; i < propertyInfo.Count; i++)
+			{
+				_properties[i].Visible = true;
+				_propertiesLabel[i].Text = propertyInfo[i].Name;
+				_propertiesLabel[i].Visible = true;
+			}
+		}
+
+		/// <summary>
+		/// Рандомное заполнение полей для атрибутов
+		/// </summary>
+		private void PropetiesRandom(EditionBase editionBase)
+		{
+			for (int i = 0; i < editionBase.GetType().GetProperties().Length; i++)
+			{
+				_properties[i].Text = "Random" + editionBase.GetType().GetProperties()[i].Name;
+				if (editionBase.GetType().GetProperties()[i].Name == "Year" ||
+						editionBase.GetType().GetProperties()[i].Name == "PageLimits")
+				{
+					_properties[i].Text = "100";
+				}
 			}
 		}
 
@@ -93,20 +145,22 @@ namespace View
 			for (int i = 0; i < _max; i++)
 			{
 				_properties[i] = new TextBox();
+				_properties[i].Leave += new System.EventHandler(this.TextBoxLeave);
 				_properties[i].Text = "";
-				_properties[i].Location = new System.Drawing.Point(50, 70 + i * (_height+10));
+				_properties[i].Location = new System.Drawing.Point(50, 70 + i * (_height + 10));
 				_properties[i].Size = new System.Drawing.Size(_width, _height);
 				_properties[i].Visible = false;
 				this.Controls.Add(_properties[i]);
 
 				_propertiesLabel[i] = new Label();
 				_propertiesLabel[i].Text = "";
-				_propertiesLabel[i].Location = new System.Drawing.Point(175, 74 + i * (_height+10));
+				_propertiesLabel[i].Location = new System.Drawing.Point(175, 74 + i * (_height + 10));
 				_propertiesLabel[i].Size = new System.Drawing.Size(_width, _height);
 				_propertiesLabel[i].Visible = false;
 				this.Controls.Add(_propertiesLabel[i]);
 			}
 		}
+
 
 		/// <summary>
 		/// При выборе нового значения в списке
@@ -117,128 +171,146 @@ namespace View
 			{
 				case "Book":
 				{
-					Clear_Propeties();
 					Book book = new Book("A", "A", "A", "A", "A", "A", "1", "1", "A");
-
-					for (int i = 0; i < book.GetType().GetProperties().Length; i++)
-					{
-						//Порядок табуляции
-						// _properties[i].TabIndex = i + 1;
-						_properties[i].Visible = true;
-						_propertiesLabel[i].Text = book.GetType().GetProperties()[i].Name;
-						_propertiesLabel[i].Visible = true;
-					}
+					PropetiesRename(book);
 					return;
 				}
 				case "Thesis":
 				{
-					Clear_Propeties();
 					Thesis thesis = new Thesis("A", "A", "A", "A", "A", "A", "1", "1");
-
-					for (int i = 0; i < thesis.GetType().GetProperties().Length; i++)
-					{
-						//Порядок табуляции
-						// _properties[i].TabIndex = i + 1;
-						_properties[i].Visible = true;
-						_propertiesLabel[i].Text = thesis.GetType().GetProperties()[i].Name;
-						_propertiesLabel[i].Visible = true;
-					}
+					PropetiesRename(thesis);
 					return;
 				}
 				case "Collection":
 				{
-					Clear_Propeties();
 					Collection collection = new Collection("A", "A", "A", "A", "100", "1997");
-
-					for (int i = 0; i < collection.GetType().GetProperties().Length; i++)
-					{
-						//Порядок табуляции
-						// _properties[i].TabIndex = i + 1;
-						_properties[i].Visible = true;
-						_propertiesLabel[i].Text = collection.GetType().GetProperties()[i].Name;
-						_propertiesLabel[i].Visible = true;
-					}
+					PropetiesRename(collection);
 					return;
 				}
 				case "Magazine":
 				{
-					Clear_Propeties();
 					Magazine magazine = new Magazine("A", "A", "A", "A", "A", "1", "1");
-
-					for (int i = 0; i < magazine.GetType().GetProperties().Length; i++)
-					{
-						//Порядок табуляции
-						// _properties[i].TabIndex = i + 1;
-						_properties[i].Visible = true;
-						_propertiesLabel[i].Text = magazine.GetType().GetProperties()[i].Name;
-						_propertiesLabel[i].Visible = true;
-					}
+					PropetiesRename(magazine);
 					return;
 				}
 			}
 		}
 
 		/// <summary>
-		/// При нажатии кнопки ОК
+		/// Присвоение значения свойству класса 
 		/// </summary>
-		private void OkButton_Click(object sender, EventArgs e)
+		private void AssigningValue(EditionBase editionBase, string name, string value)
 		{
+			try
+			{
+				editionBase[name] = value;
+			}
+			catch (Exception exception)
+			{
+				MessageBox.Show(exception.Message + " Please enter again.");
+			}
+		}
+
+		/// <summary>
+		/// При покидании текстбокса
+		/// </summary>
+		private void TextBoxLeave(object sender, EventArgs e)
+		{
+			var textBox = (TextBox)sender;
+			int index = Array.IndexOf(_properties, textBox);
+
 			switch ((string)EditionComboBox.SelectedItem)
 			{
 				case "Book":
 				{
 					Book book = new Book("A", "A", "A", "A", "A", "A", "1", "1", "A");
-					book.MainAuthor = _properties[0].Text;
-					book.Type = _properties[1].Text;
-					book.SecondAuthor = _properties[2].Text;
-					book.Publisher = _properties[3].Text;
-					book.AdditionalInformation = _properties[4].Text;
-					book.Name = _properties[5].Text;
-					book.Place = _properties[6].Text;
-					book.Year = _properties[7].Text;
-					book.PageLimits = _properties[8].Text;
-					ReturnList.Add(book);
-					return;
+					AssigningValue(book, _propertiesLabel[index].Text, textBox.Text);
+					break;
 				}
 				case "Thesis":
 				{
 					Thesis thesis = new Thesis("A", "A", "A", "A", "A", "A", "1", "1");
-					thesis.Author = _properties[0].Text;
-					thesis.Type = _properties[1].Text;
-					thesis.Specialization = _properties[2].Text;
-					thesis.University = _properties[3].Text;
-					thesis.Name = _properties[4].Text;
-					thesis.Place = _properties[5].Text;
-					thesis.Year = _properties[6].Text;
-					thesis.PageLimits = _properties[7].Text;
-					ReturnList.Add(thesis);
-					return;
+					AssigningValue(thesis, _propertiesLabel[index].Text, textBox.Text);
+					break;
 				}
 				case "Collection":
 				{
 					Collection collection = new Collection("A", "A", "A", "A", "100", "1997");
-					collection.Publisher = _properties[0].Text;
-					collection.NameOfConference = _properties[1].Text;
-					collection.Name = _properties[2].Text;
-					collection.Place = _properties[3].Text;
-					collection.Year = _properties[4].Text;
-					collection.PageLimits = _properties[5].Text;
-					ReturnList.Add(collection);
-					return;
+					AssigningValue(collection, _propertiesLabel[index].Text, textBox.Text); 
+					break;
 				}
 				case "Magazine":
 				{
 					Magazine magazine = new Magazine("A", "A", "A", "A", "A", "1", "1");
-					magazine.Founder = _properties[0].Text;
-					magazine.Type = _properties[1].Text;
-					magazine.MainEditor = _properties[2].Text;
-					magazine.Name = _properties[3].Text;
-					magazine.Place = _properties[4].Text;
-					magazine.Year = _properties[5].Text;
-					magazine.PageLimits = _properties[6].Text;
-					ReturnList.Add(magazine);
-					return;
+					AssigningValue(magazine, _propertiesLabel[index].Text, textBox.Text);
+					break;
 				}
+			}
+		}
+
+		/// <summary>
+		/// При нажатии кнопки добавить данные
+		/// </summary>
+		private void AddDataButton_Click(object sender, EventArgs e)
+		{
+			int count = 0;
+			while (_propertiesLabel[count].Visible == true)
+            {
+				count++;
+            }
+			try
+			{
+				switch ((string)EditionComboBox.SelectedItem)
+				{
+					case "Book":
+					{
+						Book book = new Book("A", "A", "A", "A", "A", "A", "1", "1", "A");
+						for (int i = 0; i < count; i++)
+						{
+							AssigningValue(book, _propertiesLabel[i].Text, _properties[i].Text);
+						}
+						ReturnList.Add(book);
+						break;
+					}
+					case "Thesis":
+					{
+						Thesis thesis = new Thesis("A", "A", "A", "A", "A", "A", "1", "1");
+						for (int i = 0; i < count; i++)
+						{
+							AssigningValue(thesis, _propertiesLabel[i].Text, _properties[i].Text);
+						}
+						ReturnList.Add(thesis);
+						break;
+					}
+					case "Collection":
+					{
+						Collection collection = new Collection("A", "A", "A", "A", "100", "1997");
+						for (int i = 0; i < count; i++)
+						{
+							AssigningValue(collection, _propertiesLabel[i].Text, _properties[i].Text);
+						}
+						ReturnList.Add(collection);
+						break;
+					}
+					case "Magazine":
+					{
+						Magazine magazine = new Magazine("A", "A", "A", "A", "A", "1", "1");
+						for (int i = 0; i < count; i++)
+						{
+							AssigningValue(magazine, _propertiesLabel[i].Text, _properties[i].Text);
+						}
+						ReturnList.Add(magazine);
+						break;
+					}
+				}
+				foreach (TextBox textbox in _properties)
+				{
+					textbox.Text = "";
+				}
+			}
+			catch (Exception exception)
+			{
+				MessageBox.Show(exception.Message + " Please enter again.");
 			}
 		}
 
@@ -249,5 +321,39 @@ namespace View
         {
 			this.Close();
         }
+
+		/// <summary>
+		/// Заполнение формы случайными данными формы
+		/// </summary>
+		private void CreateRandomDataButton_Click(object sender, EventArgs e)
+        {
+			switch ((string)EditionComboBox.SelectedItem)
+			{
+				case "Book":
+				{
+					Book book = new Book("A", "A", "A", "A", "A", "A", "1", "1", "A");
+					PropetiesRandom(book);
+					return;
+				}
+				case "Thesis":
+				{
+					Thesis thesis = new Thesis("A", "A", "A", "A", "A", "A", "1", "1");
+					PropetiesRandom(thesis);
+					return;
+				}
+				case "Collection":
+				{
+					Collection collection = new Collection("A", "A", "A", "A", "100", "1997");
+					PropetiesRandom(collection);
+					return;
+				}
+				case "Magazine":
+				{
+					Magazine magazine = new Magazine("A", "A", "A", "A", "A", "1", "1");
+					PropetiesRandom(magazine);
+					return;
+				}
+			}
+		}
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using System.Reflection;
 
 namespace LibraryLR3LR4
 {
@@ -27,7 +28,7 @@ namespace LibraryLR3LR4
 			get => _name;
 			set
 			{
-				_name = ValidateEmptyOrNull(value);
+				_name = ValidateEmptyOrNull(value, nameof(Name));
 			}
 		}
 
@@ -44,7 +45,7 @@ namespace LibraryLR3LR4
 			get => _place;
 			set
 			{
-				_place = ValidatePlace(value);
+				_place = ValidatePlace(value, nameof(Place));
 			}
 		}
 
@@ -61,7 +62,7 @@ namespace LibraryLR3LR4
 			get => _year;
 			set
 			{
-				_year = ValidateYearOrPageLimits(value);
+				_year = ValidateYearOrPageLimits(value, nameof(Year));
 			}
 		}
 
@@ -78,25 +79,47 @@ namespace LibraryLR3LR4
 			get => _pageLimits;
 			set
 			{
-				_pageLimits = ValidateYearOrPageLimits(value);
+				_pageLimits = ValidateYearOrPageLimits(value, nameof(PageLimits));
 			}
 		}
 
 		/// <summary>
 		/// Информация об издании
 		/// </summary>
-		public abstract string Info();
-
+		public abstract string Info { get; }
+		
+		/// <summary>
+		/// Текстовый индексатор
+		/// </summary>
+		public object this[string propertyName]
+		{
+			get
+			{
+				// probably faster without reflection:
+				// like:  return Properties.Settings.Default.PropertyValues[propertyName] 
+				// instead of the following
+				Type myType = this.GetType();
+				PropertyInfo myPropInfo = myType.GetProperty(propertyName);
+				return myPropInfo.GetValue(this, null);
+			}
+			set
+			{
+				Type myType = this.GetType();
+				PropertyInfo myPropInfo = myType.GetProperty(propertyName);
+				myPropInfo.SetValue(this, value, null);
+			}
+		}
+		
 		/// <summary>
 		/// Проверка места изданя
 		/// </summary>
 		/// <param name="value">Место издания</param>
 		/// /// <returns>Строка (имя или фамилия) приведенная к нужномк виду</returns>
-		private string ValidatePlace(string value)
+		private string ValidatePlace(string value, string name)
 		{
 			if (value == "" || value == null)
 			{
-				throw new ArgumentException($"Value should not be empty!");
+				throw new ArgumentException($"{name} should not be empty!");
 			}
 
 			const string pattern1 = @"^[a-z]+$";
@@ -105,7 +128,7 @@ namespace LibraryLR3LR4
 			if (!Regex.IsMatch(value, pattern1, RegexOptions.IgnoreCase)
 				&& !Regex.IsMatch(value, pattern2, RegexOptions.IgnoreCase))
 			{
-				throw new ArgumentException($"Value should contain only Latin and one hyphen!");
+				throw new ArgumentException($"{name} should contain only Latin and one hyphen!");
 			}
 			return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(value.ToLower());
 		}
@@ -114,19 +137,20 @@ namespace LibraryLR3LR4
 		/// Проверка года и количеств страниц
 		/// </summary>
 		/// <param name="value">Год или количество страниц</param>
+		/// <param name="name">Название вводимой величины</param>
 		/// <returns>Год или количество страниц</returns>
-		private string ValidateYearOrPageLimits(string value)
+		private string ValidateYearOrPageLimits(string value, string name)
 		{
 			if (value == "" || value == null)
 			{
-				throw new ArgumentException($"Value should not be empty!");
+				throw new ArgumentException($"{name} should not be empty!");
 			}
 
 			const string pattern = @"^[0-9]*$";
 
 			if (!Regex.IsMatch(value, pattern))
 			{
-				throw new ArgumentException($"The value must only contain numbers!");
+				throw new ArgumentException($"{name} must only contain numbers!");
 			}
 			return value;
 		}
@@ -136,11 +160,11 @@ namespace LibraryLR3LR4
 		/// </summary>
 		/// <param name="value">Входная величина</param>
 		/// <returns>Выходная величина</returns>
-		protected string ValidateEmptyOrNull(string value)
+		protected string ValidateEmptyOrNull(string value, string name)
 		{
 			if (value == "" || value == null)
 			{
-				throw new ArgumentException($"Value should not be empty!");
+				throw new ArgumentException($"{name} should not be empty!");
 			}
 			return value;
 		}

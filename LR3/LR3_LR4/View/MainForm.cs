@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml.Serialization;
 
 namespace View
 {
@@ -32,31 +33,23 @@ namespace View
 		}
 
 		/// <summary>
-		/// Нажатие на на кнопку открытия файла
+		/// Заполнение листбокса с информацией об изданиях
 		/// </summary>
-		private void OpenFile_Click(object sender, EventArgs e)
-		{
-			/*
-			List<EditionBase> editionListSer = new List<EditionBase>();
-			editionListSer.Add(new Book("A", "A", "A", "A", "A", "A", "1998", "100", "A"));
-			editionListSer.Add(new Collection("A", "A", "A", "A", "100", "1997"));
-			editionListSer.Add(new Thesis("A", "A", "A", "A", "A", "A", "100", "1997"));
-			editionListSer.Add(new Magazine("A", "A", "A", "A", "A", "100", "1977"));
-			
-			try
+		private void FillingEditionListBox()
+        {
+			EditionListBox.Items.Clear();
+			foreach (EditionBase edition in _editionList)
 			{
-				using (Stream stream = File.Open(@"C:\Users\sasha\iCloudDrive\Магистратура флешка\4 семестр\ООП\OOP\LR3\Doc3.xml", FileMode.Create))
-				{
-					BinaryFormatter bin = new BinaryFormatter();
-					bin.Serialize(stream, editionListSer);
-					editionListSer.Clear();
-				}
+				EditionListBox.Items.Add(edition);
+				EditionListBox.DisplayMember = "Info";
 			}
-			catch (IOException)
-			{
-			}
-			*/
+		}
 
+		/// <summary>
+		/// Нажатие на кнопку открытия файла
+		/// </summary>
+		private void OpenFileButton_Click(object sender, EventArgs e)
+		{
 			if (MainOpenFileDialog.ShowDialog() == DialogResult.Cancel)
 			{
 				return;
@@ -70,58 +63,118 @@ namespace View
 					BinaryFormatter bin = new BinaryFormatter();
 					_editionList = (List<EditionBase>)bin.Deserialize(stream);
 				}
-			}
-			catch (IOException)
-			{
-			}
-			EditionListBox.Items.Clear();
-			foreach (EditionBase edition in _editionList)
-			{
-				EditionListBox.Items.Add(edition.Info());
-			}
-			MessageBox.Show("Файл открыт");
 
-			/*
-			var writer = new
-			System.Xml.Serialization.XmlSerializer(typeof(List<EditionBase>), new Type[] { typeof(Book), 
-				typeof(Collection), typeof(Thesis), typeof(Magazine) });
-			using (var file = System.IO.File.Create(@"C:\Users\sasha\iCloudDrive\Магистратура флешка\4 семестр\ООП\OOP\LR3\Doc2.xml"))
-			{
-				writer.Serialize(file, editionList);
-				file.Close();
-			}
-			*/
+				/*
+				using (FileStream fs = new FileStream(filename, FileMode.OpenOrCreate))
+				{
+					_editionList = (List<EditionBase>)((XmlSerializer)new XmlSerializer
+						((Type)typeof(List<EditionBase>))).Deserialize(fs);
+				}
+				*/
 
-			/*
-			var reader = new System.Xml.Serialization.XmlSerializer(typeof(EditionBase), 
-				new Type[] { typeof(Book), typeof(Collection), typeof(Thesis), typeof(Magazine) });
-			var file = new System.IO.StreamReader(filename);
-			editionList = (List<EditionBase>)reader.Deserialize(file);
-			
-			
-			foreach(EditionBase edition in editionList)
-			{
-				EditionListBox.Items.Add(edition.Info());
+
+
+				FillingEditionListBox();
+				MessageBox.Show("File opened");
 			}
-			*/
+			catch (Exception exception)
+			{
+				MessageBox.Show(exception.Message + "Incorrect file format");
+			}
+
+
 		}
 
+		/// <summary>
+		/// Нажатие на на кнопку добавления объекта
+		/// </summary>
 		private void AddObjectButton_Click(object sender, EventArgs e)
 		{	
 			AddObjectForm addObjectForm = new AddObjectForm();
 
 			if (addObjectForm.ShowDialog() == DialogResult.OK)
 			{
-				_editionList.Add(addObjectForm.ReturnList[0]);
-
-				EditionListBox.Items.Clear();
-				foreach (EditionBase edition in _editionList)
+				foreach(EditionBase edition in addObjectForm.ReturnList)
 				{
-					EditionListBox.Items.Add(edition.Info());
+					_editionList.Add(edition);
 				}
+				FillingEditionListBox();
 			}
 			addObjectForm.Close();
 		}
-	}
+
+		/// <summary>
+		/// Нажатие на кнопку сохранения в файл
+		/// </summary>
+		private void SaveFileButton_Click(object sender, EventArgs e)
+        {
+			if (MainSaveFileDialog.ShowDialog() == DialogResult.Cancel)
+			{
+				return;
+			}
+			string filename = MainSaveFileDialog.FileName;
+
+			try
+			{
+				using (Stream stream = File.Open(filename, FileMode.Create))
+				{
+					BinaryFormatter bin = new BinaryFormatter();
+					bin.Serialize(stream, _editionList);
+				}
+				/*
+				using (FileStream fs = new FileStream(filename, FileMode.OpenOrCreate))
+				{
+					((XmlSerializer)new XmlSerializer((Type)typeof(List<EditionBase>))).Serialize(fs, _editionList);
+				}
+				*/
+				MessageBox.Show("File saved");
+			}
+			catch (Exception exception)
+			{
+				MessageBox.Show(exception.Message + "Please do it again");
+			}
+		}
+
+		/// <summary>
+		/// Удаление издания через Листбокс при назатии на кнопку Remove
+		/// </summary>
+		private void RemoveObjectButton_Click(object sender, EventArgs e)
+        {
+			if (EditionListBox.SelectedIndex == -1)
+            {
+				return;
+			}
+			_editionList.Remove((EditionBase)EditionListBox.SelectedItem);
+			FillingEditionListBox();
+		}
+
+        private void SearchButton_Click(object sender, EventArgs e)
+        {
+			SearchDataForm searchDataForm = new SearchDataForm();
+
+			if (searchDataForm.ShowDialog() == DialogResult.OK)
+			{
+				if (searchDataForm.SearchWorlds.Count == 0)
+				{
+					searchDataForm.Close();
+					return;
+				}
+				EditionListBox.Items.Clear();
+
+				foreach (EditionBase edition in _editionList)
+				{
+					foreach (string searchWorld in searchDataForm.SearchWorlds)
+                    {
+						if(edition.Info.Contains(searchWorld))
+                        {
+							EditionListBox.Items.Add(edition);
+							EditionListBox.DisplayMember = "Info";
+						}
+                    }
+				}
+			}
+			searchDataForm.Close();
+		}
+    }
 }
 

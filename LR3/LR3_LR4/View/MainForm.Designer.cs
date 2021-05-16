@@ -30,64 +30,89 @@ namespace View
         private void InitializeComponent()
         {
             this.MainGroupBox = new System.Windows.Forms.GroupBox();
-            this.OpenFile = new System.Windows.Forms.Button();
+            this.SearchButton = new System.Windows.Forms.Button();
             this.EditionListBox = new System.Windows.Forms.ListBox();
             this.RemoveObjectButton = new System.Windows.Forms.Button();
             this.AddObjectButton = new System.Windows.Forms.Button();
+            this.SaveFileButton = new System.Windows.Forms.Button();
+            this.OpenFileButton = new System.Windows.Forms.Button();
             this.MainOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.MainSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.MainGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainGroupBox
             // 
-            this.MainGroupBox.Controls.Add(this.OpenFile);
+            this.MainGroupBox.Controls.Add(this.SearchButton);
             this.MainGroupBox.Controls.Add(this.EditionListBox);
             this.MainGroupBox.Controls.Add(this.RemoveObjectButton);
             this.MainGroupBox.Controls.Add(this.AddObjectButton);
-            this.MainGroupBox.Location = new System.Drawing.Point(22, 25);
+            this.MainGroupBox.Location = new System.Drawing.Point(12, 12);
             this.MainGroupBox.Name = "MainGroupBox";
-            this.MainGroupBox.Size = new System.Drawing.Size(517, 366);
+            this.MainGroupBox.Size = new System.Drawing.Size(517, 329);
             this.MainGroupBox.TabIndex = 0;
             this.MainGroupBox.TabStop = false;
-            this.MainGroupBox.Text = "MainGroupBox";
+            this.MainGroupBox.Text = "Edition list";
             // 
-            // OpenFile
+            // SearchButton
             // 
-            this.OpenFile.Location = new System.Drawing.Point(68, 38);
-            this.OpenFile.Name = "OpenFile";
-            this.OpenFile.Size = new System.Drawing.Size(240, 44);
-            this.OpenFile.TabIndex = 4;
-            this.OpenFile.Text = "OpenFileButton";
-            this.OpenFile.UseVisualStyleBackColor = true;
-            this.OpenFile.Click += new System.EventHandler(this.OpenFile_Click);
+            this.SearchButton.Location = new System.Drawing.Point(185, 293);
+            this.SearchButton.Name = "SearchButton";
+            this.SearchButton.Size = new System.Drawing.Size(102, 25);
+            this.SearchButton.TabIndex = 4;
+            this.SearchButton.Text = "Search";
+            this.SearchButton.UseVisualStyleBackColor = true;
+            this.SearchButton.Click += new System.EventHandler(this.SearchButton_Click);
             // 
             // EditionListBox
             // 
             this.EditionListBox.FormattingEnabled = true;
             this.EditionListBox.ItemHeight = 15;
-            this.EditionListBox.Location = new System.Drawing.Point(68, 88);
+            this.EditionListBox.Location = new System.Drawing.Point(17, 22);
             this.EditionListBox.Name = "EditionListBox";
-            this.EditionListBox.Size = new System.Drawing.Size(240, 184);
+            this.EditionListBox.Size = new System.Drawing.Size(486, 259);
             this.EditionListBox.TabIndex = 3;
             // 
             // RemoveObjectButton
             // 
-            this.RemoveObjectButton.Location = new System.Drawing.Point(192, 278);
+            this.RemoveObjectButton.Location = new System.Drawing.Point(401, 293);
             this.RemoveObjectButton.Name = "RemoveObjectButton";
-            this.RemoveObjectButton.Size = new System.Drawing.Size(116, 41);
+            this.RemoveObjectButton.Size = new System.Drawing.Size(102, 25);
             this.RemoveObjectButton.TabIndex = 2;
             this.RemoveObjectButton.Text = "Remove object";
             this.RemoveObjectButton.UseVisualStyleBackColor = true;
+            this.RemoveObjectButton.Click += new System.EventHandler(this.RemoveObjectButton_Click);
             // 
             // AddObjectButton
             // 
-            this.AddObjectButton.Location = new System.Drawing.Point(68, 278);
+            this.AddObjectButton.Location = new System.Drawing.Point(293, 293);
             this.AddObjectButton.Name = "AddObjectButton";
-            this.AddObjectButton.Size = new System.Drawing.Size(110, 41);
+            this.AddObjectButton.Size = new System.Drawing.Size(102, 25);
             this.AddObjectButton.TabIndex = 1;
             this.AddObjectButton.Text = "Add object";
             this.AddObjectButton.UseVisualStyleBackColor = true;
             this.AddObjectButton.Click += new System.EventHandler(this.AddObjectButton_Click);
+            // 
+            // SaveFileButton
+            // 
+            this.SaveFileButton.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.SaveFileButton.Location = new System.Drawing.Point(535, 72);
+            this.SaveFileButton.Name = "SaveFileButton";
+            this.SaveFileButton.Size = new System.Drawing.Size(74, 26);
+            this.SaveFileButton.TabIndex = 5;
+            this.SaveFileButton.Text = "Save file";
+            this.SaveFileButton.UseVisualStyleBackColor = true;
+            this.SaveFileButton.Click += new System.EventHandler(this.SaveFileButton_Click);
+            // 
+            // OpenFileButton
+            // 
+            this.OpenFileButton.Location = new System.Drawing.Point(535, 40);
+            this.OpenFileButton.Name = "OpenFileButton";
+            this.OpenFileButton.Size = new System.Drawing.Size(74, 26);
+            this.OpenFileButton.TabIndex = 4;
+            this.OpenFileButton.Text = "Open file";
+            this.OpenFileButton.UseVisualStyleBackColor = true;
+            this.OpenFileButton.Click += new System.EventHandler(this.OpenFileButton_Click);
             // 
             // MainOpenFileDialog
             // 
@@ -97,10 +122,12 @@ namespace View
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(617, 355);
+            this.Controls.Add(this.OpenFileButton);
+            this.Controls.Add(this.SaveFileButton);
             this.Controls.Add(this.MainGroupBox);
             this.Name = "MainForm";
-            this.Text = "Form1";
+            this.Text = "Edition data";
             this.MainGroupBox.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -114,7 +141,10 @@ namespace View
         private System.Windows.Forms.ListBox EditionListBox;
         private System.Windows.Forms.GroupBox groupBox;
         private System.Windows.Forms.OpenFileDialog MainOpenFileDialog;
-        private System.Windows.Forms.Button OpenFile;
+        private System.Windows.Forms.Button OpenFileButton;
+        private System.Windows.Forms.Button SaveFileButton;
+        private System.Windows.Forms.SaveFileDialog MainSaveFileDialog;
+        private System.Windows.Forms.Button SearchButton;
     }
 }
 

@@ -31,8 +31,10 @@ namespace View
         {
             this.EditionComboBox = new System.Windows.Forms.ComboBox();
             this.EditionComboBoxLabel = new System.Windows.Forms.Label();
-            this.OkButton = new System.Windows.Forms.Button();
+            this.AddDataButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
+            this.OKButton = new System.Windows.Forms.Button();
+            this.CreateRandomDataButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // EditionComboBox
@@ -54,16 +56,15 @@ namespace View
             this.EditionComboBoxLabel.TabIndex = 1;
             this.EditionComboBoxLabel.Text = "Editon";
             // 
-            // OkButton
+            // AddDataButton
             // 
-            this.OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.OkButton.Location = new System.Drawing.Point(226, 30);
-            this.OkButton.Name = "OkButton";
-            this.OkButton.Size = new System.Drawing.Size(75, 23);
-            this.OkButton.TabIndex = 2;
-            this.OkButton.Text = "OK";
-            this.OkButton.UseVisualStyleBackColor = true;
-            this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
+            this.AddDataButton.Location = new System.Drawing.Point(53, 359);
+            this.AddDataButton.Name = "AddDataButton";
+            this.AddDataButton.Size = new System.Drawing.Size(124, 23);
+            this.AddDataButton.TabIndex = 2;
+            this.AddDataButton.Text = "Add data";
+            this.AddDataButton.UseVisualStyleBackColor = true;
+            this.AddDataButton.Click += new System.EventHandler(this.AddDataButton_Click);
             // 
             // CancelButton
             // 
@@ -75,17 +76,39 @@ namespace View
             this.CancelButton.UseVisualStyleBackColor = true;
             this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
+            // OKButton
+            // 
+            this.OKButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.OKButton.Location = new System.Drawing.Point(224, 30);
+            this.OKButton.Name = "OKButton";
+            this.OKButton.Size = new System.Drawing.Size(75, 23);
+            this.OKButton.TabIndex = 4;
+            this.OKButton.Text = "OK";
+            this.OKButton.UseVisualStyleBackColor = true;
+            // 
+            // CreateRandomDataButton
+            // 
+            this.CreateRandomDataButton.Location = new System.Drawing.Point(183, 359);
+            this.CreateRandomDataButton.Name = "CreateRandomDataButton";
+            this.CreateRandomDataButton.Size = new System.Drawing.Size(124, 23);
+            this.CreateRandomDataButton.TabIndex = 5;
+            this.CreateRandomDataButton.Text = "Create random data";
+            this.CreateRandomDataButton.UseVisualStyleBackColor = true;
+            this.CreateRandomDataButton.Click += new System.EventHandler(this.CreateRandomDataButton_Click);
+            // 
             // AddObjectForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(392, 379);
+            this.ClientSize = new System.Drawing.Size(392, 403);
+            this.Controls.Add(this.CreateRandomDataButton);
+            this.Controls.Add(this.OKButton);
             this.Controls.Add(this.CancelButton);
-            this.Controls.Add(this.OkButton);
+            this.Controls.Add(this.AddDataButton);
             this.Controls.Add(this.EditionComboBoxLabel);
             this.Controls.Add(this.EditionComboBox);
             this.Name = "AddObjectForm";
-            this.Text = "AddObjectForm";
+            this.Text = "Add editon in edition list";
             this.Load += new System.EventHandler(this.AddObjectForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -96,7 +119,9 @@ namespace View
 
         private System.Windows.Forms.ComboBox EditionComboBox;
         private System.Windows.Forms.Label EditionComboBoxLabel;
-        private System.Windows.Forms.Button OkButton;
+        private System.Windows.Forms.Button AddDataButton;
         private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Button OKButton;
+        private System.Windows.Forms.Button CreateRandomDataButton;
     }
 }

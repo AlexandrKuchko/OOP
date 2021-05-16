@@ -13,7 +13,6 @@ namespace LibraryLR3LR4
 	[Serializable]
 	public class Collection : EditionBase
 	{
-
 		/// <summary>
 		/// Издательство
 		/// </summary>
@@ -27,7 +26,7 @@ namespace LibraryLR3LR4
 			get => _publisher;
 			set
 			{
-				_publisher = ValidateEmptyOrNull(value);
+				_publisher = ValidateEmptyOrNull(value, nameof(Publisher));
 			}
 		}
 
@@ -44,7 +43,7 @@ namespace LibraryLR3LR4
 			get => _nameOfConference;
 			set
 			{
-				_nameOfConference = ValidateEmptyOrNull(value);
+				_nameOfConference = ValidateEmptyOrNull(value, nameof(NameOfConference));
 	        }
 		}
 
@@ -79,10 +78,14 @@ namespace LibraryLR3LR4
 		/// <summary>
 		/// Информация о сборнике
 		/// </summary>
-		public override string Info()
+		public override string Info
 		{
-			return $"{Name}: {NameOfConference}. - {Place}: {Publisher}," +
-				$" {Year}. - {PageLimits}";
+			get
+			{
+				return $"{Name}: {NameOfConference}. - {Place}: {Publisher}," +
+					$" {Year}. - {PageLimits}";
+			}
 		}
+
 	}
 }

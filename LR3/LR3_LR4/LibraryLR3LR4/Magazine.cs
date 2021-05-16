@@ -27,7 +27,7 @@ namespace LibraryLR3LR4
 			get => _founder;
 			set
 			{
-				_founder = ValidateEmptyOrNull(value);
+				_founder = ValidateEmptyOrNull(value, nameof(Founder));
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace LibraryLR3LR4
 			get => _type;
 			set
 			{
-				_type = ValidateType(value);
+				_type = ValidateType(value, nameof(Type));
 			}
 		}
 
@@ -61,7 +61,7 @@ namespace LibraryLR3LR4
 			get => _mainEditor;
 			set
 			{
-				_mainEditor = ValidateEditor(value);
+				_mainEditor = ValidateEditor(value, nameof(MainEditor));
 			}
 		}
 
@@ -70,18 +70,18 @@ namespace LibraryLR3LR4
 		/// </summary>
 		/// <param name="value">Имя главного редактора</param>
 		/// <returns>Имя главного редактора</returns>
-		private string ValidateEditor(string value)
+		private string ValidateEditor(string value, string name)
 		{
 			if (value == "" || value == null)
 			{
-				throw new ArgumentException($"Value should not be empty!");
+				throw new ArgumentException($"{name} should not be empty!");
 			}
 
 			const string pattern = @"^[-.a-zA-Z\s]*$";
 
 			if (!Regex.IsMatch(value, pattern))
 			{
-				throw new ArgumentException($"The name must be in English!");
+				throw new ArgumentException($"{name} must be in English!");
 			}
 			return value;
 		}
@@ -91,18 +91,18 @@ namespace LibraryLR3LR4
 		/// </summary>
 		/// <param name="value">Тип издания</param>
 		/// <returns>Тип издания</returns>
-		private string ValidateType(string value)
+		private string ValidateType(string value, string name)
 		{
 			if (value == "" || value == null)
 			{
-				throw new ArgumentException($"Value should not be empty!");
+				throw new ArgumentException($"{name} should not be empty!");
 			}
 
 			const string pattern = @"^[-a-zA-Z\s]*$";
 
 			if (!Regex.IsMatch(value, pattern))
 			{
-				throw new ArgumentException($"The name must be in English!");
+				throw new ArgumentException($"{name} must be in English!");
 			}
 			return value;
 		}
@@ -140,10 +140,13 @@ namespace LibraryLR3LR4
 		/// <summary>
 		/// Информация о журнале
 		/// </summary>
-		public override string Info()
+		public override string Info
 		{
-			return $"{Name}: {Type} / {Founder} ; {MainEditor}. - {Place}" +
-				$", {Year}. - {PageLimits}.";
+			get
+			{
+				return $"{Name}: {Type} / {Founder} ; {MainEditor}. - {Place}" +
+					$", {Year}. - {PageLimits}.";
+			}
 		}
 	}
 }

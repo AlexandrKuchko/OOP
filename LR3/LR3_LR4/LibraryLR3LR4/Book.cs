@@ -27,7 +27,7 @@ namespace LibraryLR3LR4
 			get => _mainAuthor;
 			set
 			{
-				_mainAuthor = ValidateAuthor(value);
+				_mainAuthor = ValidateAuthor(value, nameof(MainAuthor));
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace LibraryLR3LR4
 			get => _type;
 			set
 			{
-				_type = ValidateType(value);
+				_type = ValidateType(value, nameof(Type));
 			}
 		}
 
@@ -61,7 +61,7 @@ namespace LibraryLR3LR4
 			get => _secondAuthor;
 			set
 			{
-				_secondAuthor = ValidateAuthor(value);
+				_secondAuthor = ValidateAuthor(value, nameof(SecondAuthor));
 			}
 		}
 
@@ -78,7 +78,7 @@ namespace LibraryLR3LR4
 			get => _publisher;
 			set
 			{
-				_publisher = ValidateEmptyOrNull(value);
+				_publisher = ValidateEmptyOrNull(value, nameof(Publisher));
 			}
 		}
 
@@ -91,19 +91,20 @@ namespace LibraryLR3LR4
 		/// Проверка автора
 		/// </summary>
 		/// <param name="value">Имя или имена авторов</param>
+		/// <param name="value">Название проверяемой величины</param>
 		/// <returns>Имя или имена авторов</returns>
-		private string ValidateAuthor(string value)
+		private string ValidateAuthor(string value, string name)
 		{
 			if (value == null)
 			{
-				throw new ArgumentException($"Value should not be null!");
+				throw new ArgumentException($"{name} should not be null!");
 			}
 
 			const string pattern = @"^[-.,a-zA-Z\s]*$";
 
 			if (!Regex.IsMatch(value, pattern))
 			{
-				throw new ArgumentException($"The name must be in English!");
+				throw new ArgumentException($"{name} must be in English!");
 			}
 			return value;
 		}
@@ -113,18 +114,18 @@ namespace LibraryLR3LR4
 		/// </summary>
 		/// <param name="value">Тип издания</param>
 		/// <returns>Тип издания</returns>
-		private string ValidateType(string value)
+		private string ValidateType(string value, string name)
 		{
 			if (value == null)
 			{
-				throw new ArgumentException($"Value should not be null!");
+				throw new ArgumentException($"{name} should not be null!");
 			}
 
 			const string pattern = @"^[-a-zA-Z\s]*$";
 
 			if (!Regex.IsMatch(value, pattern))
 			{
-				throw new ArgumentException($"The name must be in English!");
+				throw new ArgumentException($"{name} must be in English!");
 			}
 			return value;
 		}
@@ -166,30 +167,33 @@ namespace LibraryLR3LR4
 		/// <summary>
 		/// Информация о книге
 		/// </summary>
-		public override string Info()
+		public override string Info
 		{
-			string mainAuthor = MainAuthor == ""
-				? ""
-				: MainAuthor + " ";
+			get
+			{
+				string mainAuthor = MainAuthor == ""
+					? ""
+					: MainAuthor + " ";
 
-			string type = Type == ""
-				? ""
-				: ": "+ Type + ",";
+				string type = Type == ""
+					? ""
+					: ": " + Type + ",";
 
-			string slash = Type == ""
-				? ": "
-				: " / ";
+				string slash = Type == ""
+					? ": "
+					: " / ";
 
-			string secondAuthors = SecondAuthor == ""
-				? ""
-				: slash + SecondAuthor;
+				string secondAuthors = SecondAuthor == ""
+					? ""
+					: slash + SecondAuthor;
 
-			string additionalInformation = (AdditionalInformation == "") || (AdditionalInformation == null)
-				? ""
-				: " - " + AdditionalInformation + ".";
+				string additionalInformation = (AdditionalInformation == "") || (AdditionalInformation == null)
+					? ""
+					: " - " + AdditionalInformation + ".";
 
-			return $"{mainAuthor}{Name}{type}{secondAuthors}. - {Place}.: {Publisher}" +
-				$", {Year}. - {PageLimits}.{additionalInformation}";
+				return $"{mainAuthor}{Name}{type}{secondAuthors}. - {Place}.: {Publisher}" +
+					$", {Year}. - {PageLimits}.{additionalInformation}";
+			}
 		}
 	}
 }
