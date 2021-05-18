@@ -87,6 +87,7 @@ namespace LibraryLR3LR4
 		/// </summary>
 		public string AdditionalInformation { get; set; }
 
+		//TODO: XML комментарии?
 		/// <summary>
 		/// Проверка автора
 		/// </summary>
@@ -109,6 +110,7 @@ namespace LibraryLR3LR4
 			return value;
 		}
 
+		//TODO: XML комментарии?
 		/// <summary>
 		/// Проверка типа издания
 		/// </summary>
@@ -156,6 +158,7 @@ namespace LibraryLR3LR4
 			AdditionalInformation = additionalInformation;
 		}
 
+
 		/// <summary>
 		/// Конструктор класса для сериализации
 		/// </summary>
@@ -187,7 +190,7 @@ namespace LibraryLR3LR4
 					? ""
 					: slash + SecondAuthor;
 
-				string additionalInformation = (AdditionalInformation == "") || (AdditionalInformation == null)
+				string additionalInformation = string.IsNullOrEmpty(AdditionalInformation)
 					? ""
 					: " - " + AdditionalInformation + ".";
 

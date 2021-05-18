@@ -89,6 +89,7 @@ namespace LibraryLR3LR4
 		/// <returns>Имя или имена авторов</returns>
 		private string ValidateAuthor(string value, string name)
 		{
+			//TODO: string.IsNullOrEmpty
 			if (value == "" || value == null)
 			{
 				throw new ArgumentException($"{name} should not be empty!");

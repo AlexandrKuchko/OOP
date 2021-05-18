@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Globalization;
 using System.Reflection;
+using System.Xml.Serialization;
 
 namespace LibraryLR3LR4
 {
@@ -13,6 +14,10 @@ namespace LibraryLR3LR4
 	/// Издание (книга, сборник, журнал, статья)
 	/// </summary>
 	[Serializable]
+    [XmlInclude(typeof(Book))]
+    [XmlInclude(typeof(Collection))]
+    [XmlInclude(typeof(Magazine))]
+    [XmlInclude(typeof(Thesis))]
 	public abstract class EditionBase
 	{
 		/// <summary>
@@ -26,11 +31,8 @@ namespace LibraryLR3LR4
 		public string Name
 		{
 			get => _name;
-			set
-			{
-				_name = ValidateEmptyOrNull(value, nameof(Name));
-			}
-		}
+			set => _name = ValidateEmptyOrNull(value, nameof(Name));
+        }
 
 		/// <summary>
 		/// Место издания
@@ -43,11 +45,8 @@ namespace LibraryLR3LR4
 		public string Place
 		{
 			get => _place;
-			set
-			{
-				_place = ValidatePlace(value, nameof(Place));
-			}
-		}
+			set => _place = ValidatePlace(value, nameof(Place));
+        }
 
 		/// <summary>
 		/// Год издания
@@ -60,11 +59,8 @@ namespace LibraryLR3LR4
 		public string Year
 		{
 			get => _year;
-			set
-			{
-				_year = ValidateYearOrPageLimits(value, nameof(Year));
-			}
-		}
+			set => _year = ValidateYearOrPageLimits(value, nameof(Year));
+        }
 
 		/// <summary>
 		/// Количество страниц издания
@@ -77,11 +73,8 @@ namespace LibraryLR3LR4
 		public string PageLimits
 		{
 			get => _pageLimits;
-			set
-			{
-				_pageLimits = ValidateYearOrPageLimits(value, nameof(PageLimits));
-			}
-		}
+			set => _pageLimits = ValidateYearOrPageLimits(value, nameof(PageLimits));
+        }
 
 		/// <summary>
 		/// Информация об издании
@@ -141,6 +134,7 @@ namespace LibraryLR3LR4
 		/// <returns>Год или количество страниц</returns>
 		private string ValidateYearOrPageLimits(string value, string name)
 		{
+			//TODO: string.IsNullOrEmpty
 			if (value == "" || value == null)
 			{
 				throw new ArgumentException($"{name} should not be empty!");
@@ -162,6 +156,7 @@ namespace LibraryLR3LR4
 		/// <returns>Выходная величина</returns>
 		protected string ValidateEmptyOrNull(string value, string name)
 		{
+            //TODO: string.IsNullOrEmpty
 			if (value == "" || value == null)
 			{
 				throw new ArgumentException($"{name} should not be empty!");

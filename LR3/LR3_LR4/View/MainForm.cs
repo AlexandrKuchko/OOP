@@ -58,19 +58,19 @@ namespace View
 
 			try
 			{
-				using (Stream stream = File.Open(filename, FileMode.Open))
-				{
-					BinaryFormatter bin = new BinaryFormatter();
-					_editionList = (List<EditionBase>)bin.Deserialize(stream);
-				}
+				//using (Stream stream = File.Open(filename, FileMode.Open))
+				//{
+				//	BinaryFormatter bin = new BinaryFormatter();
+				//	_editionList = (List<EditionBase>)bin.Deserialize(stream);
+				//}
 
-				/*
+				
 				using (FileStream fs = new FileStream(filename, FileMode.OpenOrCreate))
 				{
-					_editionList = (List<EditionBase>)((XmlSerializer)new XmlSerializer
-						((Type)typeof(List<EditionBase>))).Deserialize(fs);
+					_editionList = (List<EditionBase>)new XmlSerializer
+                        (typeof(List<EditionBase>)).Deserialize(fs);
 				}
-				*/
+				
 
 
 
@@ -116,17 +116,17 @@ namespace View
 
 			try
 			{
-				using (Stream stream = File.Open(filename, FileMode.Create))
-				{
-					BinaryFormatter bin = new BinaryFormatter();
-					bin.Serialize(stream, _editionList);
-				}
-				/*
+				//using (Stream stream = File.Open(filename, FileMode.Create))
+				//{
+				//	//TODO: RSDN naming
+				//	BinaryFormatter bin = new BinaryFormatter();
+				//	bin.Serialize(stream, _editionList);
+				//}
+				
 				using (FileStream fs = new FileStream(filename, FileMode.OpenOrCreate))
 				{
-					((XmlSerializer)new XmlSerializer((Type)typeof(List<EditionBase>))).Serialize(fs, _editionList);
+					new XmlSerializer(typeof(List<EditionBase>)).Serialize(fs, _editionList);
 				}
-				*/
 				MessageBox.Show("File saved");
 			}
 			catch (Exception exception)
@@ -148,6 +148,7 @@ namespace View
 			FillingEditionListBox();
 		}
 
+		//TODO: XML комментарии?
         private void SearchButton_Click(object sender, EventArgs e)
         {
 			SearchDataForm searchDataForm = new SearchDataForm();
@@ -163,13 +164,12 @@ namespace View
 
 				foreach (EditionBase edition in _editionList)
 				{
-					foreach (string searchWorld in searchDataForm.SearchWorlds)
+					foreach (var searchWorld in searchDataForm.SearchWorlds)
                     {
-						if(edition.Info.Contains(searchWorld))
-                        {
-							EditionListBox.Items.Add(edition);
-							EditionListBox.DisplayMember = "Info";
-						}
+                        if (!edition.Info.Contains(searchWorld)) continue;
+
+                        EditionListBox.Items.Add(edition);
+                        EditionListBox.DisplayMember = "Info";
                     }
 				}
 			}

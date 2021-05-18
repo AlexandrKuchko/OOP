@@ -72,6 +72,7 @@ namespace LibraryLR3LR4
 		/// <returns>Имя главного редактора</returns>
 		private string ValidateEditor(string value, string name)
 		{
+            //TODO: string.IsNullOrEmpty
 			if (value == "" || value == null)
 			{
 				throw new ArgumentException($"{name} should not be empty!");
@@ -93,6 +94,7 @@ namespace LibraryLR3LR4
 		/// <returns>Тип издания</returns>
 		private string ValidateType(string value, string name)
 		{
+            //TODO: string.IsNullOrEmpty
 			if (value == "" || value == null)
 			{
 				throw new ArgumentException($"{name} should not be empty!");
@@ -140,13 +142,8 @@ namespace LibraryLR3LR4
 		/// <summary>
 		/// Информация о журнале
 		/// </summary>
-		public override string Info
-		{
-			get
-			{
-				return $"{Name}: {Type} / {Founder} ; {MainEditor}. - {Place}" +
-					$", {Year}. - {PageLimits}.";
-			}
-		}
-	}
+		public override string Info =>
+            $"{Name}: {Type} / {Founder} ; {MainEditor}. - {Place}" +
+            $", {Year}. - {PageLimits}.";
+    }
 }

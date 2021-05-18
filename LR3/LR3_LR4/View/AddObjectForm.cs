@@ -207,7 +207,7 @@ namespace View
 			}
 			catch (Exception exception)
 			{
-				MessageBox.Show(exception.Message + " Please enter again.");
+				MessageBox.Show(exception.InnerException.Message + " Please enter again.");
 			}
 		}
 
@@ -218,34 +218,31 @@ namespace View
 		{
 			var textBox = (TextBox)sender;
 			int index = Array.IndexOf(_properties, textBox);
-
+            EditionBase tmpEdition = null;
 			switch ((string)EditionComboBox.SelectedItem)
 			{
 				case "Book":
 				{
-					Book book = new Book("A", "A", "A", "A", "A", "A", "1", "1", "A");
-					AssigningValue(book, _propertiesLabel[index].Text, textBox.Text);
+                    tmpEdition = new Book("A", "A", "A", "A", "A", "A", "1", "1", "A");
 					break;
 				}
 				case "Thesis":
 				{
-					Thesis thesis = new Thesis("A", "A", "A", "A", "A", "A", "1", "1");
-					AssigningValue(thesis, _propertiesLabel[index].Text, textBox.Text);
+                    tmpEdition = new Thesis("A", "A", "A", "A", "A", "A", "1", "1");
 					break;
 				}
 				case "Collection":
 				{
-					Collection collection = new Collection("A", "A", "A", "A", "100", "1997");
-					AssigningValue(collection, _propertiesLabel[index].Text, textBox.Text); 
-					break;
+                    tmpEdition = new Collection("A", "A", "A", "A", "100", "1997");
+                    break;
 				}
 				case "Magazine":
 				{
-					Magazine magazine = new Magazine("A", "A", "A", "A", "A", "1", "1");
-					AssigningValue(magazine, _propertiesLabel[index].Text, textBox.Text);
+                    tmpEdition = new Magazine("A", "A", "A", "A", "A", "1", "1");
 					break;
 				}
 			}
+            AssigningValue(tmpEdition, _propertiesLabel[index].Text, textBox.Text);
 		}
 
 		/// <summary>

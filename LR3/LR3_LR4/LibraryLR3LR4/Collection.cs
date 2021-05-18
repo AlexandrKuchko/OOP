@@ -78,14 +78,8 @@ namespace LibraryLR3LR4
 		/// <summary>
 		/// Информация о сборнике
 		/// </summary>
-		public override string Info
-		{
-			get
-			{
-				return $"{Name}: {NameOfConference}. - {Place}: {Publisher}," +
-					$" {Year}. - {PageLimits}";
-			}
-		}
-
-	}
+		public override string Info =>
+            $"{Name}: {NameOfConference}. - {Place}: {Publisher}," +
+            $" {Year}. - {PageLimits}";
+    }
 }
