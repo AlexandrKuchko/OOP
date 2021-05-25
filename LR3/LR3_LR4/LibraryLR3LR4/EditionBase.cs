@@ -14,10 +14,6 @@ namespace LibraryLR3LR4
 	/// Издание (книга, сборник, журнал, статья)
 	/// </summary>
 	[Serializable]
-    [XmlInclude(typeof(Book))]
-    [XmlInclude(typeof(Collection))]
-    [XmlInclude(typeof(Magazine))]
-    [XmlInclude(typeof(Thesis))]
 	public abstract class EditionBase
 	{
 		/// <summary>
@@ -88,9 +84,6 @@ namespace LibraryLR3LR4
 		{
 			get
 			{
-				// probably faster without reflection:
-				// like:  return Properties.Settings.Default.PropertyValues[propertyName] 
-				// instead of the following
 				Type myType = this.GetType();
 				PropertyInfo myPropInfo = myType.GetProperty(propertyName);
 				return myPropInfo.GetValue(this, null);
@@ -102,18 +95,16 @@ namespace LibraryLR3LR4
 				myPropInfo.SetValue(this, value, null);
 			}
 		}
-		
+
 		/// <summary>
 		/// Проверка места изданя
 		/// </summary>
 		/// <param name="value">Место издания</param>
+		/// <param name="name">Название входного параметра</param>
 		/// /// <returns>Строка (имя или фамилия) приведенная к нужномк виду</returns>
 		private string ValidatePlace(string value, string name)
 		{
-			if (value == "" || value == null)
-			{
-				throw new ArgumentException($"{name} should not be empty!");
-			}
+			ValidateEmptyOrNull(value, name);
 
 			const string pattern1 = @"^[a-z]+$";
 			const string pattern2 = @"^[a-z]+-[a-z]+$";
@@ -134,11 +125,8 @@ namespace LibraryLR3LR4
 		/// <returns>Год или количество страниц</returns>
 		private string ValidateYearOrPageLimits(string value, string name)
 		{
-			//TODO: string.IsNullOrEmpty
-			if (value == "" || value == null)
-			{
-				throw new ArgumentException($"{name} should not be empty!");
-			}
+			//TODO: string.IsNullOrEmpty / DONE
+			ValidateEmptyOrNull(value, name);
 
 			const string pattern = @"^[0-9]*$";
 
@@ -153,15 +141,57 @@ namespace LibraryLR3LR4
 		/// Проверка на пустую строку и null
 		/// </summary>
 		/// <param name="value">Входная величина</param>
+		/// <param name="name">Название входного параметра</param>
 		/// <returns>Выходная величина</returns>
 		protected string ValidateEmptyOrNull(string value, string name)
 		{
-            //TODO: string.IsNullOrEmpty
-			if (value == "" || value == null)
+            //TODO: string.IsNullOrEmpty / DONE
+			if (string.IsNullOrEmpty(value))
 			{
 				throw new ArgumentException($"{name} should not be empty!");
 			}
 			return value;
 		}
+
+		/// <summary>
+		/// Проверка на null, пустую строку и паттерн
+		/// </summary>
+		/// <param name="value">Входное значение</param>
+		/// <param name="name">Название входного параметра</param>
+		/// <param name="pattern">Регулярное выражение для проверки</param>
+		/// <returns>Имя или имена авторов</returns>
+		protected string ValidateNullEmptyEnglish(string value, string name, string pattern)
+		{
+			//TODO: string.IsNullOrEmpty / DONE
+			ValidateEmptyOrNull(value, name);
+
+			if (!Regex.IsMatch(value, pattern))
+			{
+				throw new ArgumentException($"{name} must be in English!");
+			}
+			return value;
+		}
+
+		/// <summary>
+		/// Проверка на Null и соответсвие паттерну
+		/// </summary>
+		/// <param name="value">Входное значение</param>
+		/// <param name="name">Название проверяемой величины</param>
+		/// <param name="pattern">Регулярное выражение для проверки</param>
+		/// <returns>Тип издания</returns>
+		protected string ValidateNullEnglish(string value, string name, string pattern)
+		{
+			if (value == null)
+			{
+				throw new ArgumentException($"{name} should not be null!");
+			}
+
+			if (!Regex.IsMatch(value, pattern))
+			{
+				throw new ArgumentException($"{name} must be in English!");
+			}
+			return value;
+		}
+
 	}
 }

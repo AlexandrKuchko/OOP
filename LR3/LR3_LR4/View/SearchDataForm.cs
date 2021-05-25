@@ -29,14 +29,6 @@ namespace View
         }
 
         /// <summary>
-        /// При загрузке формы
-        /// </summary>
-        private void SearchDataForm_Load(object sender, EventArgs e)
-        {
-            //TODO:
-        }
-
-        /// <summary>
         /// При нажатии кнопки поиска
         /// </summary>
         private void SearchButton_Click(object sender, EventArgs e)

@@ -143,7 +143,6 @@ namespace View
             this.Controls.Add(this.SearchButton);
             this.Name = "SearchDataForm";
             this.Text = "Search data in edition list";
-            this.Load += new System.EventHandler(this.SearchDataForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

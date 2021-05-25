@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<ArrayOfEditionBase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <EditionBase xsi:type="Book">
+    <Name>wefwe</Name>
+    <Place>Fwef</Place>
+    <Year>444</Year>
+    <PageLimits>44444</PageLimits>
+    <MainAuthor>fewfwe</MainAuthor>
+    <Type>wfwewf</Type>
+    <SecondAuthor>wefwef</SecondAuthor>
+    <Publisher>wefwef</Publisher>
+    <AdditionalInformation>wfwef</AdditionalInformation>
+  </EditionBase>
+  <EditionBase xsi:type="Collection">
+    <Name>vsdvds</Name>
+    <Place>Sdvsd</Place>
+    <Year>777</Year>
+    <PageLimits>777</PageLimits>
+    <Publisher>sdvds</Publisher>
+    <NameOfConference>svsdvssv</NameOfConference>
+  </EditionBase>
+  <EditionBase xsi:type="Collection">
+    <Name>wfwewe</Name>
+    <Place>Wefwe</Place>
+    <Year>777</Year>
+    <PageLimits>777</PageLimits>
+    <Publisher>fwefw</Publisher>
+    <NameOfConference>wefwef</NameOfConference>
+  </EditionBase>
+  <EditionBase xsi:type="Thesis">
+    <Name>wfwf</Name>
+    <Place>Wfwef</Place>
+    <Year>999</Year>
+    <PageLimits>999</PageLimits>
+    <Author>wefwef</Author>
+    <Type>wfwfw</Type>
+    <Specialization>fwef</Specialization>
+    <University>wfwef</University>
+  </EditionBase>
+</ArrayOfEditionBase>

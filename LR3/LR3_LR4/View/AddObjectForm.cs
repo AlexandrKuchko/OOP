@@ -20,9 +20,39 @@ namespace View
 	public partial class AddObjectForm : Form
 	{
 		/// <summary>
-		/// Выходной результат (введённое издание)
+		/// Ключ выхода из метода присваивания
 		/// </summary>
-		public List<EditionBase> ReturnList = new List<EditionBase>();
+		private bool _keyExit = false;
+
+		/// <summary>
+		/// Ключ выхода из метода после рандома
+		/// </summary>
+		private bool _keyClearExit = false;
+
+		/// <summary>
+		/// Строковый ключ
+		/// </summary>
+		private const string _keyBook = "Book";
+
+		/// <summary>
+		/// Строковый ключ
+		/// </summary>
+		private const string _keyCollection = "Collection";
+
+		/// <summary>
+		/// Строковый ключ
+		/// </summary>
+		private const string _keyThesis = "Thesis";
+
+		/// <summary>
+		/// Строковый ключ
+		/// </summary>
+		private const string _keyMagazine = "Magazine";
+
+		/// <summary>
+		/// Выходное издание
+		/// </summary>
+		public EditionBase Edition = null;
 
 		/// <summary>
 		/// Окна для заполнения свойств
@@ -68,10 +98,12 @@ namespace View
 		{
 			for (int i = 0; i < _max; i++)
 			{
+				_keyClearExit = true;
 				_properties[i].Text = "";
 				_properties[i].Visible = false;
 				_propertiesLabel[i].Visible = false;
 			}
+			_keyClearExit = false;
 		}
 
 		/// <summary>
@@ -111,13 +143,17 @@ namespace View
 		/// </summary>
 		private void PropetiesRandom(EditionBase editionBase)
 		{
-			for (int i = 0; i < editionBase.GetType().GetProperties().Length; i++)
+			var propertyInfo = PropertyInfo(editionBase);
+			for (int i = 0; i < propertyInfo.Count; i++)
 			{
-				_properties[i].Text = "Random" + editionBase.GetType().GetProperties()[i].Name;
-				if (editionBase.GetType().GetProperties()[i].Name == "Year" ||
-						editionBase.GetType().GetProperties()[i].Name == "PageLimits")
+				if (_propertiesLabel[i].Text == "Year" ||
+						_propertiesLabel[i].Text == "PageLimits")
 				{
 					_properties[i].Text = "100";
+				}
+                else 
+				{
+					_properties[i].Text = "Random" + _propertiesLabel[i].Text;
 				}
 			}
 		}
@@ -145,7 +181,7 @@ namespace View
 			for (int i = 0; i < _max; i++)
 			{
 				_properties[i] = new TextBox();
-				_properties[i].Leave += new System.EventHandler(this.TextBoxLeave);
+				_properties[i].TextChanged += new System.EventHandler(this.TextBoxTextChange);
 				_properties[i].Text = "";
 				_properties[i].Location = new System.Drawing.Point(50, 70 + i * (_height + 10));
 				_properties[i].Size = new System.Drawing.Size(_width, _height);
@@ -167,33 +203,31 @@ namespace View
 		/// </summary>
 		private void EditionComboBox_SelectionChangeCommitted(object sender, EventArgs e)
 		{
+			EditionBase tmpEdition = null;
 			switch ((string)EditionComboBox.SelectedItem)
 			{
-				case "Book":
+				case _keyBook:
 				{
-					Book book = new Book("A", "A", "A", "A", "A", "A", "1", "1", "A");
-					PropetiesRename(book);
-					return;
+					tmpEdition = new Book("A", "A", "A", "A", "A", "A", "1", "1", "A");
+					break;
 				}
-				case "Thesis":
+				case _keyThesis:
 				{
-					Thesis thesis = new Thesis("A", "A", "A", "A", "A", "A", "1", "1");
-					PropetiesRename(thesis);
-					return;
+					tmpEdition = new Thesis("A", "A", "A", "A", "A", "A", "1", "1");
+					break;
 				}
-				case "Collection":
+				case _keyCollection:
 				{
-					Collection collection = new Collection("A", "A", "A", "A", "100", "1997");
-					PropetiesRename(collection);
-					return;
+					tmpEdition = new Collection("A", "A", "A", "A", "100", "1997");
+					break;
 				}
-				case "Magazine":
+				case _keyMagazine:
 				{
-					Magazine magazine = new Magazine("A", "A", "A", "A", "A", "1", "1");
-					PropetiesRename(magazine);
-					return;
+					tmpEdition = new Magazine("A", "A", "A", "A", "A", "1", "1");
+					break;
 				}
 			}
+			PropetiesRename(tmpEdition);
 		}
 
 		/// <summary>
@@ -208,35 +242,40 @@ namespace View
 			catch (Exception exception)
 			{
 				MessageBox.Show(exception.InnerException.Message + " Please enter again.");
+				_keyExit = true;
 			}
 		}
 
 		/// <summary>
 		/// При покидании текстбокса
-		/// </summary>
-		private void TextBoxLeave(object sender, EventArgs e)
+		/// </summary>5
+		private void TextBoxTextChange(object sender, EventArgs e)
 		{
+			if (_keyClearExit == true)
+			{
+				return;
+			}
 			var textBox = (TextBox)sender;
 			int index = Array.IndexOf(_properties, textBox);
             EditionBase tmpEdition = null;
 			switch ((string)EditionComboBox.SelectedItem)
 			{
-				case "Book":
+				case _keyBook:
 				{
                     tmpEdition = new Book("A", "A", "A", "A", "A", "A", "1", "1", "A");
 					break;
 				}
-				case "Thesis":
+				case _keyThesis:
 				{
                     tmpEdition = new Thesis("A", "A", "A", "A", "A", "A", "1", "1");
 					break;
 				}
-				case "Collection":
+				case _keyCollection:
 				{
                     tmpEdition = new Collection("A", "A", "A", "A", "100", "1997");
                     break;
 				}
-				case "Magazine":
+				case _keyMagazine:
 				{
                     tmpEdition = new Magazine("A", "A", "A", "A", "A", "1", "1");
 					break;
@@ -248,66 +287,62 @@ namespace View
 		/// <summary>
 		/// При нажатии кнопки добавить данные
 		/// </summary>
-		private void AddDataButton_Click(object sender, EventArgs e)
+		private void OKButton_Click(object sender, EventArgs e)
 		{
+			_keyExit = false;
+			if (_properties[0].Visible == false)
+			{
+				DialogResult = DialogResult.None;
+				return;
+			}
 			int count = 0;
 			while (_propertiesLabel[count].Visible == true)
             {
 				count++;
             }
+			EditionBase tmpEdition = null;
 			try
 			{
 				switch ((string)EditionComboBox.SelectedItem)
 				{
-					case "Book":
+					case _keyBook:
 					{
-						Book book = new Book("A", "A", "A", "A", "A", "A", "1", "1", "A");
-						for (int i = 0; i < count; i++)
-						{
-							AssigningValue(book, _propertiesLabel[i].Text, _properties[i].Text);
-						}
-						ReturnList.Add(book);
+						tmpEdition = new Book("A", "A", "A", "A", "A", "A", "1", "1", "A");
 						break;
 					}
-					case "Thesis":
+					case _keyThesis:
 					{
-						Thesis thesis = new Thesis("A", "A", "A", "A", "A", "A", "1", "1");
-						for (int i = 0; i < count; i++)
-						{
-							AssigningValue(thesis, _propertiesLabel[i].Text, _properties[i].Text);
-						}
-						ReturnList.Add(thesis);
+						tmpEdition = new Thesis("A", "A", "A", "A", "A", "A", "1", "1");
 						break;
 					}
-					case "Collection":
+					case _keyCollection:
 					{
-						Collection collection = new Collection("A", "A", "A", "A", "100", "1997");
-						for (int i = 0; i < count; i++)
-						{
-							AssigningValue(collection, _propertiesLabel[i].Text, _properties[i].Text);
-						}
-						ReturnList.Add(collection);
+						tmpEdition = new Collection("A", "A", "A", "A", "100", "1997");
 						break;
 					}
-					case "Magazine":
+					case _keyMagazine:
 					{
-						Magazine magazine = new Magazine("A", "A", "A", "A", "A", "1", "1");
-						for (int i = 0; i < count; i++)
-						{
-							AssigningValue(magazine, _propertiesLabel[i].Text, _properties[i].Text);
-						}
-						ReturnList.Add(magazine);
+						tmpEdition = new Magazine("A", "A", "A", "A", "A", "1", "1");
 						break;
 					}
 				}
-				foreach (TextBox textbox in _properties)
+				for (int i = 0; i < count; i++)
 				{
-					textbox.Text = "";
+					AssigningValue(tmpEdition, _propertiesLabel[i].Text, _properties[i].Text);
+					if (_keyExit == true)
+					{
+						DialogResult = DialogResult.None;
+						return;
+					}
 				}
+				Edition = tmpEdition;
+				DialogResult = DialogResult.OK;
 			}
 			catch (Exception exception)
 			{
 				MessageBox.Show(exception.Message + " Please enter again.");
+				DialogResult = DialogResult.None;
+				return;
 			}
 		}
 
@@ -324,33 +359,35 @@ namespace View
 		/// </summary>
 		private void CreateRandomDataButton_Click(object sender, EventArgs e)
         {
+			EditionBase tmpEdition = null;
+			if (_properties[0].Visible == false)
+            {
+				return;
+            }
 			switch ((string)EditionComboBox.SelectedItem)
 			{
-				case "Book":
+				case _keyBook:
 				{
-					Book book = new Book("A", "A", "A", "A", "A", "A", "1", "1", "A");
-					PropetiesRandom(book);
-					return;
+					tmpEdition = new Book("A", "A", "A", "A", "A", "A", "1", "1", "A");
+					break;
 				}
-				case "Thesis":
+				case _keyThesis:
 				{
-					Thesis thesis = new Thesis("A", "A", "A", "A", "A", "A", "1", "1");
-					PropetiesRandom(thesis);
-					return;
+					tmpEdition = new Thesis("A", "A", "A", "A", "A", "A", "1", "1");
+					break;
 				}
-				case "Collection":
+				case _keyCollection:
 				{
-					Collection collection = new Collection("A", "A", "A", "A", "100", "1997");
-					PropetiesRandom(collection);
-					return;
+					tmpEdition = new Collection("A", "A", "A", "A", "100", "1997");
+					break;
 				}
-				case "Magazine":
+				case _keyMagazine:
 				{
-					Magazine magazine = new Magazine("A", "A", "A", "A", "A", "1", "1");
-					PropetiesRandom(magazine);
-					return;
+					tmpEdition = new Magazine("A", "A", "A", "A", "A", "1", "1");
+					break;
 				}
 			}
+			PropetiesRandom(tmpEdition);
 		}
     }
 }

@@ -25,10 +25,7 @@ namespace LibraryLR3LR4
 		public string MainAuthor
 		{
 			get => _mainAuthor;
-			set
-			{
-				_mainAuthor = ValidateAuthor(value, nameof(MainAuthor));
-			}
+			set =>_mainAuthor = ValidateNullEnglish(value, nameof(MainAuthor), @"^[-.,a-zA-Z\s]*$");
 		}
 
 		/// <summary>
@@ -42,10 +39,7 @@ namespace LibraryLR3LR4
 		public string Type
 		{
 			get => _type;
-			set
-			{
-				_type = ValidateType(value, nameof(Type));
-			}
+			set => _type = ValidateNullEnglish(value, nameof(Type), @"^[-a-zA-Z\s]*$");
 		}
 
 		/// <summary>
@@ -59,10 +53,7 @@ namespace LibraryLR3LR4
 		public string SecondAuthor
 		{
 			get => _secondAuthor;
-			set
-			{
-				_secondAuthor = ValidateAuthor(value, nameof(SecondAuthor));
-			}
+			set => _secondAuthor = ValidateNullEnglish(value, nameof(MainAuthor), @"^[-.,a-zA-Z\s]*$");
 		}
 
 		/// <summary>
@@ -76,61 +67,13 @@ namespace LibraryLR3LR4
 		public string Publisher
 		{
 			get => _publisher;
-			set
-			{
-				_publisher = ValidateEmptyOrNull(value, nameof(Publisher));
-			}
+			set => _publisher = ValidateEmptyOrNull(value, nameof(Publisher));
 		}
 
 		/// <summary>
 		/// Дополнительные сведения
 		/// </summary>
 		public string AdditionalInformation { get; set; }
-
-		//TODO: XML комментарии?
-		/// <summary>
-		/// Проверка автора
-		/// </summary>
-		/// <param name="value">Имя или имена авторов</param>
-		/// <param name="value">Название проверяемой величины</param>
-		/// <returns>Имя или имена авторов</returns>
-		private string ValidateAuthor(string value, string name)
-		{
-			if (value == null)
-			{
-				throw new ArgumentException($"{name} should not be null!");
-			}
-
-			const string pattern = @"^[-.,a-zA-Z\s]*$";
-
-			if (!Regex.IsMatch(value, pattern))
-			{
-				throw new ArgumentException($"{name} must be in English!");
-			}
-			return value;
-		}
-
-		//TODO: XML комментарии?
-		/// <summary>
-		/// Проверка типа издания
-		/// </summary>
-		/// <param name="value">Тип издания</param>
-		/// <returns>Тип издания</returns>
-		private string ValidateType(string value, string name)
-		{
-			if (value == null)
-			{
-				throw new ArgumentException($"{name} should not be null!");
-			}
-
-			const string pattern = @"^[-a-zA-Z\s]*$";
-
-			if (!Regex.IsMatch(value, pattern))
-			{
-				throw new ArgumentException($"{name} must be in English!");
-			}
-			return value;
-		}
 
 		/// <summary>
 		/// Конструктор класса

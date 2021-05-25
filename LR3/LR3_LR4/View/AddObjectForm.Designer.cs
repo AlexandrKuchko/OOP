@@ -31,7 +31,6 @@ namespace View
         {
             this.EditionComboBox = new System.Windows.Forms.ComboBox();
             this.EditionComboBoxLabel = new System.Windows.Forms.Label();
-            this.AddDataButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
             this.OKButton = new System.Windows.Forms.Button();
             this.CreateRandomDataButton = new System.Windows.Forms.Button();
@@ -56,19 +55,9 @@ namespace View
             this.EditionComboBoxLabel.TabIndex = 1;
             this.EditionComboBoxLabel.Text = "Editon";
             // 
-            // AddDataButton
-            // 
-            this.AddDataButton.Location = new System.Drawing.Point(53, 359);
-            this.AddDataButton.Name = "AddDataButton";
-            this.AddDataButton.Size = new System.Drawing.Size(124, 23);
-            this.AddDataButton.TabIndex = 2;
-            this.AddDataButton.Text = "Add data";
-            this.AddDataButton.UseVisualStyleBackColor = true;
-            this.AddDataButton.Click += new System.EventHandler(this.AddDataButton_Click);
-            // 
             // CancelButton
             // 
-            this.CancelButton.Location = new System.Drawing.Point(305, 30);
+            this.CancelButton.Location = new System.Drawing.Point(162, 359);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(75, 23);
             this.CancelButton.TabIndex = 3;
@@ -79,16 +68,17 @@ namespace View
             // OKButton
             // 
             this.OKButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.OKButton.Location = new System.Drawing.Point(224, 30);
+            this.OKButton.Location = new System.Drawing.Point(81, 359);
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(75, 23);
             this.OKButton.TabIndex = 4;
             this.OKButton.Text = "OK";
             this.OKButton.UseVisualStyleBackColor = true;
+            this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
             // 
             // CreateRandomDataButton
             // 
-            this.CreateRandomDataButton.Location = new System.Drawing.Point(183, 359);
+            this.CreateRandomDataButton.Location = new System.Drawing.Point(223, 30);
             this.CreateRandomDataButton.Name = "CreateRandomDataButton";
             this.CreateRandomDataButton.Size = new System.Drawing.Size(124, 23);
             this.CreateRandomDataButton.TabIndex = 5;
@@ -104,7 +94,6 @@ namespace View
             this.Controls.Add(this.CreateRandomDataButton);
             this.Controls.Add(this.OKButton);
             this.Controls.Add(this.CancelButton);
-            this.Controls.Add(this.AddDataButton);
             this.Controls.Add(this.EditionComboBoxLabel);
             this.Controls.Add(this.EditionComboBox);
             this.Name = "AddObjectForm";
@@ -119,7 +108,6 @@ namespace View
 
         private System.Windows.Forms.ComboBox EditionComboBox;
         private System.Windows.Forms.Label EditionComboBoxLabel;
-        private System.Windows.Forms.Button AddDataButton;
         private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.Button OKButton;
         private System.Windows.Forms.Button CreateRandomDataButton;

@@ -36,7 +36,7 @@ namespace View
 		/// Заполнение листбокса с информацией об изданиях
 		/// </summary>
 		private void FillingEditionListBox()
-        {
+		{
 			EditionListBox.Items.Clear();
 			foreach (EditionBase edition in _editionList)
 			{
@@ -58,21 +58,11 @@ namespace View
 
 			try
 			{
-				//using (Stream stream = File.Open(filename, FileMode.Open))
-				//{
-				//	BinaryFormatter bin = new BinaryFormatter();
-				//	_editionList = (List<EditionBase>)bin.Deserialize(stream);
-				//}
-
-				
 				using (FileStream fs = new FileStream(filename, FileMode.OpenOrCreate))
 				{
-					_editionList = (List<EditionBase>)new XmlSerializer
-                        (typeof(List<EditionBase>)).Deserialize(fs);
+					_editionList = (List<EditionBase>)new XmlSerializer(typeof(List<EditionBase>), 
+						new[] {typeof(Book),typeof(Thesis), typeof(Collection), typeof(Magazine)}).Deserialize(fs);
 				}
-				
-
-
 
 				FillingEditionListBox();
 				MessageBox.Show("File opened");
@@ -94,20 +84,16 @@ namespace View
 
 			if (addObjectForm.ShowDialog() == DialogResult.OK)
 			{
-				foreach(EditionBase edition in addObjectForm.ReturnList)
-				{
-					_editionList.Add(edition);
-				}
+				_editionList.Add(addObjectForm.Edition);
 				FillingEditionListBox();
 			}
-			addObjectForm.Close();
 		}
 
 		/// <summary>
 		/// Нажатие на кнопку сохранения в файл
 		/// </summary>
 		private void SaveFileButton_Click(object sender, EventArgs e)
-        {
+		{
 			if (MainSaveFileDialog.ShowDialog() == DialogResult.Cancel)
 			{
 				return;
@@ -116,16 +102,10 @@ namespace View
 
 			try
 			{
-				//using (Stream stream = File.Open(filename, FileMode.Create))
-				//{
-				//	//TODO: RSDN naming
-				//	BinaryFormatter bin = new BinaryFormatter();
-				//	bin.Serialize(stream, _editionList);
-				//}
-				
 				using (FileStream fs = new FileStream(filename, FileMode.OpenOrCreate))
 				{
-					new XmlSerializer(typeof(List<EditionBase>)).Serialize(fs, _editionList);
+					new XmlSerializer(typeof(List<EditionBase>), new[] {typeof(Book), 
+						typeof(Thesis), typeof(Collection), typeof(Magazine)}).Serialize(fs, _editionList);
 				}
 				MessageBox.Show("File saved");
 			}
@@ -139,18 +119,21 @@ namespace View
 		/// Удаление издания через Листбокс при назатии на кнопку Remove
 		/// </summary>
 		private void RemoveObjectButton_Click(object sender, EventArgs e)
-        {
+		{
 			if (EditionListBox.SelectedIndex == -1)
-            {
+			{
 				return;
 			}
 			_editionList.Remove((EditionBase)EditionListBox.SelectedItem);
 			FillingEditionListBox();
 		}
 
-		//TODO: XML комментарии?
-        private void SearchButton_Click(object sender, EventArgs e)
-        {
+		//TODO: XML комментарии? / DONE
+		/// <summary>
+		/// Нажатие на кнопку поиска
+		/// </summary>
+		private void SearchButton_Click(object sender, EventArgs e)
+		{
 			SearchDataForm searchDataForm = new SearchDataForm();
 
 			if (searchDataForm.ShowDialog() == DialogResult.OK)
@@ -165,16 +148,16 @@ namespace View
 				foreach (EditionBase edition in _editionList)
 				{
 					foreach (var searchWorld in searchDataForm.SearchWorlds)
-                    {
-                        if (!edition.Info.Contains(searchWorld)) continue;
+					{
+						if (!edition.Info.Contains(searchWorld)) continue;
 
-                        EditionListBox.Items.Add(edition);
-                        EditionListBox.DisplayMember = "Info";
-                    }
+						EditionListBox.Items.Add(edition);
+						EditionListBox.DisplayMember = "Info";
+					}
 				}
 			}
 			searchDataForm.Close();
 		}
-    }
+	}
 }
 

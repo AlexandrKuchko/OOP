@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<ArrayOfEditionBase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <EditionBase xsi:type="Collection">
+    <Name>RandomName</Name>
+    <Place>Randomplace</Place>
+    <Year>100</Year>
+    <PageLimits>100</PageLimits>
+    <Publisher>RandomPublisher</Publisher>
+    <NameOfConference>RandomNameOfConference</NameOfConference>
+  </EditionBase>
+</ArrayOfEditionBase>

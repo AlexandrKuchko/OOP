@@ -24,10 +24,7 @@ namespace LibraryLR3LR4
 		public string Publisher 
 		{
 			get => _publisher;
-			set
-			{
-				_publisher = ValidateEmptyOrNull(value, nameof(Publisher));
-			}
+			set => _publisher = ValidateEmptyOrNull(value, nameof(Publisher));
 		}
 
 		/// <summary>
@@ -41,10 +38,7 @@ namespace LibraryLR3LR4
 		public string NameOfConference
 		{
 			get => _nameOfConference;
-			set
-			{
-				_nameOfConference = ValidateEmptyOrNull(value, nameof(NameOfConference));
-	        }
+			set => _nameOfConference = ValidateEmptyOrNull(value, nameof(NameOfConference));
 		}
 
 		/// <summary>

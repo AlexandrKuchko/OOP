@@ -25,10 +25,7 @@ namespace LibraryLR3LR4
 		public string Founder
 		{
 			get => _founder;
-			set
-			{
-				_founder = ValidateEmptyOrNull(value, nameof(Founder));
-			}
+			set => _founder = ValidateEmptyOrNull(value, nameof(Founder));
 		}
 
 		/// <summary>
@@ -42,10 +39,7 @@ namespace LibraryLR3LR4
 		public string Type
 		{
 			get => _type;
-			set
-			{
-				_type = ValidateType(value, nameof(Type));
-			}
+			set => _type = ValidateNullEmptyEnglish(value, nameof(Type), @"^[-a-zA-Z\s]*$");
 		}
 
 		/// <summary>
@@ -59,54 +53,7 @@ namespace LibraryLR3LR4
 		public string MainEditor
 		{
 			get => _mainEditor;
-			set
-			{
-				_mainEditor = ValidateEditor(value, nameof(MainEditor));
-			}
-		}
-
-		/// <summary>
-		/// Проверка редактора
-		/// </summary>
-		/// <param name="value">Имя главного редактора</param>
-		/// <returns>Имя главного редактора</returns>
-		private string ValidateEditor(string value, string name)
-		{
-            //TODO: string.IsNullOrEmpty
-			if (value == "" || value == null)
-			{
-				throw new ArgumentException($"{name} should not be empty!");
-			}
-
-			const string pattern = @"^[-.a-zA-Z\s]*$";
-
-			if (!Regex.IsMatch(value, pattern))
-			{
-				throw new ArgumentException($"{name} must be in English!");
-			}
-			return value;
-		}
-
-		/// <summary>
-		/// Проверка типа издания
-		/// </summary>
-		/// <param name="value">Тип издания</param>
-		/// <returns>Тип издания</returns>
-		private string ValidateType(string value, string name)
-		{
-            //TODO: string.IsNullOrEmpty
-			if (value == "" || value == null)
-			{
-				throw new ArgumentException($"{name} should not be empty!");
-			}
-
-			const string pattern = @"^[-a-zA-Z\s]*$";
-
-			if (!Regex.IsMatch(value, pattern))
-			{
-				throw new ArgumentException($"{name} must be in English!");
-			}
-			return value;
+			set => _mainEditor = ValidateNullEmptyEnglish(value, nameof(MainEditor), @"^[-.a-zA-Z\s]*$");
 		}
 
 		/// <summary>

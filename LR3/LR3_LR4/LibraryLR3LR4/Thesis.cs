@@ -25,10 +25,7 @@ namespace LibraryLR3LR4
 		public string Author
 		{
 			get => _author;
-			set
-			{
-				_author = ValidateAuthor(value, nameof(Author));
-			}
+			set => _author = ValidateNullEmptyEnglish(value, nameof(Author), @"^[-.a-zA-Z\s]*$");
 		}
 
 		/// <summary>
@@ -42,10 +39,7 @@ namespace LibraryLR3LR4
 		public string Type
 		{
 			get => _type;
-			set
-			{
-				_type = ValidateTypeOrSpecialization(value, nameof(Type));
-			}
+			set => _type = ValidateNullEmptyEnglish(value, nameof(Type), @"^[-""a-zA-Z\s]*$");
 		}
 
 		/// <summary>
@@ -59,10 +53,7 @@ namespace LibraryLR3LR4
 		public string Specialization
 		{
 			get => _specialization;
-			set
-			{
-				_specialization = ValidateTypeOrSpecialization(value, nameof(Specialization));
-			}
+			set => _specialization = ValidateNullEmptyEnglish(value, nameof(Specialization), @"^[-""a-zA-Z\s]*$");
 		}
 
 		/// <summary>
@@ -76,53 +67,7 @@ namespace LibraryLR3LR4
 		public string University
 		{
 			get => _university;
-			set
-			{
-				_university = ValidateEmptyOrNull(value, nameof(University));
-			}
-		}
-
-		/// <summary>
-		/// Проверка автора
-		/// </summary>
-		/// <param name="value">Имя или имена авторов</param>
-		/// <returns>Имя или имена авторов</returns>
-		private string ValidateAuthor(string value, string name)
-		{
-			//TODO: string.IsNullOrEmpty
-			if (value == "" || value == null)
-			{
-				throw new ArgumentException($"{name} should not be empty!");
-			}
-
-			const string pattern = @"^[-.a-zA-Z\s]*$";
-
-			if (!Regex.IsMatch(value, pattern))
-			{
-				throw new ArgumentException($"{name} must be in English!");
-			}
-			return value;
-		}
-
-		/// <summary>
-		/// Проверка типа издания или специализации
-		/// </summary>
-		/// <param name="value">Тип издания или специализация</param>
-		/// <returns>Тип издания или специализация</returns>
-		private string ValidateTypeOrSpecialization(string value, string name)
-		{
-			if (value == "" || value == null)
-			{
-				throw new ArgumentException($"{name} should not be empty!");
-			}
-
-			const string pattern = @"^[-""a-zA-Z\s]*$";
-
-			if (!Regex.IsMatch(value, pattern))
-			{
-				throw new ArgumentException($"{name} must be in English!");
-			}
-			return value;
+			set => _university = ValidateEmptyOrNull(value, nameof(University));
 		}
 
 		/// <summary>
@@ -160,13 +105,8 @@ namespace LibraryLR3LR4
 		/// <summary>
 		/// Информация о диссертации
 		/// </summary>
-		public override string Info
-		{
-			get
-			{
-				return $"{Author}. {Name}: {Specialization}: {Type} ; {University}. - {Place}" +
-					$", {Year}. - {PageLimits}.";
-			}
-		}
+		public override string Info =>
+			$"{Author}. {Name}: {Specialization}: {Type} ; {University}. - {Place}" +
+			$", {Year}. - {PageLimits}.";
 	}
 }
