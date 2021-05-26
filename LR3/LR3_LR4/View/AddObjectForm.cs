@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace View
 {
@@ -65,6 +66,11 @@ namespace View
 		private Label[] _propertiesLabel = null;
 
 		/// <summary>
+		/// Ключи для распознавания нужных свойств в классах
+		/// </summary>
+		private List<string> _keyLabel = new List<string>();
+
+		/// <summary>
 		/// Максимальное количество свойств в классе
 		/// </summary>
 		private const int _max = 10;
@@ -72,7 +78,7 @@ namespace View
 		/// <summary>
 		/// Ширина ячейки для заполнения
 		/// </summary>
-		private const int _width = 120;
+		private const int _width = 200;
 
 		/// <summary>
 		/// Высота ячейки для заполнения
@@ -103,6 +109,7 @@ namespace View
 				_properties[i].Visible = false;
 				_propertiesLabel[i].Visible = false;
 			}
+			_keyLabel.Clear();
 			_keyClearExit = false;
 		}
 
@@ -133,7 +140,8 @@ namespace View
 			for (int i = 0; i < propertyInfo.Count; i++)
 			{
 				_properties[i].Visible = true;
-				_propertiesLabel[i].Text = propertyInfo[i].Name;
+				_keyLabel.Add(propertyInfo[i].Name);
+				_propertiesLabel[i].Text = Regex.Replace(propertyInfo[i].Name, @"([A-Z])", " $1").Trim().ToLower();
 				_propertiesLabel[i].Visible = true;
 			}
 		}
@@ -146,8 +154,8 @@ namespace View
 			var propertyInfo = PropertyInfo(editionBase);
 			for (int i = 0; i < propertyInfo.Count; i++)
 			{
-				if (_propertiesLabel[i].Text == "Year" ||
-						_propertiesLabel[i].Text == "PageLimits")
+				if (_keyLabel[i] == "Year" ||
+						_keyLabel[i] == "PageLimits")
 				{
 					_properties[i].Text = "100";
 				}
@@ -190,7 +198,7 @@ namespace View
 
 				_propertiesLabel[i] = new Label();
 				_propertiesLabel[i].Text = "";
-				_propertiesLabel[i].Location = new System.Drawing.Point(175, 74 + i * (_height + 10));
+				_propertiesLabel[i].Location = new System.Drawing.Point(255, 74 + i * (_height + 10));
 				_propertiesLabel[i].Size = new System.Drawing.Size(_width, _height);
 				_propertiesLabel[i].Visible = false;
 				this.Controls.Add(_propertiesLabel[i]);
@@ -281,7 +289,7 @@ namespace View
 					break;
 				}
 			}
-            AssigningValue(tmpEdition, _propertiesLabel[index].Text, textBox.Text);
+            AssigningValue(tmpEdition, _keyLabel[index], textBox.Text);
 		}
 
 		/// <summary>
@@ -328,7 +336,7 @@ namespace View
 				}
 				for (int i = 0; i < count; i++)
 				{
-					AssigningValue(tmpEdition, _propertiesLabel[i].Text, _properties[i].Text);
+					AssigningValue(tmpEdition, _keyLabel[i], _properties[i].Text);
 					if (_keyExit == true)
 					{
 						DialogResult = DialogResult.None;
