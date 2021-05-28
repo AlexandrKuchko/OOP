@@ -125,7 +125,6 @@ namespace LibraryLR3LR4
 		/// <returns>Год или количество страниц</returns>
 		private string ValidateYearOrPageLimits(string value, string name)
 		{
-			//TODO: string.IsNullOrEmpty / DONE
 			ValidateEmptyOrNull(value, name);
 
 			const string pattern = @"^[0-9]*$";
@@ -145,7 +144,6 @@ namespace LibraryLR3LR4
 		/// <returns>Выходная величина</returns>
 		protected string ValidateEmptyOrNull(string value, string name)
 		{
-            //TODO: string.IsNullOrEmpty / DONE
 			if (string.IsNullOrEmpty(value))
 			{
 				throw new ArgumentException($"{name} should not be empty!");
@@ -162,7 +160,6 @@ namespace LibraryLR3LR4
 		/// <returns>Имя или имена авторов</returns>
 		protected string ValidateNullEmptyEnglish(string value, string name, string pattern)
 		{
-			//TODO: string.IsNullOrEmpty / DONE
 			ValidateEmptyOrNull(value, name);
 
 			if (!Regex.IsMatch(value, pattern))

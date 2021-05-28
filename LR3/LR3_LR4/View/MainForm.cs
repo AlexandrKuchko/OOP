@@ -60,6 +60,8 @@ namespace View
 			{
 				using (FileStream fs = new FileStream(filename, FileMode.OpenOrCreate))
 				{
+					 //TODO: RSDN
+					//TODO: Duplication
 					_editionList = (List<EditionBase>)new XmlSerializer(typeof(List<EditionBase>), 
 						new[] {typeof(Book),typeof(Thesis), typeof(Collection), typeof(Magazine)}).Deserialize(fs);
 				}
@@ -104,6 +106,8 @@ namespace View
 			{
 				using (FileStream fs = new FileStream(filename, FileMode.OpenOrCreate))
 				{
+					 //TODO: RSDN
+					//TODO: Duplication
 					new XmlSerializer(typeof(List<EditionBase>), new[] {typeof(Book), 
 						typeof(Thesis), typeof(Collection), typeof(Magazine)}).Serialize(fs, _editionList);
 				}
@@ -128,7 +132,6 @@ namespace View
 			FillingEditionListBox();
 		}
 
-		//TODO: XML комментарии? / DONE
 		/// <summary>
 		/// Нажатие на кнопку поиска
 		/// </summary>
