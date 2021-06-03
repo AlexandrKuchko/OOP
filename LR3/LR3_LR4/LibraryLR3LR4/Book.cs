@@ -105,7 +105,7 @@ namespace LibraryLR3LR4
 		/// <summary>
 		/// Конструктор класса для сериализации
 		/// </summary>
-		public Book()
+		public Book(): this("A", "A", "A", "A", "A", "A", "1", "1", "A")
 		{
 
 		}

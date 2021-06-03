@@ -64,7 +64,7 @@ namespace LibraryLR3LR4
 		/// <summary>
 		/// Конструктор класса пустой
 		/// </summary>
-		public Collection()
+		public Collection(): this("A", "A", "A", "A", "100", "1997")
 		{
 
 		}

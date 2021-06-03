@@ -15,11 +15,11 @@ namespace View
     /// </summary>
     public partial class SearchDataForm : Form
     {
-        //TODO:
+        //TODO: | DONE
         /// <summary>
         /// Список со словами для поиска
         /// </summary>
-        public List<string> SearchWorlds = new List<string>();
+        public List<string> SearchWorlds { get; private set; }
 
         /// <summary>
         /// При инициализации формы
@@ -27,6 +27,7 @@ namespace View
         public SearchDataForm()
         {
             InitializeComponent();
+            FormBorderStyle = FormBorderStyle.FixedDialog;
         }
 
         /// <summary>
@@ -34,6 +35,10 @@ namespace View
         /// </summary>
         private void SearchButton_Click(object sender, EventArgs e)
         {
+            if (SearchWorlds == null)
+            {
+                SearchWorlds = new List<string>();
+            }
             foreach (Control control in this.Controls)
             {
                 if (control is TextBox && control.Text != "")

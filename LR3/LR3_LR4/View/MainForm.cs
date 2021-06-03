@@ -30,6 +30,7 @@ namespace View
 		public MainForm()
 		{
 			InitializeComponent();
+			FormBorderStyle = FormBorderStyle.FixedDialog;
 		}
 
 		/// <summary>
@@ -60,10 +61,11 @@ namespace View
 			{
 				using (FileStream fs = new FileStream(filename, FileMode.OpenOrCreate))
 				{
-					 //TODO: RSDN
-					//TODO: Duplication
-					_editionList = (List<EditionBase>)new XmlSerializer(typeof(List<EditionBase>), 
-						new[] {typeof(Book),typeof(Thesis), typeof(Collection), typeof(Magazine)}).Deserialize(fs);
+					 //TODO: RSDN | DONE
+					//TODO: Duplication | DONE
+					_editionList = (List<EditionBase>)new XmlSerializer
+						(typeof(List<EditionBase>), new[] {typeof(Book),typeof(Thesis), 
+						typeof(Collection), typeof(Magazine)}).Deserialize(fs);
 				}
 
 				FillingEditionListBox();
@@ -106,10 +108,11 @@ namespace View
 			{
 				using (FileStream fs = new FileStream(filename, FileMode.OpenOrCreate))
 				{
-					 //TODO: RSDN
-					//TODO: Duplication
-					new XmlSerializer(typeof(List<EditionBase>), new[] {typeof(Book), 
-						typeof(Thesis), typeof(Collection), typeof(Magazine)}).Serialize(fs, _editionList);
+					 //TODO: RSDN | DONE
+					//TODO: Duplication | DONE
+					new XmlSerializer(typeof(List<EditionBase>), new[] 
+					{typeof(Book), typeof(Thesis), typeof(Collection), 
+						typeof(Magazine)}).Serialize(fs, _editionList);
 				}
 				MessageBox.Show("File saved");
 			}
@@ -161,6 +164,14 @@ namespace View
 			}
 			searchDataForm.Close();
 		}
-	}
+
+		/// <summary>
+		/// Нажатие на кнопку cброса поиска
+		/// </summary>
+		private void SkipSearchButton_Click(object sender, EventArgs e)
+        {
+			FillingEditionListBox();
+		}
+    }
 }
 

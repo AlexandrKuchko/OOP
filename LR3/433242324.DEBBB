@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<ArrayOfEditionBase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <EditionBase xsi:type="Collection">
+    <Name>ergerg</Name>
+    <Place>Greg</Place>
+    <Year>757</Year>
+    <PageLimits>757</PageLimits>
+    <Publisher>ergreerg</Publisher>
+    <NameOfConference>ergerge</NameOfConference>
+  </EditionBase>
+</ArrayOfEditionBase>

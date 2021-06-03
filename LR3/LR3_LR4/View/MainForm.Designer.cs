@@ -38,11 +38,13 @@ namespace View
             this.OpenFileButton = new System.Windows.Forms.Button();
             this.MainOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.MainSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.SkipSearchButton = new System.Windows.Forms.Button();
             this.MainGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainGroupBox
             // 
+            this.MainGroupBox.Controls.Add(this.SkipSearchButton);
             this.MainGroupBox.Controls.Add(this.SearchButton);
             this.MainGroupBox.Controls.Add(this.EditionListBox);
             this.MainGroupBox.Controls.Add(this.RemoveObjectButton);
@@ -56,7 +58,7 @@ namespace View
             // 
             // SearchButton
             // 
-            this.SearchButton.Location = new System.Drawing.Point(185, 293);
+            this.SearchButton.Location = new System.Drawing.Point(78, 293);
             this.SearchButton.Name = "SearchButton";
             this.SearchButton.Size = new System.Drawing.Size(102, 25);
             this.SearchButton.TabIndex = 4;
@@ -118,6 +120,16 @@ namespace View
             // 
             this.MainOpenFileDialog.FileName = "openFileDialog1";
             // 
+            // SkipSearchButton
+            // 
+            this.SkipSearchButton.Location = new System.Drawing.Point(186, 293);
+            this.SkipSearchButton.Name = "SkipSearchButton";
+            this.SkipSearchButton.Size = new System.Drawing.Size(102, 25);
+            this.SkipSearchButton.TabIndex = 5;
+            this.SkipSearchButton.Text = "Reset search";
+            this.SkipSearchButton.UseVisualStyleBackColor = true;
+            this.SkipSearchButton.Click += new System.EventHandler(this.SkipSearchButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -145,6 +157,7 @@ namespace View
         private System.Windows.Forms.Button SaveFileButton;
         private System.Windows.Forms.SaveFileDialog MainSaveFileDialog;
         private System.Windows.Forms.Button SearchButton;
+        private System.Windows.Forms.Button SkipSearchButton;
     }
 }
 

@@ -81,7 +81,7 @@ namespace LibraryLR3LR4
 		/// <summary>
 		/// Конструктор класса пустой
 		/// </summary>
-		public Magazine()
+		public Magazine(): this("A", "A", "A", "A", "A", "1", "1")
 		{
 
 		}

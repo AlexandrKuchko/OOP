@@ -26,36 +26,36 @@ namespace View
 		private bool _keyExit = false;
 
 		/// <summary>
-		/// Ключ выхода из метода после рандома
+		/// Ключ выхода из метода валидации при принудителшьной очистке
 		/// </summary>
 		private bool _keyClearExit = false;
 
-		//TODO: nameof
+		//TODO: nameof | DONE
 		/// <summary>
 		/// Строковый ключ
 		/// </summary>
-		private const string _keyBook = "Book";
+		private const string _keyBook = nameof(Book);
 
 		/// <summary>
 		/// Строковый ключ
 		/// </summary>
-		private const string _keyCollection = "Collection";
+		private const string _keyCollection = nameof(Collection);
 
 		/// <summary>
 		/// Строковый ключ
 		/// </summary>
-		private const string _keyThesis = "Thesis";
+		private const string _keyThesis = nameof(Thesis);
 
 		/// <summary>
 		/// Строковый ключ
 		/// </summary>
-		private const string _keyMagazine = "Magazine";
+		private const string _keyMagazine = nameof(Magazine);
 
-		//TODO:
+		//TODO: | DONE
 		/// <summary>
 		/// Выходное издание
 		/// </summary>
-		public EditionBase Edition = null;
+		public EditionBase Edition { get; private set; }
 
 		/// <summary>
 		/// Окна для заполнения свойств
@@ -72,23 +72,11 @@ namespace View
 		/// </summary>
 		private List<string> _keyLabel = new List<string>();
 
-		//TODO: RSDN naming
+		//TODO: RSDN naming | DONE
 		/// <summary>
 		/// Максимальное количество свойств в классе
 		/// </summary>
-		private const int _max = 10;
-
-		//TODO: RSDN naming
-		/// <summary>
-		/// Ширина ячейки для заполнения
-		/// </summary>
-		private const int _width = 200;
-
-		//TODO: RSDN naming
-		/// <summary>
-		/// Высота ячейки для заполнения
-		/// </summary>
-		private const int _height = 20;
+		private const int _maximumPropertiesNumber = 10;
 
 		/// <summary>
 		/// При инициализации формы
@@ -96,19 +84,19 @@ namespace View
 		public AddObjectForm()
 		{
 			InitializeComponent();
-
+			FormBorderStyle = FormBorderStyle.FixedDialog;
 			#if !DEBUG
 			CreateRandomDataButton.Visible = false;
 			#endif
 		}
 
-		 //TODO: RSDN
+		//TODO: RSDN | DONE
 		/// <summary>
 		/// Очитска полей для заполнения
 		/// </summary>
-		private void Clear_Propeties()
+		private void ClearPropeties()
 		{
-			for (int i = 0; i < _max; i++)
+			for (int i = 0; i < _maximumPropertiesNumber; i++)
 			{
 				_keyClearExit = true;
 				_properties[i].Text = "";
@@ -127,8 +115,8 @@ namespace View
 			List<PropertyInfo> propertyInfo = new List<PropertyInfo>();
 			foreach (PropertyInfo info in editionBase.GetType().GetProperties())
 			{
-				// TODO: nameof(EditionBase.Info)
-				if (info.Name == "Info" || info.Name == "Item")
+				// TODO: nameof(EditionBase.Info) | DONE
+				if (info.Name == nameof(EditionBase.Info) || info.Name == "Item")
 				{
 					continue;
 				}
@@ -142,7 +130,7 @@ namespace View
 		/// </summary>
 		private void PropetiesRename(EditionBase editionBase)
 		{
-			Clear_Propeties();
+			ClearPropeties();
 			var propertyInfo = PropertyInfo(editionBase);
 			for (int i = 0; i < propertyInfo.Count; i++)
 			{
@@ -161,13 +149,13 @@ namespace View
 			var propertyInfo = PropertyInfo(editionBase);
 			for (int i = 0; i < propertyInfo.Count; i++)
 			{
-				//TODO: nameof
-				if (_keyLabel[i] == "Year" ||
-						_keyLabel[i] == "PageLimits")
+				//TODO: nameof | DONE
+				if (_keyLabel[i] == nameof(editionBase.Year) ||
+						_keyLabel[i] == nameof(editionBase.PageLimits))
 				{
 					_properties[i].Text = "100";
 				}
-                else 
+				else
 				{
 					_properties[i].Text = "Random" + _propertiesLabel[i].Text;
 				}
@@ -181,9 +169,10 @@ namespace View
 		{
 			//EditionComboBox.Items.Clear();
 			//Получение списка дочерник классов
-			 //TODO: RSDN
-			var ourtype = typeof(EditionBase);
-			var listClass = Assembly.GetAssembly(ourtype).GetTypes().Where(type => type.IsSubclassOf(ourtype));
+			//TODO: RSDN | DONE
+			var typeOfEditionBase = typeof(EditionBase);
+			var listClass = Assembly.GetAssembly(typeOfEditionBase)
+				.GetTypes().Where(type => type.IsSubclassOf(typeOfEditionBase));
 			var listNameClass = new List<string>();
 			foreach (Type edition in listClass)
 			{
@@ -192,31 +181,33 @@ namespace View
 
 			EditionComboBox.DataSource = listNameClass;
 
-			_properties = new TextBox[_max];
-			_propertiesLabel = new Label[_max];
+			_properties = new TextBox[_maximumPropertiesNumber];
+			_propertiesLabel = new Label[_maximumPropertiesNumber];
 
-			for (int i = 0; i < _max; i++)
+			for (int i = 0; i < _maximumPropertiesNumber; i++)
 			{
-				//TODO: Убрать в метод константы с шириной и длиной
-                _properties[i] = new TextBox
-                {
-                    Text = "",
-                    Location = new System.Drawing.Point(50, 70 + i * (_height + 10)),
-                    Size = new System.Drawing.Size(_width, _height),
-                    Visible = false
-                };
-                _properties[i].TextChanged += new System.EventHandler(this.TextBoxTextChange);
+				//TODO: Убрать в метод константы с шириной и длиной | DONE
+				int widthCell = 200;
+				int heightCell = 20;
+				_properties[i] = new TextBox
+				{
+					Text = "",
+					Location = new System.Drawing.Point(50, 70 + i * (heightCell + 10)),
+					Size = new System.Drawing.Size(widthCell, heightCell),
+					Visible = false
+				};
+				_properties[i].TextChanged += new System.EventHandler(this.TextBoxTextChange);
 
 				this.Controls.Add(_properties[i]);
 
-                _propertiesLabel[i] = new Label
-                {
-                    Text = "",
-                    Location = new System.Drawing.Point(255, 74 + i * (_height + 10)),
-                    Size = new System.Drawing.Size(_width, _height),
-                    Visible = false
-                };
-                this.Controls.Add(_propertiesLabel[i]);
+				_propertiesLabel[i] = new Label
+				{
+					Text = "",
+					Location = new System.Drawing.Point(255, 74 + i * (heightCell + 10)),
+					Size = new System.Drawing.Size(widthCell, heightCell),
+					Visible = false
+				};
+				this.Controls.Add(_propertiesLabel[i]);
 			}
 		}
 
@@ -226,33 +217,7 @@ namespace View
 		/// </summary>
 		private void EditionComboBox_SelectionChangeCommitted(object sender, EventArgs e)
 		{
-			EditionBase tmpEdition = null;
-			//TODO: Duplication
-			switch ((string)EditionComboBox.SelectedItem)
-			{
-				case _keyBook:
-				{
-					//TODO: Duplication
-					tmpEdition = new Book("A", "A", "A", "A", "A", "A", "1", "1", "A");
-					break;
-				}
-				case _keyThesis:
-				{
-                    //TODO: Duplication
-                tmpEdition = new Thesis("A", "A", "A", "A", "A", "A", "1", "1");
-					break;
-				}
-				case _keyCollection:
-				{
-					tmpEdition = new Collection("A", "A", "A", "A", "100", "1997");
-					break;
-				}
-				case _keyMagazine:
-				{
-					tmpEdition = new Magazine("A", "A", "A", "A", "A", "1", "1");
-					break;
-				}
-			}
+			var tmpEdition = GetDefaultSelectedEdition();
 			PropetiesRename(tmpEdition);
 		}
 
@@ -274,7 +239,7 @@ namespace View
 
 		/// <summary>
 		/// При покидании текстбокса
-		/// </summary>5
+		/// </summary>
 		private void TextBoxTextChange(object sender, EventArgs e)
 		{
 			if (_keyClearExit)
@@ -284,81 +249,55 @@ namespace View
 
 			var textBox = (TextBox)sender;
 			int index = Array.IndexOf(_properties, textBox);
-            var tmpEdition = GetDefaultSelectedEdition();
-            AssigningValue(tmpEdition, _keyLabel[index], textBox.Text);
+			var tmpEdition = GetDefaultSelectedEdition();
+			AssigningValue(tmpEdition, _keyLabel[index], textBox.Text);
 		}
 
-        private EditionBase GetDefaultSelectedEdition()
-        {
-            switch ((string) EditionComboBox.SelectedItem)
-            {
-                case _keyBook:
-                {
-                    return new Book("A", "A", "A", "A", "A", "A", "1", "1", "A");
-                    
-                }
-                case _keyThesis:
-                {
-                    return new Thesis("A", "A", "A", "A", "A", "A", "1", "1");
-                    
-                }
-                case _keyCollection:
-                {
-                    return new Collection("A", "A", "A", "A", "100", "1997");
-                    
-                }
-                case _keyMagazine:
-                {
-                    return new Magazine("A", "A", "A", "A", "A", "1", "1");
-                    
-                }
-            }
-			throw new ArgumentException("");
-        }
+		/// <summary>
+		/// Выдаёт нужный объект издания для присвания в 
+		/// зависимости от выбранного значения в комбобоксе
+		/// </summary>
+		/// <returns>Нужный объект издания</returns>
+		private EditionBase GetDefaultSelectedEdition()
+		{
+			//TODO: Duplication | DONE
+			return (string)EditionComboBox.SelectedItem switch
+			{
+				//TODO: Duplication | DONE
+				_keyBook => new Book(),
+				//TODO: Duplication | DONE
+				_keyThesis => new Thesis(),
+				_keyCollection => new Collection(),
+				_keyMagazine => new Magazine(),
+				_ => throw new ArgumentException("Incorrect selected item")
+			};
 
-        /// <summary>
+		}
+
+		/// <summary>
 		/// При нажатии кнопки добавить данные
 		/// </summary>
 		private void OKButton_Click(object sender, EventArgs e)
 		{
 			_keyExit = false;
+
 			if (_properties[0].Visible == false)
 			{
 				DialogResult = DialogResult.None;
 				return;
 			}
+
 			int count = 0;
+
 			while (_propertiesLabel[count].Visible == true)
-            {
+			{
 				count++;
-            }
-			EditionBase tmpEdition = null;
+			}
+
+			var tmpEdition = GetDefaultSelectedEdition();
+
 			try
 			{
-                //TODO: Duplication
-				switch ((string)EditionComboBox.SelectedItem)
-				{
-					case _keyBook:
-					{
-						tmpEdition = new Book("A", "A", "A", "A", "A", "A", "1", "1", "A");
-						break;
-					}
-					case _keyThesis:
-					{
-						tmpEdition = new Thesis("A", "A", "A", "A", "A", "A", "1", "1");
-						break;
-					}
-					case _keyCollection:
-					{
-						tmpEdition = new Collection("A", "A", "A", "A", "100", "1997");
-						break;
-					}
-					case _keyMagazine:
-					{
-						tmpEdition = new Magazine("A", "A", "A", "A", "A", "1", "1");
-						break;
-					}
-				}
 				for (int i = 0; i < count; i++)
 				{
 					AssigningValue(tmpEdition, _keyLabel[i], _properties[i].Text);
@@ -383,45 +322,23 @@ namespace View
 		/// Закрытие формы
 		/// </summary>
 		private void CancelButton_Click(object sender, EventArgs e)
-        {
+		{
 			this.Close();
-        }
+		}
 
 		/// <summary>
 		/// Заполнение формы случайными данными формы
 		/// </summary>
 		private void CreateRandomDataButton_Click(object sender, EventArgs e)
-        {
+		{
 			if (_properties[0].Visible == false)
-            {
-				return;
-            }
-            EditionBase tmpEdition = null;
-			//TODO: Duplication
-			switch ((string)EditionComboBox.SelectedItem)
 			{
-				case _keyBook:
-				{
-					tmpEdition = new Book("A", "A", "A", "A", "A", "A", "1", "1", "A");
-					break;
-				}
-				case _keyThesis:
-				{
-					tmpEdition = new Thesis("A", "A", "A", "A", "A", "A", "1", "1");
-					break;
-				}
-				case _keyCollection:
-				{
-					tmpEdition = new Collection("A", "A", "A", "A", "100", "1997");
-					break;
-				}
-				case _keyMagazine:
-				{
-					tmpEdition = new Magazine("A", "A", "A", "A", "A", "1", "1");
-					break;
-				}
+				return;
 			}
+
+			var tmpEdition = GetDefaultSelectedEdition();
+			
 			PropetiesRandom(tmpEdition);
 		}
-    }
+	}
 }

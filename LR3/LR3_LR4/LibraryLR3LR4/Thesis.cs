@@ -97,7 +97,7 @@ namespace LibraryLR3LR4
 		/// <summary>
 		/// Конструктор класса пустой
 		/// </summary>
-		public Thesis()
+		public Thesis(): this("A", "A", "A", "A", "A", "A", "1", "1")
 		{
 
 		}
