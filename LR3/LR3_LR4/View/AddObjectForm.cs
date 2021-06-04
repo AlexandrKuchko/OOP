@@ -20,38 +20,31 @@ namespace View
 	/// </summary>
 	public partial class AddObjectForm : Form
 	{
-		/// <summary>
-		/// Ключ выхода из метода присваивания
-		/// </summary>
-		private bool _keyExit = false;
-
-		/// <summary>
+        /// <summary>
 		/// Ключ выхода из метода валидации при принудителшьной очистке
 		/// </summary>
 		private bool _keyClearExit = false;
 
-		//TODO: nameof | DONE
 		/// <summary>
 		/// Строковый ключ
 		/// </summary>
-		private const string _keyBook = nameof(Book);
+		private const string KeyBook = nameof(Book);
 
 		/// <summary>
 		/// Строковый ключ
 		/// </summary>
-		private const string _keyCollection = nameof(Collection);
+		private const string KeyCollection = nameof(Collection);
 
 		/// <summary>
 		/// Строковый ключ
 		/// </summary>
-		private const string _keyThesis = nameof(Thesis);
+		private const string KeyThesis = nameof(Thesis);
 
 		/// <summary>
 		/// Строковый ключ
 		/// </summary>
-		private const string _keyMagazine = nameof(Magazine);
+		private const string KeyMagazine = nameof(Magazine);
 
-		//TODO: | DONE
 		/// <summary>
 		/// Выходное издание
 		/// </summary>
@@ -72,11 +65,10 @@ namespace View
 		/// </summary>
 		private List<string> _keyLabel = new List<string>();
 
-		//TODO: RSDN naming | DONE
 		/// <summary>
 		/// Максимальное количество свойств в классе
 		/// </summary>
-		private const int _maximumPropertiesNumber = 10;
+		private const int MaximumPropertiesNumber = 10;
 
 		/// <summary>
 		/// При инициализации формы
@@ -90,13 +82,12 @@ namespace View
 			#endif
 		}
 
-		//TODO: RSDN | DONE
 		/// <summary>
 		/// Очитска полей для заполнения
 		/// </summary>
 		private void ClearPropeties()
 		{
-			for (int i = 0; i < _maximumPropertiesNumber; i++)
+			for (int i = 0; i < MaximumPropertiesNumber; i++)
 			{
 				_keyClearExit = true;
 				_properties[i].Text = "";
@@ -112,10 +103,9 @@ namespace View
 		/// </summary>
 		private List<PropertyInfo> PropertyInfo(EditionBase editionBase)
 		{
-			List<PropertyInfo> propertyInfo = new List<PropertyInfo>();
-			foreach (PropertyInfo info in editionBase.GetType().GetProperties())
+			var propertyInfo = new List<PropertyInfo>();
+			foreach (var info in editionBase.GetType().GetProperties())
 			{
-				// TODO: nameof(EditionBase.Info) | DONE
 				if (info.Name == nameof(EditionBase.Info) || info.Name == "Item")
 				{
 					continue;
@@ -136,6 +126,7 @@ namespace View
 			{
 				_properties[i].Visible = true;
 				_keyLabel.Add(propertyInfo[i].Name);
+				 //TODO: RSDN
 				_propertiesLabel[i].Text = Regex.Replace(propertyInfo[i].Name, @"([A-Z])", " $1").Trim().ToLower();
 				_propertiesLabel[i].Visible = true;
 			}
@@ -149,7 +140,6 @@ namespace View
 			var propertyInfo = PropertyInfo(editionBase);
 			for (int i = 0; i < propertyInfo.Count; i++)
 			{
-				//TODO: nameof | DONE
 				if (_keyLabel[i] == nameof(editionBase.Year) ||
 						_keyLabel[i] == nameof(editionBase.PageLimits))
 				{
@@ -169,7 +159,6 @@ namespace View
 		{
 			//EditionComboBox.Items.Clear();
 			//Получение списка дочерник классов
-			//TODO: RSDN | DONE
 			var typeOfEditionBase = typeof(EditionBase);
 			var listClass = Assembly.GetAssembly(typeOfEditionBase)
 				.GetTypes().Where(type => type.IsSubclassOf(typeOfEditionBase));
@@ -181,14 +170,13 @@ namespace View
 
 			EditionComboBox.DataSource = listNameClass;
 
-			_properties = new TextBox[_maximumPropertiesNumber];
-			_propertiesLabel = new Label[_maximumPropertiesNumber];
+			_properties = new TextBox[MaximumPropertiesNumber];
+			_propertiesLabel = new Label[MaximumPropertiesNumber];
 
-			for (int i = 0; i < _maximumPropertiesNumber; i++)
+			for (int i = 0; i < MaximumPropertiesNumber; i++)
 			{
-				//TODO: Убрать в метод константы с шириной и длиной | DONE
-				int widthCell = 200;
-				int heightCell = 20;
+				const int widthCell = 200;
+                const int heightCell = 20;
 				_properties[i] = new TextBox
 				{
 					Text = "",
@@ -224,7 +212,7 @@ namespace View
 		/// <summary>
 		/// Присвоение значения свойству класса 
 		/// </summary>
-		private void AssigningValue(EditionBase editionBase, string name, string value)
+		private bool AssigningValue(EditionBase editionBase, string name, string value)
 		{
 			try
 			{
@@ -233,9 +221,11 @@ namespace View
 			catch (Exception exception)
 			{
 				MessageBox.Show(exception.InnerException.Message + " Please enter again.");
-				_keyExit = true;
+				return true;
 			}
-		}
+
+            return false;
+        }
 
 		/// <summary>
 		/// При покидании текстбокса
@@ -260,15 +250,12 @@ namespace View
 		/// <returns>Нужный объект издания</returns>
 		private EditionBase GetDefaultSelectedEdition()
 		{
-			//TODO: Duplication | DONE
 			return (string)EditionComboBox.SelectedItem switch
 			{
-				//TODO: Duplication | DONE
-				_keyBook => new Book(),
-				//TODO: Duplication | DONE
-				_keyThesis => new Thesis(),
-				_keyCollection => new Collection(),
-				_keyMagazine => new Magazine(),
+				KeyBook => new Book(),
+				KeyThesis => new Thesis(),
+				KeyCollection => new Collection(),
+				KeyMagazine => new Magazine(),
 				_ => throw new ArgumentException("Incorrect selected item")
 			};
 
@@ -279,8 +266,6 @@ namespace View
 		/// </summary>
 		private void OKButton_Click(object sender, EventArgs e)
 		{
-			_keyExit = false;
-
 			if (_properties[0].Visible == false)
 			{
 				DialogResult = DialogResult.None;
@@ -300,13 +285,13 @@ namespace View
 			{
 				for (int i = 0; i < count; i++)
 				{
-					AssigningValue(tmpEdition, _keyLabel[i], _properties[i].Text);
-					if (_keyExit == true)
-					{
-						DialogResult = DialogResult.None;
-						return;
-					}
-				}
+					 //TODO: RSDN
+                    var isKeyExit = AssigningValue(tmpEdition, _keyLabel[i], _properties[i].Text);
+                    if (!isKeyExit) continue;
+
+                    DialogResult = DialogResult.None;
+                    return;
+                }
 				Edition = tmpEdition;
 				DialogResult = DialogResult.OK;
 			}
@@ -314,7 +299,6 @@ namespace View
 			{
 				MessageBox.Show(exception.Message + " Please enter again.");
 				DialogResult = DialogResult.None;
-				return;
 			}
 		}
 

@@ -42,6 +42,7 @@ namespace View
 			foreach (EditionBase edition in _editionList)
 			{
 				EditionListBox.Items.Add(edition);
+				//TODO: nameof
 				EditionListBox.DisplayMember = "Info";
 			}
 		}
@@ -141,6 +142,7 @@ namespace View
 						if (!edition.Info.Contains(searchWorld)) continue;
 
 						EditionListBox.Items.Add(edition);
+						//TODO: nameof
 						EditionListBox.DisplayMember = "Info";
 					}
 				}

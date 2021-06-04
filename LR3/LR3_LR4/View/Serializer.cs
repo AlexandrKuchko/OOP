@@ -22,21 +22,25 @@ namespace View
         // <summary>
         /// Сериализатор
         /// </summary>
-        private static XmlSerializer _xmlSerializer = new XmlSerializer
-                        (typeof(List<EditionBase>), new[] {typeof(Book),typeof(Thesis),
-                        typeof(Collection), typeof(Magazine)});
+        private static readonly XmlSerializer _xmlSerializer = 
+            new XmlSerializer(typeof(List<EditionBase>), 
+                new[] 
+                {
+                    typeof(Book),
+                    typeof(Thesis),
+                    typeof(Collection), 
+                    typeof(Magazine)
+                });
 
 		/// <summary>
 		/// Cохранение в файл
 		/// </summary>
 		public static void SaveFile(string path, List<EditionBase> editionList)
 		{
-				using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
-				{
-					//TODO: RSDN | DONE
-					//TODO: Duplication | DONE
-					_xmlSerializer.Serialize(fs, editionList);
-				}
+			using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
+			{
+				_xmlSerializer.Serialize(fs, editionList);
+			}
 		}
 
 		/// <summary>
@@ -45,12 +49,10 @@ namespace View
 		public static List<EditionBase> OpenFile(string path)
 		{
 			List<EditionBase> editionList = new List<EditionBase>();
-				using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
-				{
-					//TODO: RSDN | DONE
-					//TODO: Duplication | DONE
-					editionList = (List<EditionBase>)_xmlSerializer.Deserialize(fs);
-				}
+			using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
+			{
+				editionList = (List<EditionBase>)_xmlSerializer.Deserialize(fs);
+			}
 			return editionList;
 		}
 	}

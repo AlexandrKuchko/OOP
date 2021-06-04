@@ -15,7 +15,6 @@ namespace View
     /// </summary>
     public partial class SearchDataForm : Form
     {
-        //TODO: | DONE
         /// <summary>
         /// Список со словами для поиска
         /// </summary>
