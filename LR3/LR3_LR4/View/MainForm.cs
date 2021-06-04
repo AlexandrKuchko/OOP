@@ -59,15 +59,7 @@ namespace View
 
 			try
 			{
-				using (FileStream fs = new FileStream(filename, FileMode.OpenOrCreate))
-				{
-					 //TODO: RSDN | DONE
-					//TODO: Duplication | DONE
-					_editionList = (List<EditionBase>)new XmlSerializer
-						(typeof(List<EditionBase>), new[] {typeof(Book),typeof(Thesis), 
-						typeof(Collection), typeof(Magazine)}).Deserialize(fs);
-				}
-
+				_editionList = Serializer.OpenFile(filename);
 				FillingEditionListBox();
 				MessageBox.Show("File opened");
 			}
@@ -75,8 +67,6 @@ namespace View
 			{
 				MessageBox.Show(exception.Message + "Incorrect file format");
 			}
-
-
 		}
 
 		/// <summary>
@@ -106,14 +96,7 @@ namespace View
 
 			try
 			{
-				using (FileStream fs = new FileStream(filename, FileMode.OpenOrCreate))
-				{
-					 //TODO: RSDN | DONE
-					//TODO: Duplication | DONE
-					new XmlSerializer(typeof(List<EditionBase>), new[] 
-					{typeof(Book), typeof(Thesis), typeof(Collection), 
-						typeof(Magazine)}).Serialize(fs, _editionList);
-				}
+				Serializer.SaveFile(filename, _editionList);
 				MessageBox.Show("File saved");
 			}
 			catch (Exception exception)
