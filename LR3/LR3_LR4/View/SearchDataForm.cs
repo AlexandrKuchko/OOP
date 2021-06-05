@@ -27,6 +27,7 @@ namespace View
         {
             InitializeComponent();
             FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
         }
 
         /// <summary>

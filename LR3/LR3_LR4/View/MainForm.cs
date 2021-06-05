@@ -31,6 +31,7 @@ namespace View
 		{
 			InitializeComponent();
 			FormBorderStyle = FormBorderStyle.FixedDialog;
+			this.MaximizeBox = false;
 		}
 
 		/// <summary>
@@ -42,8 +43,8 @@ namespace View
 			foreach (EditionBase edition in _editionList)
 			{
 				EditionListBox.Items.Add(edition);
-				//TODO: nameof
-				EditionListBox.DisplayMember = "Info";
+				//TODO: nameof | DONE
+				EditionListBox.DisplayMember = nameof(EditionBase.Info);
 			}
 		}
 
@@ -142,8 +143,8 @@ namespace View
 						if (!edition.Info.Contains(searchWorld)) continue;
 
 						EditionListBox.Items.Add(edition);
-						//TODO: nameof
-						EditionListBox.DisplayMember = "Info";
+						//TODO: nameof | DONE
+						EditionListBox.DisplayMember = nameof(EditionBase.Info);
 					}
 				}
 			}

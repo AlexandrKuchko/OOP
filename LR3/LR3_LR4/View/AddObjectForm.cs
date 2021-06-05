@@ -77,6 +77,7 @@ namespace View
 		{
 			InitializeComponent();
 			FormBorderStyle = FormBorderStyle.FixedDialog;
+			this.MaximizeBox = false;
 			#if !DEBUG
 			CreateRandomDataButton.Visible = false;
 			#endif
@@ -101,6 +102,8 @@ namespace View
 		/// <summary>
 		/// Получение листа с информацией о свойствах класса без Info
 		/// </summary>
+		/// <param name="editionBase">Объект нужного издания 
+		/// по ссылке на EditionBase</param>
 		private List<PropertyInfo> PropertyInfo(EditionBase editionBase)
 		{
 			var propertyInfo = new List<PropertyInfo>();
@@ -118,6 +121,8 @@ namespace View
 		/// <summary>
 		/// Перезаполнение полей для атрибутов
 		/// </summary>
+		/// <param name="editionBase">Объект нужного издания 
+		/// по ссылке на EditionBase</param>
 		private void PropetiesRename(EditionBase editionBase)
 		{
 			ClearPropeties();
@@ -126,8 +131,9 @@ namespace View
 			{
 				_properties[i].Visible = true;
 				_keyLabel.Add(propertyInfo[i].Name);
-				 //TODO: RSDN
-				_propertiesLabel[i].Text = Regex.Replace(propertyInfo[i].Name, @"([A-Z])", " $1").Trim().ToLower();
+				 //TODO: RSDN | DONE
+				_propertiesLabel[i].Text = Regex.Replace
+					(propertyInfo[i].Name, @"([A-Z])", " $1").Trim().ToLower();
 				_propertiesLabel[i].Visible = true;
 			}
 		}
@@ -135,6 +141,8 @@ namespace View
 		/// <summary>
 		/// Рандомное заполнение полей для атрибутов
 		/// </summary>
+		/// <param name="editionBase">Объект нужного издания 
+		/// по ссылке на EditionBase</param>
 		private void PropetiesRandom(EditionBase editionBase)
 		{
 			var propertyInfo = PropertyInfo(editionBase);
@@ -197,6 +205,9 @@ namespace View
 				};
 				this.Controls.Add(_propertiesLabel[i]);
 			}
+
+			var tmpEdition = GetDefaultSelectedEdition();
+			PropetiesRename(tmpEdition);
 		}
 
 
@@ -212,6 +223,11 @@ namespace View
 		/// <summary>
 		/// Присвоение значения свойству класса 
 		/// </summary>
+		/// <param name="editionBase">Объект нужного издания 
+		/// по ссылке на EditionBase</param>
+		/// <param name="name">Имя свойства для строкового индексатора</param>
+		/// <param name="value">Присваиваемое свойству значение</param>
+		/// <returns>Ключ, true - если возникла ошибка</returns>
 		private bool AssigningValue(EditionBase editionBase, string name, string value)
 		{
 			try
@@ -285,8 +301,9 @@ namespace View
 			{
 				for (int i = 0; i < count; i++)
 				{
-					 //TODO: RSDN
-                    var isKeyExit = AssigningValue(tmpEdition, _keyLabel[i], _properties[i].Text);
+					 //TODO: RSDN | DONE
+                    var isKeyExit = AssigningValue
+						(tmpEdition, _keyLabel[i], _properties[i].Text);
                     if (!isKeyExit) continue;
 
                     DialogResult = DialogResult.None;

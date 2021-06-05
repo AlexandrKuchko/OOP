@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryLR3LR4", "LibraryLR3LR4\LibraryLR3LR4.csproj", "{029B9354-B7BE-4E28-B450-93084B145628}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "View", "View\View.csproj", "{B73FD2EA-32B6-49C8-A904-76803A6BD33B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "View", "View\View.csproj", "{B73FD2EA-32B6-49C8-A904-76803A6BD33B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LR3_ConsoleApp", "LR3_ConsoleApp\LR3_ConsoleApp.csproj", "{66D7DBEB-1A56-4370-AC38-BB23A26AE1BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{B73FD2EA-32B6-49C8-A904-76803A6BD33B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B73FD2EA-32B6-49C8-A904-76803A6BD33B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B73FD2EA-32B6-49C8-A904-76803A6BD33B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66D7DBEB-1A56-4370-AC38-BB23A26AE1BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66D7DBEB-1A56-4370-AC38-BB23A26AE1BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66D7DBEB-1A56-4370-AC38-BB23A26AE1BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66D7DBEB-1A56-4370-AC38-BB23A26AE1BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -30,6 +30,7 @@ namespace View
         private void InitializeComponent()
         {
             this.MainGroupBox = new System.Windows.Forms.GroupBox();
+            this.SkipSearchButton = new System.Windows.Forms.Button();
             this.SearchButton = new System.Windows.Forms.Button();
             this.EditionListBox = new System.Windows.Forms.ListBox();
             this.RemoveObjectButton = new System.Windows.Forms.Button();
@@ -38,7 +39,6 @@ namespace View
             this.OpenFileButton = new System.Windows.Forms.Button();
             this.MainOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.MainSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.SkipSearchButton = new System.Windows.Forms.Button();
             this.MainGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -56,11 +56,21 @@ namespace View
             this.MainGroupBox.TabStop = false;
             this.MainGroupBox.Text = "Edition list";
             // 
+            // SkipSearchButton
+            // 
+            this.SkipSearchButton.Location = new System.Drawing.Point(422, 293);
+            this.SkipSearchButton.Name = "SkipSearchButton";
+            this.SkipSearchButton.Size = new System.Drawing.Size(81, 25);
+            this.SkipSearchButton.TabIndex = 5;
+            this.SkipSearchButton.Text = "Reset search";
+            this.SkipSearchButton.UseVisualStyleBackColor = true;
+            this.SkipSearchButton.Click += new System.EventHandler(this.SkipSearchButton_Click);
+            // 
             // SearchButton
             // 
-            this.SearchButton.Location = new System.Drawing.Point(78, 293);
+            this.SearchButton.Location = new System.Drawing.Point(335, 293);
             this.SearchButton.Name = "SearchButton";
-            this.SearchButton.Size = new System.Drawing.Size(102, 25);
+            this.SearchButton.Size = new System.Drawing.Size(81, 25);
             this.SearchButton.TabIndex = 4;
             this.SearchButton.Text = "Search";
             this.SearchButton.UseVisualStyleBackColor = true;
@@ -77,7 +87,7 @@ namespace View
             // 
             // RemoveObjectButton
             // 
-            this.RemoveObjectButton.Location = new System.Drawing.Point(401, 293);
+            this.RemoveObjectButton.Location = new System.Drawing.Point(105, 293);
             this.RemoveObjectButton.Name = "RemoveObjectButton";
             this.RemoveObjectButton.Size = new System.Drawing.Size(102, 25);
             this.RemoveObjectButton.TabIndex = 2;
@@ -87,9 +97,9 @@ namespace View
             // 
             // AddObjectButton
             // 
-            this.AddObjectButton.Location = new System.Drawing.Point(293, 293);
+            this.AddObjectButton.Location = new System.Drawing.Point(17, 293);
             this.AddObjectButton.Name = "AddObjectButton";
-            this.AddObjectButton.Size = new System.Drawing.Size(102, 25);
+            this.AddObjectButton.Size = new System.Drawing.Size(82, 25);
             this.AddObjectButton.TabIndex = 1;
             this.AddObjectButton.Text = "Add object";
             this.AddObjectButton.UseVisualStyleBackColor = true;
@@ -119,16 +129,6 @@ namespace View
             // MainOpenFileDialog
             // 
             this.MainOpenFileDialog.FileName = "openFileDialog1";
-            // 
-            // SkipSearchButton
-            // 
-            this.SkipSearchButton.Location = new System.Drawing.Point(186, 293);
-            this.SkipSearchButton.Name = "SkipSearchButton";
-            this.SkipSearchButton.Size = new System.Drawing.Size(102, 25);
-            this.SkipSearchButton.TabIndex = 5;
-            this.SkipSearchButton.Text = "Reset search";
-            this.SkipSearchButton.UseVisualStyleBackColor = true;
-            this.SkipSearchButton.Click += new System.EventHandler(this.SkipSearchButton_Click);
             // 
             // MainForm
             // 
