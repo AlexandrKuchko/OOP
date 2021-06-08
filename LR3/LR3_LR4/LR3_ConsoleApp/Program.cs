@@ -2,15 +2,6 @@
 using LibraryLR3LR4;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Globalization;
-using System.Text;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Threading.Tasks;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Reflection;
 
 
@@ -191,8 +182,8 @@ namespace LR3_ConsoleApp
 		/// </summary>
 		/// <returns>Нужный объект издания</returns>
 		private static EditionBase GetDefaultEdition()
-		{
-			return Console.ReadLine() switch
+        {
+            			return Console.ReadLine() switch
 			{
 				var enterValue when
 				enterValue == "B" || enterValue == "b" ||

@@ -131,7 +131,6 @@ namespace View
 			{
 				_properties[i].Visible = true;
 				_keyLabel.Add(propertyInfo[i].Name);
-				 //TODO: RSDN | DONE
 				_propertiesLabel[i].Text = Regex.Replace
 					(propertyInfo[i].Name, @"([A-Z])", " $1").Trim().ToLower();
 				_propertiesLabel[i].Visible = true;
@@ -301,7 +300,6 @@ namespace View
 			{
 				for (int i = 0; i < count; i++)
 				{
-					 //TODO: RSDN | DONE
                     var isKeyExit = AssigningValue
 						(tmpEdition, _keyLabel[i], _properties[i].Text);
                     if (!isKeyExit) continue;
