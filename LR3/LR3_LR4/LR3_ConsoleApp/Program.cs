@@ -7,11 +7,11 @@ using System.Reflection;
 
 namespace LR3_ConsoleApp
 {
-    /// <summary>
-    /// Консольный ввод-вывод
-    /// </summary>
-    class Program
-    {
+	/// <summary>
+	/// Консольный ввод-вывод
+	/// </summary>
+	class Program
+	{
 		/// <summary>
 		/// Вход в программу
 		/// </summary>
@@ -118,10 +118,15 @@ namespace LR3_ConsoleApp
 
 					for (int i = 0; i < propertyInfo.Count; i++)
 					{
-						Console.WriteLine(Regex.Replace
-						(propertyInfo[i].Name, @"([A-Z])", " $1").Trim().ToLower() + ": ");
+						foreach (var tuple in PropertyNameList)
+                        {
+							if (propertyInfo[i].Name == tuple.Item2 )
+                            {
+								Console.WriteLine(tuple.Item1);
+								Console.WriteLine();
+							}
+                        }
 						AssigningValue(tmpEdition, propertyInfo[i].Name);
-						Console.WriteLine();
 					}
 					break;
 				}
@@ -182,8 +187,8 @@ namespace LR3_ConsoleApp
 		/// </summary>
 		/// <returns>Нужный объект издания</returns>
 		private static EditionBase GetDefaultEdition()
-        {
-            			return Console.ReadLine() switch
+		{
+						return Console.ReadLine() switch
 			{
 				var enterValue when
 				enterValue == "B" || enterValue == "b" ||
@@ -246,12 +251,108 @@ namespace LR3_ConsoleApp
 						}
 					}
 				}
-                catch (Exception exception)
+				catch (Exception exception)
 				{
 					Console.WriteLine(exception.Message + " Please enter again.");
 					Console.WriteLine();
 				}
 			}
 		}
+
+		/// <summary>
+		/// Список для понятного именования полей
+		/// </summary>
+		private static new List<Tuple<string, string>> PropertyNameList = new List<Tuple<string, string>>()
+		{
+			new Tuple<string, string>
+			(
+			"Limit pages in edition: ",
+			nameof(EditionBase.PageLimits)
+			),
+
+			new Tuple<string, string>
+			(
+			"Year of issue: ",
+			nameof(EditionBase.Year)
+			),
+
+			new Tuple<string, string>
+			(
+			"Name of edition: ",
+			nameof(EditionBase.Name)
+			),
+
+			new Tuple<string, string>
+			(
+			"Place of publication: ",
+			nameof(EditionBase.Place)
+			),
+
+			new Tuple<string, string>
+			(
+			"The main author of the book: ",
+			nameof(Book.MainAuthor)
+			),
+
+			new Tuple<string, string>
+			(
+			"The other author of the book: ",
+			nameof(Book.SecondAuthor)
+			),
+
+			new Tuple<string, string>
+			(
+			"Type of edition: ",
+			nameof(Book.Type)
+			),
+
+			new Tuple<string, string>
+			(
+			"Publisher of edition: ",
+			nameof(Book.Publisher)
+			),
+
+			new Tuple<string, string>
+			(
+			"Additional information about the book: ",
+			nameof(Book.AdditionalInformation)
+			),
+
+			new Tuple<string, string>
+			(
+			"Name of the conference for which the collection: ",
+			nameof(Collection.NameOfConference)
+			),
+
+			new Tuple<string, string>
+			(
+			"Author of the thesis: ",
+			nameof(Thesis.Author)
+			),
+
+			new Tuple<string, string>
+			(
+			"Specialization of the thesis: ",
+			nameof(Thesis.Specialization)
+			),
+
+			new Tuple<string, string>
+			(
+			"University which published thesis: ",
+			nameof(Thesis.University)
+			),
+
+			new Tuple<string, string>
+			(
+			"Founder of the magazine: ",
+			nameof(Magazine.Founder)
+			),
+
+			new Tuple<string, string>
+			(
+			"Main editor of the magazine: ",
+			nameof(Magazine.MainEditor)
+			)
+		};
 	}
 }

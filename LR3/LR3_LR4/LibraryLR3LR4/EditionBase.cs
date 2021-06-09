@@ -55,7 +55,7 @@ namespace LibraryLR3LR4
 		public string Year
 		{
 			get => _year;
-			set => _year = ValidateYearOrPageLimits(value, nameof(Year));
+			set => _year = ValidateYear(value, nameof(Year));
         }
 
 		/// <summary>
@@ -69,7 +69,7 @@ namespace LibraryLR3LR4
 		public string PageLimits
 		{
 			get => _pageLimits;
-			set => _pageLimits = ValidateYearOrPageLimits(value, nameof(PageLimits));
+			set => _pageLimits = ValidatePageLimits(value, nameof(PageLimits));
         }
 
 		/// <summary>
@@ -123,7 +123,7 @@ namespace LibraryLR3LR4
 		/// <param name="value">Год или количество страниц</param>
 		/// <param name="name">Название вводимой величины</param>
 		/// <returns>Год или количество страниц</returns>
-		private string ValidateYearOrPageLimits(string value, string name)
+		private string ValidateYear(string value, string name)
 		{
 			ValidateEmptyOrNull(value, name);
 
@@ -132,6 +132,45 @@ namespace LibraryLR3LR4
 			if (!Regex.IsMatch(value, pattern))
 			{
 				throw new ArgumentException($"{name} must only contain numbers!");
+			}
+
+			//const int maximumYear = new DateTime().Year;
+			const int maximumYear = 2021;
+			const int minimumYear = 0;
+
+			if (int.Parse(value) > maximumYear || int.Parse(value) < minimumYear)
+			{
+				throw new ArgumentException($"{name} should be " +
+					$"between {minimumYear} and {maximumYear} !");
+			}
+			return value;
+		}
+
+		/// <summary>
+		/// Проверка года и количеств страниц
+		/// </summary>
+		/// <param name="value">Год или количество страниц</param>
+		/// <param name="name">Название вводимой величины</param>
+		/// <returns>Год или количество страниц</returns>
+		private string ValidatePageLimits(string value, string name)
+		{
+			ValidateEmptyOrNull(value, name);
+
+			const string pattern = @"^[0-9]*$";
+
+			if (!Regex.IsMatch(value, pattern))
+			{
+				throw new ArgumentException($"{name} must only contain numbers!");
+			}
+
+			const int maximumPageLimits = 50000;
+
+			const int minimumPageLimits = 0;
+
+			if (int.Parse(value) > maximumPageLimits || int.Parse(value) < minimumPageLimits)
+			{
+				throw new ArgumentException($"{name} should be " +
+					$"between {minimumPageLimits} and {maximumPageLimits} !");
 			}
 			return value;
 		}
