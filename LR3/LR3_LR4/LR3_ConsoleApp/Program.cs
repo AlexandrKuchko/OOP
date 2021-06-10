@@ -262,15 +262,15 @@ namespace LR3_ConsoleApp
 		/// <summary>
 		/// Список для понятного именования полей
 		/// </summary>
-		private static new List<Tuple<string, string>> PropertyNameList = new List<Tuple<string, string>>()
+		private static readonly List<Tuple<string, string>> PropertyNameList 
+            = new List<Tuple<string, string>>()
 		{
 			new Tuple<string, string>
 			(
-			"Limit pages in edition: ",
-			nameof(EditionBase.PageLimits)
+				"Limit pages in edition: ",
+				nameof(EditionBase.PageLimits)
 			),
-
-			new Tuple<string, string>
+            new Tuple<string, string>
 			(
 			"Year of issue: ",
 			nameof(EditionBase.Year)
