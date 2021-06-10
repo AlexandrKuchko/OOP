@@ -138,7 +138,7 @@ namespace LibraryLR3LR4
 			const int maximumYear = 2021;
 			const int minimumYear = 0;
 
-			if (int.Parse(value) > maximumYear || int.Parse(value) < minimumYear)
+			if (long.Parse(value) > maximumYear || long.Parse(value) < minimumYear)
 			{
 				throw new ArgumentException($"{name} should be " +
 					$"between {minimumYear} and {maximumYear} !");
@@ -167,7 +167,7 @@ namespace LibraryLR3LR4
 
 			const int minimumPageLimits = 0;
 
-			if (int.Parse(value) > maximumPageLimits || int.Parse(value) < minimumPageLimits)
+			if (long.Parse(value) > maximumPageLimits || long.Parse(value) < minimumPageLimits)
 			{
 				throw new ArgumentException($"{name} should be " +
 					$"between {minimumPageLimits} and {maximumPageLimits} !");
