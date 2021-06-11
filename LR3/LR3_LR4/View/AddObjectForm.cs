@@ -20,7 +20,7 @@ namespace View
 	/// </summary>
 	public partial class AddObjectForm : Form
 	{
-        /// <summary>
+		/// <summary>
 		/// Ключ выхода из метода валидации при принудителшьной очистке
 		/// </summary>
 		private bool _keyClearExit = false;
@@ -183,7 +183,7 @@ namespace View
 			for (int i = 0; i < MaximumPropertiesNumber; i++)
 			{
 				const int widthCell = 200;
-                const int heightCell = 20;
+				const int heightCell = 20;
 				_properties[i] = new TextBox
 				{
 					Text = "",
@@ -239,8 +239,8 @@ namespace View
 				return true;
 			}
 
-            return false;
-        }
+			return false;
+		}
 
 		/// <summary>
 		/// При покидании текстбокса
@@ -267,13 +267,12 @@ namespace View
 		{
 			return (string)EditionComboBox.SelectedItem switch
 			{
-				KeyBook => new Book(),
-				KeyThesis => new Thesis(),
-				KeyCollection => new Collection(),
-				KeyMagazine => new Magazine(),
-				_ => throw new ArgumentException("Incorrect selected item")
+			KeyBook => new Book(),
+			KeyThesis => new Thesis(),
+			KeyCollection => new Collection(),
+			KeyMagazine => new Magazine(),
+			_ => throw new ArgumentException("Incorrect selected item")
 			};
-
 		}
 
 		/// <summary>
@@ -300,13 +299,13 @@ namespace View
 			{
 				for (int i = 0; i < count; i++)
 				{
-                    var isKeyExit = AssigningValue
+					var isKeyExit = AssigningValue
 						(tmpEdition, _keyLabel[i], _properties[i].Text);
-                    if (!isKeyExit) continue;
+					if (!isKeyExit) continue;
 
-                    DialogResult = DialogResult.None;
-                    return;
-                }
+					DialogResult = DialogResult.None;
+					return;
+				}
 				Edition = tmpEdition;
 				DialogResult = DialogResult.OK;
 			}

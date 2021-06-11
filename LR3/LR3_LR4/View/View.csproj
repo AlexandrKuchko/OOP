@@ -4,7 +4,6 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <ProjectGuid> {6224c484-3e23-4f06-a749-195c1e478112} </ProjectGuid>
   </PropertyGroup>
 
   <ItemGroup>
